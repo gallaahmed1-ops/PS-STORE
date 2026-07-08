@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متجر ألعاب بلايستيشن</title>
+    <style>
+         :root {
+            --primary: #003791;
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --text: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: var(--primary);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+        
+        .creator {
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            color: #d1e0ff;
+            font-weight: 500;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .games-section {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .filter-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            width: auto;
+            margin-top: 0;
+        }
+        
+        .filter-btn:hover {
+            background-color: #555;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 55, 145, 0.5);
+        }
+        
+        .search-container {
+            margin-bottom: 20px;
+        }
+        
+        #search-input {
+            width: 100%;
+            padding: 12px 20px;
+            background-color: var(--surface);
+            color: white;
+            border: 1px solid #444;
+            border-radius: 25px;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        #search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 8px rgba(0, 55, 145, 0.4);
+        }
+        
+        .cart-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--surface);
+            padding: 20px;
+            border-radius: 10px;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .card {
+            background-color: var(--surface);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            background-color: #222;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tag.ps4 {
+            background-color: #003791;
+        }
+        
+        .tag.ps3 {
+            background-color: #000000;
+            border: 1px solid #333;
+        }
+        
+        .btn-container {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        button.add-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+            font-weight: bold;
+        }
+        
+        button.add-btn:hover {
+            background-color: #00225c;
+        }
+        
+        button.details-btn {
+            background-color: #444;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            flex: 1;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        
+        button.details-btn:hover {
+            background-color: #666;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .delivery-options {
+            margin: 20px 0;
+        }
+        
+        .delivery-options label {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        
+        #address-container {
+            display: none;
+            margin-top: 10px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #2a2a2a;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 5px;
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        
+        .whatsapp-btn {
+            background-color: #25D366;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            margin-top: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+        }
+        
+        .request-game-section {
+            width: 100%;
+            background-color: var(--surface);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+        }
+        
+        .request-game-section p {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+        
+        .request-btn {
+            width: auto;
+            padding: 12px 30px;
+            font-size: 18px;
+            display: inline-block;
+        }
+        /* تنسيقات النافذة المنبثقة للتفاصيل */
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .modal-content {
+            background-color: var(--surface);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
+            border: 1px solid #333;
+        }
+        
+        .modal-content img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 10px;
+            background-color: #222;
+        }
+        
+        .modal-content h2 {
+            margin: 15px 0 5px 0;
+            font-size: 22px;
+        }
+        
+        .modal-content p {
+            color: #ccc;
+            line-height: 1.6;
+            font-size: 15px;
+            margin: 15px 0 20px 0;
+            text-align: justify;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .close-btn:hover {
+            background: #ff4444;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🎮 PS STORE</h1>
+        <p class="creator">(created by ahmed ehab)</p>
+    </header>
+
+    <div class="container">
+        <div class="games-section">
+            <h2>قائمة الألعاب</h2>
+
+            <div class="filter-buttons">
+                <button id="btn-All" class="filter-btn active" onclick="filterGames('All')">الكل</button>
+                <button id="btn-PS4" class="filter-btn" onclick="filterGames('PS4')">ألعاب PS4</button>
+                <button id="btn-PS3" class="filter-btn" onclick="filterGames('PS3')">ألعاب PS3</button>
+            </div>
+
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="🔍 ابحث عن اسم اللعبة هنا..." oninput="renderGames()">
+            </div>
+
+            <div class="grid" id="games-grid">
+            </div>
+        </div>
+
+        <div class="cart-section">
+            <h2>🛒 سلة المشتريات</h2>
+            <div id="cart-items">
+                <p style="color: #888;">السلة فارغة حالياً.</p>
+            </div>
+
+            <hr style="border-color: #333; margin: 20px 0;">
+
+            <div class="delivery-options">
+                <h3>طريقة الاستلام:</h3>
+                <label><input type="radio" name="delivery" value="pickup" checked onchange="toggleAddress()"> استلام من مقر المتجر</label>
+                <label><input type="radio" name="delivery" value="delivery" onchange="toggleAddress()"> توصيل إلى عنواني</label>
+            </div>
+
+            <div id="address-container">
+                <h3>العنوان بالتفصيل:</h3>
+                <textarea id="address" rows="3" placeholder="اكتب اسم الشارع، رقم العمارة، المدينة..."></textarea>
+            </div>
+
+            <button class="whatsapp-btn" onclick="sendToWhatsApp()">إتمام الطلب عبر واتساب 💬</button>
+        </div>
+
+        <div class="request-game-section">
+            <p>لو عايز لعبة مش موجودة، بلغنا علطول علشان نحاول نوفرهالك في أسرع وقت!</p>
+            <button class="whatsapp-btn request-btn" onclick="requestMissingGame()">تواصل معنا لطلب لعبتك 💬</button>
+        </div>
+    </div>
+
+    <!-- نافذة التفاصيل (Modal) -->
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeDetails()">X</button>
+            <img id="modal-img" src="" alt="">
+            <h2 id="modal-title"></h2>
+            <span id="modal-tag" class="tag"></span>
+            <p id="modal-desc"></p>
+            <button class="add-btn" id="modal-add-btn" style="width: 100%">أضف للسلة</button>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. إعدادات المتجر ورقم الواتساب ---
+        const myWhatsAppNumber = "201121347052";
+
+        let currentPlatform = 'All';
+
+        // قائمة الـ 118 لعبة كاملة مع وصف تفصيلي وفكرة كل لعبة باللغة العربية
+        const gamesList = [
+            // --- ألعاب PS4 ---
+            {
+                id: 1,
+                name: "The Last of Us Part II",
+                platform: "PS4",
+                description: "لعبة بقاء وأكشن درامية تتبع قصة إيلي في عالم ما بعد الوباء، حيث تخوض رحلة عنيفة ومؤثرة للبحث عن الانتقام ومواجهة عواقب أفعالها في بيئة قاسية ومليئة بالمخاطر."
+            }, {
+                id: 2,
+                name: "God of War ragnarok",
+                platform: "PS4",
+                description: "ملحمة نوردية أسطورية تتبع رحلة كريتوس وابنه أترعيوس في مواجهة نهاية العالم (راغناروك)، حيث يبحثان عن الإجابات والتحالفات لحماية عائلتهما من غضب آلهة أسغارد."
+            }, {
+                id: 3,
+                name: "Spider Man miles",
+                platform: "PS4",
+                description: "مغامرة حماسية تتبع البطل الشاب مايلز موراليس وهو يتكيف مع قواه العنكبوتية المذهلة والجديدة، مثل الصعق الكهربائي والاختفاء، لحماية حيه ومدينته من خطر الدمار."
+            }, {
+                id: 4,
+                name: "Red Dead Redemption 2",
+                platform: "PS4",
+                description: "واحدة من أضخم ألعاب العالم المفتوح، تروي قصة آرثر مورغان وعصابة فان دير ليند في أواخر عصر الغرب الأمريكي المتوحش، حيث الصراع بين الوفاء للعصابة والحرية الشخصية."
+            }, {
+                id: 119,
+                name: "brawlhalla",
+                platform: "PS4",
+                description: "لعبة قتال منصات جماعية ممتعة وسريعة الإيقاع، تجمع مقاتلين أسطوريين من مختلف العصور في ساحات تفاعلية لتحديد المحارب الأقوى باستخدام أسلحة وقدرات فريدة."
+            }, {
+                id: 120,
+                name: "crash bandicoot 4",
+                platform: "PS4",
+                description: "يعود كراش بنديكوت في مغامرة شيقة لإنقاذ الكون عبر الأبعاد الزمنية المختلفة، مع الحفاظ على أسلوب اللعب الكلاسيكي الممتع وإضافة أقنعة سحرية تمنح قدرات جديدة وتحديات مبتكرة."
+            }, {
+                id: 121,
+                name: "days gone arabic",
+                platform: "PS4",
+                description: "لعبة بقاء وأكشن ممتازة وعالم مفتوح مدبلجة بالكامل للعربية. تقود فيها دراجتك النارية عبر عالم مدمر وتواجه حشوداً هائلة من الزومبي المتوحشين (الفريكرز) بحثاً عن زوجتك المفقودة."
+            }, {
+                id: 122,
+                name: "dirt 5",
+                platform: "PS4",
+                description: "لعبة سباقات سيارات وعرة وجبلية حماسية جداً، تتميز بمؤثرات طقس ديناميكية وتنوع كبير في الحلبات العالمية والسيارات الجبارة لتوفير تجربة قيادة أركيدية مثيرة."
+            }, {
+                id: 123,
+                name: "efootball 2026",
+                platform: "PS4",
+                description: "أحدث إصدارات لعبة كرة القدم المجانية الشهيرة من كونامي، تقدم تحسينات في فيزياء حركة اللاعبين وتحديثات مستمرة للفرق وبناء تشكيلة الأحلام (Dream Team) عبر الإنترنت."
+            }, {
+                id: 124,
+                name: "fc 25",
+                platform: "PS4",
+                description: "لعبة كرة القدم الأكثر شعبية عالمياً من EA Sports، تأتي مع أطوار لعب محسنة مثل طور المهنة والـ Ultimate Team بالإضافة إلى تحديث تكتيكي شامل لخطط اللعب والرسوميات الواقعية."
+            }, {
+                id: 125,
+                name: "fc 26",
+                platform: "PS4",
+                description: "النسخة الأحدث والأكثر تطوراً من سلسلة محاكاة كرة القدم العالمية، تضم أحدث الانتقالات للاندية والمنتخبات، مع تطوير جرافيك مذهل وأسلوب لعب واقعي لا مثيل له."
+            }, {
+                id: 126,
+                name: "gang beasts",
+                platform: "PS4",
+                description: "لعبة قتال جماعية مضحكة للغاية، تتقاتل فيها شخصيات مرنة وهلامية ملونة في بيئات خطرة ومليئة بالفخاخ، والهدف هو رمي الخصوم خارج الساحة لتحقيق الفوز وسط أجواء فكاهية."
+            }, {
+                id: 127,
+                name: "guns gore and cannoli 1",
+                platform: "PS4",
+                description: "لعبة أكشن وإطلاق نار ثنائية الأبعاد تدور في أجواء عصابات المافيا الكلاسيكية في العشرينيات، حيث يجد رجل المافيا (فيني) نفسه في مواجهة شرسة ضد المافيا والزومبي معاً."
+            }, {
+                id: 128,
+                name: "guns gore and cannoli 2",
+                platform: "PS4",
+                description: "تابع مغامرة فيني الكانولي في الجزء الثاني المليء بالأكشن والأسلحة المتطورة، حيث تنتقل المعارك إلى حقبة الحرب العالمية الثانية مع تحسينات كبيرة في أسلوب الحركة والقتال."
+            }, {
+                id: 129,
+                name: "horizon chase 1",
+                platform: "PS4",
+                description: "لعبة سباقات سيارات كلاسيكية رائعة مستوحاة من ألعاب التسعينيات الأيقونية، تعتمد على السرعة الفائقة، وتوفر ألواناً مبهجة وموسيقى حماسية وتحديات في مختلف بلدان العالم."
+            }, {
+                id: 130,
+                name: "horizon chase 2",
+                platform: "PS4",
+                description: "الجزء الثاني المتطور من لعبة السباقات الأركيدية، يقدم رسوميات عصرية ممتازة وطور لعب جماعي عبر الإنترنت مع الحفاظ على متعة وعفوية السباقات الكلاسيكية السريعة."
+            }, {
+                id: 131,
+                name: "human fall flat",
+                platform: "PS4",
+                description: "لعبة ألغاز وفيزياء مضحكة ومبتكرة، تتحكم فيها بشخصية مرنة وغير متماسكة لحل الألغاز البيئية المختلفة والوصول إلى المخرج بالاعتماد على ذكائك ومهاراتك في التحرك والامساك."
+            }, {
+                id: 132,
+                name: "infamous second son",
+                platform: "PS4",
+                description: "لعبة أكشن حماسية في مدينة سياتل المفتوحة، بطلها بطل خارق يكتشف فجأة امتلاكه لقوى خارقة تمكنه من امتصاص وتوجيه الدخان، النيون، والتحكم بها لحماية المدينة أو تدميرها."
+            }, {
+                id: 133,
+                name: "injustice 2",
+                platform: "PS4",
+                description: "لعبة قتال خارقة تجمع أشهر أبطال وأشرار عالم DC (مثل باتمان، سوبرمان، والجوكر) في قصة سينمائية ممتازة، مع نظام تطوير الدروع وتخصيص قدرات المقاتلين."
+            }, {
+                id: 134,
+                name: "little big planet 3",
+                platform: "PS4",
+                description: "لعبة منصات وإبداع عائلية شهيرة، تتبع الدمية (ساكبوي) وأصدقائه الجدد، وتتيح لك اللعبة تصميم مستويات كاملة ومبتكرة ومشاركتها مع مجتمع اللاعبين حول العالم."
+            }, {
+                id: 135,
+                name: "mafia 3",
+                platform: "PS4",
+                description: "قصة درامية سوداوية عن الانتقام والجريمة في عالم مفتوح مستوحى من أواخر الستينيات في أمريكا، حيث يسعى الجندي السابق لينكولن كلاي لبناء إمبراطوريته الخاصة وتدمير المافيا الإيطالية."
+            }, {
+                id: 136,
+                name: "marvel spider man",
+                platform: "PS4",
+                description: "عش التجربة الكاملة لكونك الرجل العنكبوت في مدينة نيويورك المفتوحة والمذهلة، مع آليات تأرجح وحركة سلسة للغاية ونظام قتال ممتع يواجه فيه أشهر أشرار الكوميكس."
+            }, {
+                id: 137,
+                name: "assassins creed mirage",
+                platform: "PS4",
+                description: "العودة لجذور سلسلة الاغتيالات في مدينة بغداد العباسية الرائعة، تتبع اللعبة قصة باسم وهو يتحول من لص شوارع بسيط إلى بارع في التخفي والاغتيال السري."
+            }, {
+                id: 138,
+                name: "mortal kombat XL",
+                platform: "PS4",
+                description: "النسخة الموسعة والشاملة من لعبة القتال العنيفة الأسطورية، تحتوي على شخصيات إضافية مميزة من أفلام الرعب الشهيرة بالإضافة للحركات القاضية والدموية (Fatality)."
+            }, {
+                id: 139,
+                name: "need for speed pay back",
+                platform: "PS4",
+                description: "سباقات سيارات وإثارة هوليوودية في عالم مفتوح، تتميز بقصة انتقام ومطاردات قوية ضد الشرطة وعصابات الشوارع ونظام متطور جداً لتعديل وتركيب قطع السيارات وتخصيصها."
+            }, {
+                id: 140,
+                name: "tekken 7",
+                platform: "PS4",
+                description: "الفصل الختامي لصراع عائلة ميشيما التاريخي، تقدم اللعبة قتالاً ثلاثي الأبعاد فائق المتعة والدقة، ومجموعة ضخمة من المقاتلين بحركات قتالية معقدة ومثيرة."
+            }, {
+                id: 141,
+                name: "watch dogs 2",
+                platform: "PS4",
+                description: "لعبة اختراق ومغامرات ممتعة في عالم مفتوح نابض بالحياة بمدينة سان فرانسيسكو، حيث تقود مجموعة من الهاكرز المبدعين (DedSec) لإسقاط نظام الرقابة الظالم والتحكم بالبنية التحتية."
+            }, {
+                id: 142,
+                name: "adventure time",
+                platform: "PS4",
+                description: "لعبة مغامرات وتقمص أدوار مسلية وممتعة ومستوحاة بالكامل من مسلسل الكرتون الأيقوني 'وقت المغامرة'، حيث تنطلق مع فين وجيك لاستكشاف الأسرار وحل الألغاز في أرض أوو."
+            }, {
+                id: 143,
+                name: "beach buggy racing",
+                platform: "PS4",
+                description: "لعبة سباق سيارات كارت جنونية وممتعة للغاية على الشواطئ، تحتوي على الكثير من القدرات والأسلحة والخدع لتعطيل المنافسين، ومناسبة جداً للعب الجماعي العائلي."
+            }, {
+                id: 144,
+                name: "counter spy",
+                platform: "PS4",
+                description: "لعبة تجسس وتسلل ثنائية الأبعاد بطابع رسومي مميز ومستوحى من أجواء الحرب الباردة، حيث يتوجب عليك كعميل سري التسلل خفية لإحباط مخططات إطلاق الصواريخ النووية."
+            }, {
+                id: 145,
+                name: "monopoly",
+                platform: "PS4",
+                description: "النسخة الرقمية التفاعلية من لعبة اللوح الشهيرة (بنك الحظ)، تتيح لك شراء العقارات وبناء الإمبراطورية المالية ومنافسة الأصدقاء والعائلة بلوحة ثلاثية الأبعاد متحركة."
+            }, {
+                id: 146,
+                name: "slime rancher",
+                platform: "PS4",
+                description: "مغامرة لطيفة ملونة من منظور الشخص الأول، تقوم فيها باستكشاف كوكب فضائي غامض لجمع وتربية الكائنات الهلامية (السلايمز) اللطيفة وإدارة مزرعتك وتطوير أدواتك."
+            }, {
+                id: 147,
+                name: "angry birds star wars",
+                platform: "PS4",
+                description: "الدمج الذكي والممتع بين آلية اللعب الكلاسيكية للطيور الغاضبة وعالم حرب النجوم الأسطوري، استخدم السيوف المضيئة وقوى الجيداي لتدمير حصون الخنازير الفضائية."
+            }, {
+                id: 148,
+                name: "battlefield 1",
+                platform: "PS4",
+                description: "تجربة ملحمية تأخذك إلى حقبة الحرب العالمية الأولى عبر معارك جماعية ضخمة ومؤثرة، مع استخدام الدبابات الكلاسيكية، الطائرات ثنائية الأجنحة، والقتال العنيف في الخنادق."
+            }, {
+                id: 149,
+                name: "battlefield V",
+                platform: "PS4",
+                description: "خض معارك الحرب العالمية الثانية الشرسة بأحدث الرسوميات وأطوار اللعب الجماعي الضخمة، حيث تعتمد اللعبة على العمل الجماعي التكتيكي والقيادة الحكيمة للمركبات الحربية."
+            }, {
+                id: 150,
+                name: "ben 10",
+                platform: "PS4",
+                description: "تحول إلى الكائنات الفضائية القوية لهزيمة الأشرار وإنقاذ العالم برفقة بن تنيسون، استخدم ساعة الأومنيتريكس للتبديل بين الفضائيين بحركات قتالية كومبو حماسية."
+            }, {
+                id: 151,
+                name: "car 3",
+                platform: "PS4",
+                description: "لعبة سباقات حماسية وممتعة مبنية على فيلم ديزني الشهير 'سيارات 3'، تقدم مجموعة متنوعة من الحلبات، الحركات الاستعراضية، والمنافسات الشرسة المناسبة لجميع الأعمار."
+            }, {
+                id: 152,
+                name: "crash team racing",
+                platform: "PS4",
+                description: "إعادة البناء الكاملة للعبة سباقات الكارت الأسطورية لكراش، نافس بقوة في حلبات صعبة ومليئة بالمنعطفات واستخدم الصواريخ والقنابل والدريفت لتجاوز أصدقائك."
+            }, {
+                id: 153,
+                name: "dead or alive 5",
+                platform: "PS4",
+                description: "لعبة قتال ثلاثية الأبعاد تمتاز بالحركة والسرعة الفائقة، وتتميز بحلبات قتال تفاعلية وخطيرة تتغير وتتدمر أثناء المعركة مع نظام قتال عميق يعتمد على الصد والهجوم المرتد."
+            }, {
+                id: 154,
+                name: "dead island riptide",
+                platform: "PS4",
+                description: "لعبة رعب وبقاء من منظور الشخص الأول، تقاتل فيها مع ناجين آخرين باستخدام أسلحة يدوية قمت بتعديلها بأنفسكم للنجاة من حشود الزومبي المرعبة في جزيرة استوائية منكوبة."
+            }, {
+                id: 155,
+                name: "devil may cry 5",
+                platform: "PS4",
+                description: "أقوى ألعاب الأكشن والتقطيع السريع، تتحكم بثلاث شخصيات أسطورية (دانتي، نيرو، وفي) بقوى شيطانية خارقة وأسلحة مبتكرة للقضاء على غزو الشياطين بأسلوب قتال سينمائي رائع."
+            }, {
+                id: 156,
+                name: "gta V",
+                platform: "PS4",
+                description: "المغامرة الأسطورية في عالم لوس سانتوس المفتوح، تتبع قصة ثلاثة مجرمين تتقاطع مساراتهم في سلسلة من عمليات السطو المسلح الكبرى والمهام الحماسية اللامتناهية أونلاين."
+            }, {
+                id: 157,
+                name: "minecraft",
+                platform: "PS4",
+                description: "لعبة الإبداع والبقاء الأشهر في العالم، اجمع الموارد وابنِ قلاعاً وعوالم كاملة من المخيلة، واستكشف الكهوف العميقة وحارب الكائنات الليلية الخطيرة للبقاء على قيد الحياة."
+            }, {
+                id: 158,
+                name: "mortal kombat 11",
+                platform: "PS4",
+                description: "القتال العنيف يلتقي بالتحكم بالزمن في قصة سينمائية مذهلة، تقدم اللعبة جرافيك فائق الواقعية، وخيارات ضخمة لتخصيص ملابس وحركات المحاربين مع الفيتاليتي الدموي الشهير."
+            }, {
+                id: 159,
+                name: "need for speed heat",
+                platform: "PS4",
+                description: "سباقات شوارع ليلية غير قانونية ومطاردات شرطة شرسة وعنيفة، وسباقات نهارية رسمية لكسب الأموال وتعديل سيارتك الخارقة بأعلى مستويات التخصيص والجمال الكرتوني الحماسي."
+            }, {
+                id: 160,
+                name: "planet vs zombie",
+                platform: "PS4",
+                description: "المعركة الاستراتيجية المضحكة والمحبوبة، صمم خط دفاعك بذكاء في حديقة المنزل باستخدام نباتات قاذفة وقوية لمنع جحافل الزومبي الطريفة والغريبة من اقتحام بيتك."
+            }, {
+                id: 161,
+                name: "pes 18",
+                platform: "PS4",
+                description: "محاكاة تكتيكية ممتازة لمباريات كرة القدم، تقدم تحسينات ملحوظة في أسلوب اللعب والتحكم في الكرة واللاعبين وأطوار اللعب المفضلة مثل الماستر ليج الكلاسيكي."
+            }, {
+                id: 162,
+                name: "pes 19",
+                platform: "PS4",
+                description: "تجربة كرة قدم واقعية وممتعة مع إضافة تراخيص جديدة كلياً ورسوميات مذهلة تدعم دقة العرض العالية، مع تحسين آلية التمرير والتسديد لتوفير متعة كروية فريدة."
+            }, {
+                id: 163,
+                name: "rayman legends",
+                platform: "PS4",
+                description: "واحدة من أروع ألعاب المنصات ثنائية الأبعاد في التاريخ، تمتاز بألوان ساحرة ومستويات موسيقية إيقاعية مبتكرة وممتعة جداً عند اللعب التعاوني مع الأصدقاء."
+            }, {
+                id: 164,
+                name: "redident evil village",
+                platform: "PS4",
+                description: "رعب بقاء من منظور الشخص الأول، يجد فيها إيثان وينترز نفسه في قرية أوروبية غامضة ومرعبة تحكمها كائنات متوحشة ومصاصو دماء، ويقاتل لإنقاذ ابنته المخطوفة."
+            }, {
+                id: 165,
+                name: "roket league",
+                platform: "PS4",
+                description: "الدمج المبتكر والجنوني الأنجح بين رياضة كرة القدم وسيارات الدفع الرباعي النفاثة والسريعة، حلق في الهواء وسجل أهدافاً مذهلة في مباريات حماسية أونلاين."
+            }, {
+                id: 166,
+                name: "stick fight",
+                platform: "PS4",
+                description: "لعبة قتال فيزيائية بسيطة ومضحكة جداً تعتمد على شخصيات الخطوط (الستيك مان)، تقاتلوا في ساحات تنهار باستمرار وأسلحة عشوائية تسقط من السماء لخلق فوضى مرحة."
+            }, {
+                id: 167,
+                name: "uncharted 4, نهاية لص",
+                platform: "PS4",
+                description: "الرحلة الختامية والملحمية لصائد الكنوز الأسطوري نيثان دريك، بحثاً عن كنز القرصان المفقود أفري في قصة ورسوميات سينمائية خلابة حائزة على جوائز ومدبلجة للعربية."
+            }, {
+                id: 168,
+                name: "unravel 2",
+                platform: "PS4",
+                description: "تحكم بدميتين ظريفتين مصنوعتين من الخيوط الملونة وحل الألغاز البيئية بالاعتماد على التعاون والربط بين الخيوط في عالم هادئ وجميل ومناسب جداً لشخصين."
+            }, {
+                id: 169,
+                name: "2k 22",
+                platform: "PS4",
+                description: "المحاكاة الرسمية والأقوى لدوري كرة السلة الأمريكي الاحترافية (NBA)، تقدم تحسينات بصرية ضخمة وأطوار لعب ممتازة تتيح لك عيش مسيرة لاعب محترف بالكامل."
+            }, {
+                id: 170,
+                name: "call of duty ops 4",
+                platform: "PS4",
+                description: "إصدار متميز يركز بالكامل على أطوار اللعب الجماعي التنافسي، وطور البلاك آوت (البتل رويال) المثير، بالإضافة لثلاث مغامرات كاملة ومشوقة في طور الزومبي."
+            }, {
+                id: 171,
+                name: "fc 24",
+                platform: "PS4",
+                description: "بداية عهد جديد لألعاب كرة القدم من EA Sports، تأتي بمحرك رسومي فائق الواقعية وتحديث شامل لبيانات جميع فرق العالم واللاعبين لتقديم أقوى تجربة كروية تفاعلية."
+            }, {
+                id: 172,
+                name: "far cry 5",
+                platform: "PS4",
+                description: "لعبة أكشن وعالم مفتوح بنسخة معربة بالكامل، تخوض فيها حرب عصابات شرسة للإطاحة بنظام حكم ديكتاتوري ظالم في جزيرة معزولة ومليئة بالحيوانات والمخاطر."
+            }, {
+                id: 173,
+                name: "ghost of tsushima",
+                platform: "PS4",
+                description: "ساموراي ياباني يدافع عن جزيرته المفتوحة تسوشيما ضد الغزو المغولي الشرس، ويضطر للتخلي عن تقاليده الصارمة ليصبح 'الشبح' وينفذ اغتيالات سرية لحماية شعبه."
+            }, {
+                id: 174,
+                name: "inside",
+                platform: "PS4",
+                description: "تحفة فنية غامضة ومظلمة من نوع ألغاز المنصات، تتحكم فيها بطفل صغير يهرب من منظمة غامضة تجري تجارب على البشر، في أجواء كئيبة ومثيرة للتفكير والدهشة."
+            }, {
+                id: 175,
+                name: "naruto X baruto ultimate ninja",
+                platform: "PS4",
+                description: "لعبة قتال نينجا حماسية تجمع أبطال جيل ناروتو القديم وجيل بوروتو الجديد، وتتيح لك تنفيذ ضربات الجوتسو الخارقة والمشتركة في معارك سريعة الإيقاع ومبهرة الرسوم."
+            }, {
+                id: 176,
+                name: "ratchet clank",
+                platform: "PS4",
+                description: "مغامرة خيال علمي ممتعة جداً وكوميدية لحيوان اللومباكس ذكي وروبوته الصغير، سافر عبر المجرة واستخدم أسلحة غريبة ومتطورة لإحباط مخططات الأشرار لإنقاذ الكواكب."
+            }, {
+                id: 177,
+                name: "ninja turtles shredders revenge",
+                platform: "PS4",
+                description: "العودة الممتعة لألعاب قتال الشوارع الكلاسيكية الكرتونية بطابع التسعينيات، اختر سلحفاتك المفضلة وحارب جنود النينجا وشريدر في معارك جماعية حماسية ومسلية."
+            }, {
+                id: 178,
+                name: "2k 25",
+                platform: "PS4",
+                description: "أحدث إصدارات محاكاة كرة السلة الأمريكية، تقدم فيزياء حركة متطورة وتحديثات انتقالات الفرق الشاملة، وطور مهنة متكامل للوصول بـ فريقك إلى صدارة البطولة العالمية."
+            }, {
+                id: 179,
+                name: "a way oyt",
+                platform: "PS4",
+                description: "تجربة قصصية سينمائية تعاونية إجبارية للاعبين (شاشة منقسمة)، حيث يتحكم كل لاعب بسجين، ويتوجب عليهما التخطيط والتعاون معاً للهروب من السجن وعيش مغامرة مشوقة."
+            }, {
+                id: 180,
+                name: "assassins creed odyssey",
+                platform: "PS4",
+                description: "رحلة ملحمية في اليونان القديمة، اختر بطل المرتزقة الخاص بك (أليكسيوس أو كاساندرا) واكشف مؤامرات عائلتك السرية في عالم مفتوح ضخم يدمج التاريخ بالأساطير الإغريقية."
+            }, {
+                id: 181,
+                name: "assassins creed origins",
+                platform: "PS4",
+                description: "استكشف مصر القديمة وعصر الفراعنة برفقة البطل 'بايك'، لتشهد نشأة وتأسيس طائفة المعتزلين (الأساسنز) في عالم مفتوح ساحر يضم الأهرامات والصحاري الشاسعة."
+            }, {
+                id: 182,
+                name: "assassins creed valhalla",
+                platform: "PS4",
+                description: "تقمص دور محارب الفايكنج الأسطوري 'إيفور'، وقد قبيلتك لغزو الممالك الإنجليزية القديمة، وابنِ مستوطنتك الخاصة وخض معارك ضخمة وحصارات حماسية للحصون والأمراء."
+            }, {
+                id: 183,
+                name: "assassins creed syndicate",
+                platform: "PS4",
+                description: "قصة الثورة الصناعية الرائعة في لندن، تحكم بالتوأم جايكوب وإيفي فراي وأسس عصابات الشوارع الخاصة بك لمحاربة فرسان الهيكل وتحرير العمال في أجواء بريطانية كلاسيكية."
+            }, {
+                id: 184,
+                name: "batman arkham knight",
+                platform: "PS4",
+                description: "الخاتمة الأسطورية لسلسلة باتمان، واجه الفزاع وفارس أرخام الغامض في مدينة غوثام المفتوحة، مستخدماً مهارات التسلل والقتال بالإضافة لسيارة باتموبيل المدرعة والفتاكة."
+            }, {
+                id: 185,
+                name: "brothers a tale of two sons",
+                platform: "PS4",
+                description: "قصة عاطفية مؤثرة لرحلة أخوين يبحثان عن علاج لوالدهما المريض، تتحكم بكلا الأخوين في نفس الوقت باستخدام ذراعي التحكم لحل الألغاز البيئية والتعاون لتخطي العقبات."
+            }, {
+                id: 186,
+                name: "call of duty WWII",
+                platform: "PS4",
+                description: "العودة الملحمية لجذور سلسلة كول أوف ديوتي في معارك الحرب العالمية الثانية، لتخوض قصة سينمائية مؤثرة عن التضحية والزمالة، وطور جماعي كلاسيكي شهير وحماسي."
+            }, {
+                id: 187,
+                name: "call of duty ops 3",
+                platform: "PS4",
+                description: "معارك تصويب مستقبلية متطورة توفر طور قصة تعاوني، وطور زومبي عميق جداً ومليء بالأسرار، مع حركة قتال سريعة تعتمد على القفز النفاث والجري على الجدران."
+            }, {
+                id: 188,
+                name: "call of duty ops 6",
+                platform: "PS4",
+                description: "أحدث إصدارات سلسلة العمليات السوداء المشوقة، تأخذك في مهمات جاسوسية سرية بالغة الخطورة مليئة بالتشويق والأكشن وطور جماعي تنافسي سريع ومطور بالكامل."
+            }, {
+                id: 189,
+                name: "cities skylines",
+                platform: "PS4",
+                description: "لعبة بناء وإدارة المدن الأكثر عمقاً ومحاكاة، صمم شبكات الطرق والخدمات والمباني، وتحكم بالاقتصاد والضرائب والصحة لتضمن ازدهار وسعادة سكان مدينتك الحالمة."
+            }, {
+                id: 190,
+                name: "contra ",
+                platform: "PS4",
+                description: "إعادة إحياء حديثة ومليئة بالأكشن للعبة إطلاق النار الكلاسيكية ثنائية الأبعاد، دمر جيوش الفضائيين والآليين مع أصدقائك في مستويات صعبة ومليئة بالزعماء الضخام."
+            }, {
+                id: 191,
+                name: "control",
+                platform: "PS4",
+                description: "مغامرة خيال علمي وغموض مذهلة، تتحكم بمديرة وكالة سرية في مبنى حكومي غريب يغير شكله، وتمتلك قوى خارقة لتحريك الأشياء عن بعد لحل لغز غزو فضائي كابوسي."
+            }, {
+                id: 192,
+                name: "detroit become human",
+                platform: "PS4",
+                description: "قصة تفاعلية عميقة ومؤثرة عن ثلاثة آليين أندرويد يطورون مشاعر بشرية في عالم المستقبل، كل قرار تتخذه يغير مجرى الأحداث تماماً ويقود لنهايات مختلفة ومصيرية."
+            }, {
+                id: 193,
+                name: "dying light",
+                platform: "PS4",
+                description: "لعبة بقاء ورعب من منظور الشخص الأول ممتازة، تمزج بين حركات الباركور السريعة وتفادي العقبات نهاراً، وقتال جحافل الزومبي الشرسة والعدوانية التي تصبح أقوى ليلاً."
+            }, {
+                id: 194,
+                name: "far cry 6",
+                platform: "PS4",
+                description: "انضم للثورة المسلحة في جزيرة يارا الاستوائية المفتوحة للإطاحة بالديكتاتور أنطون كاستيلو، مستخدماً ترسانة ضخمة ومبتكرة من الأسلحة المصنوعة يدوياً وحيوانات مروضة."
+            }, {
+                id: 195,
+                name: "grip",
+                platform: "PS4",
+                description: "سباقات سيارات مستقبلية فائقة السرعة وجنونية، حيث السيارات مصممة لتسير على الوجهين وعلى الجدران والأسقف، ومزودة بأسلحة فتاكة لتعطيل وتدمير الخصوم بلمح البصر."
+            }, {
+                id: 196,
+                name: "horizon zero dawn",
+                platform: "PS4",
+                description: "استكشف عالماً مستقبلياً مذهلاً تحكمه آلات ديناصورية ضخمة وغامضة، برفقة الصيادة الماهرة 'ألوي' لتخوض رحلة استكشافية لكشف أسرار الماضي وانهيار الحضارة البشرية."
+            }, {
+                id: 197,
+                name: "it take two",
+                platform: "PS4",
+                description: "مغامرة تعاونية ساحرة لشخصين حائزة على جائزة لعبة العام، تدمج آليات لعب مبتكرة ومتغيرة باستمرار في قصة فكاهية وعاطفية تهدف لإصلاح علاقة زوجين تحولا لدمى."
+            }, {
+                id: 198,
+                name: "j starts victory",
+                platform: "PS4",
+                description: "لعبة قتال أنمي حماسية تجمع أشهر أبطال مجلة شونين جامب اليابانية (مثل غوكو، لوفي، ناروتو، وإيتشيجو) في ساحات قتال ثلاثية الأبعاد مدمرة لتحديد البطل الأقوى."
+            }, {
+                id: 199,
+                name: "kena bridge of spirits",
+                platform: "PS4",
+                description: "رحلة استكشافية ساحرة الرسوم وممزوجة بالقتال السريع، تتحكم بالمرشدة الروحية كينا لمساعدة الأرواح الضائعة على السلام برفقة كائنات الروت الصغيرة واللطيفة."
+            }, {
+                id: 200,
+                name: "little nightmares",
+                platform: "PS4",
+                description: "لعبة رعب ومنصات غامضة وذكية، تتحكم بطفلة صغيرة ترتدي معطفاً أصفر (سيكس) تحاول الهروب من سفينة ضخمة وكابوسية مليئة بالمسوخ والوحوش الجائعة التي تلاحقها."
+            }, {
+                id: 201,
+                name: "mario mania",
+                platform: "PS4",
+                description: "مستوحاة من ألعاب المنصات الكلاسيكية، تقدم تحديات قفز وجمع عملات وعقبات مسلية بأسلوب كرتوني خفيف وممتع ومناسب جداً للجلسات العائلية والأطفال."
+            }, {
+                id: 202,
+                name: "metal gear solid V",
+                platform: "PS4",
+                description: "تحفة المخرج هيدو كوجيما في عالم التسلل والاختراق، تمنحك حرية تامة ومطلقة في التخطيط وتنفيذ المهمات العسكرية في عالم مفتوح ضخم باستخدام أدوات وجنود وقدرات منوعة."
+            }, {
+                id: 203,
+                name: "metro exodus",
+                platform: "PS4",
+                description: "رحلة بقاء ملحمية ومنظور شخص أول عبر قطار يسير في روسيا المدمرة بعد الحرب النووية، تمزج اللعبة بين القتال الشرس، التسلل، واستكشاف البيئات المرعبة والمتحورة."
+            }, {
+                id: 204,
+                name: "moto racer 4",
+                platform: "PS4",
+                description: "سباقات دراجات نارية سريعة ومثيرة تجمع بين سباقات المضامير الإسفلتية الرسمية وسباقات الطرق الوعرة والطينية، مليئة بالسرعة والحركات الاستعراضية الخطيرة."
+            }, {
+                id: 205,
+                name: "over cooked",
+                platform: "PS4",
+                description: "لعبة طبخ جماعية مجنونة وفوضوية تتطلب التعاون والسرعة التامة بين اللاعبين لتحضير وتجهيز الطلبات في مطابخ غريبة ومتحركة ومليئة بالعقبات قبل نفاد الوقت."
+            }, {
+                id: 206,
+                name: "shadow of the tomb raider",
+                platform: "PS4",
+                description: "المغامرة الأخيرة لـ لارا كروفت لإنقاذ العالم من نبوءة المايا المدمرة، خض رحلة تسلل وقتال واستكشاف للمقابر الغامضة في غابات أمريكا الجنوبية الكثيفة والموحشة."
+            }, {
+                id: 207,
+                name: "sonic mania",
+                platform: "PS4",
+                description: "احتفالية كبرى بألعاب سونيك الكلاسيكية ثنائية الأبعاد، تقدم مستويات محسنة ومبتكرة وسرعة فائقة ورسوميات بكسل ريترو مميزة تعيد ذكريات الأجزاء الأسطورية القديمة."
+            }, {
+                id: 208,
+                name: "tennis world tour",
+                platform: "PS4",
+                description: "محاكاة رياضية واقعية وممتعة للتنس الأرضي، تتيح لك تخصيص لاعبك بالكامل والمنافسة في البطولات العالمية الكبرى ضد أشهر نجوم اللعبة العالميين لتسلق الصدارة."
+            }, {
+                id: 209,
+                name: "the evil within 1",
+                platform: "PS4",
+                description: "لعبة رعب بقاء نفسية مرعبة من ابتكار المطور شينجي ميكامي، تأخذك في رحلة مشوهة ومرعبة داخل عقل مجنون مليء بالكوابيس والوحوش الغريبة التي تلاحقك باستمرار."
+            }, {
+                id: 210,
+                name: "the last of us 1 remastered",
+                platform: "PS4",
+                description: "النسخة المحسنة والمذهلة من التحفة الفنية التي تروي قصة رحلة جويل وإيلي العاطفية والمؤثرة عبر الولايات المتحدة الموبوءة بالزومبي، والقتال المرير من أجل البقاء."
+            }, {
+                id: 211,
+                name: "2k 23",
+                platform: "PS4",
+                description: "تجربة كرة سلة أمريكية متكاملة تحتفي بمسيرة الأسطورة مايكل جوردان، وتقدم تحسينات ممتازة لأسلوب اللعب والجرافيك وأطوار المهنة وإدارة الفرق الاحترافية."
+            }, {
+                id: 212,
+                name: "xenon race",
+                platform: "PS4",
+                description: "سباقات سيارات مستقبلية مذهلة تعتمد على الانجراف (الدريفت) بسرعات خارقة مدعومة بطاقة الزينون، في شوارع مدن عصرية ومتطورة تمنحك شعوراً بالسرعة الجنونية."
+            }, {
+                id: 213,
+                name: "biomutant mercenary",
+                platform: "PS4",
+                description: "لعبة أر بي جي وعالم مفتوح بطابع كونغ فو خيالي فريد، بطلها كائن فروي متحور وقابل للتعديل، يقاتل لإنقاذ شجرة الحياة وتحديد مصير القبائل المتناحرة في العالم."
+            }, {
+                id: 214,
+                name: "call of duty MW",
+                platform: "PS4",
+                description: "إعادة تخيل حديثة وواقعية للغاية لسلسلة الحرب المعاصرة الأشهير، تقدم قصة سينمائية عسكرية ممتازة، وطوراً جماعياً تنافسياً سريعاً ومتطوراً بأسلحة واقعية ومعدلة."
+            }, {
+                id: 215,
+                name: "call of duty vanguard",
+                platform: "PS4",
+                description: "قصة سينمائية مشوقة تأخذك إلى جبهات متعددة ومختلفة خلال الحرب العالمية الثانية لتشهد نشأة وتأسيس القوات الخاصة العالمية في معارك تصويب حماسية وقوية."
+            }, {
+                id: 216,
+                name: "call of duty cold war",
+                platform: "PS4",
+                description: "مغامرة جاسوسية مثيرة تقع أحداثها في الثمانينات خلال ذروة الحرب الباردة، مليئة بالمؤامرات السياسية والمهمات السرية، بالإضافة لطور الزومبي واللعب الجماعي الحماسي."
+            }, {
+                id: 217,
+                name: "conan exiles",
+                platform: "PS4",
+                description: "لعبة بقاء وعالم مفتوح ضخم مستوحى من عالم كونان البربري، ابدأ من الصفر واجمع الموارد وابنِ قلعتك وحارب للبقاء ضد الوحوش واللاعبين الآخرين في بيئة صحراوية قاسية."
+            }, {
+                id: 218,
+                name: "crysis 3 remastered",
+                platform: "PS4",
+                description: "لعبة تصويب خيال علمي برسوميات خارقة، ارتدِ البذلة النانوية المتطورة واستخدم قواها الخاصة للتخفي، القوة، والسرعة لإنقاذ مدينة نيويورك المغطاة بغابة شجرية ضخمة."
+            }, {
+                id: 219,
+                name: "devil may cry definitive",
+                platform: "PS4",
+                description: "نسخة محسنة ومطورة من إعادة تخيل قصة دانتي الشاب ومواجهته للشياطين، تمتاز بأسلوب قتال سريع، حركات كومبو هوائية مذهلة، وموسيقى حماسية تزيد من متعة التقطيع."
+            }, {
+                id: 220,
+                name: "doom eternal",
+                platform: "PS4",
+                description: "أسرع وأعنف ألعاب قتال الوحوش من منظور الشخص الأول، استعمل ترسانة أسلحتك الفتاكة والمحسنة لتدمير جحافل الشياطين التي غزت الأرض في معارك دموية وسريعة جداً."
+            }, {
+                id: 221,
+                name: "dying light 2",
+                platform: "PS4",
+                description: "رحلة باركور وبقاء وعالم مفتوح أضخم، قراراتك تؤثر مباشرة على ميزان القوى في آخر مستوطنات البشرية المدمرة، واجه الزومبي والقبائل المعادية بمهارات قتال يدوية وحركة سلسة."
+            }, {
+                id: 222,
+                name: "genesis alpha",
+                platform: "PS4",
+                description: "مزيج فريد من نوعه يجمع بين تصويب منظور الشخص الأول، بناء السفن الفضائية وتعديلها، وإدارة طاقم المستنسخين للبقاء واستكشاف المجرة المظلمة المليئة بالكائنات الفضائية."
+            }, {
+                id: 223,
+                name: "killzone shadow fall",
+                platform: "PS4",
+                description: "حرب خيال علمي مستقبلية ومبهرة الرسوم بين فصيلين يفصل بينهما جدار ضخم، تمتاز بأسلوب تصويب ممتع واستخدام طائرة درون مساعدة لتنفيذ التكتيكات والهجوم ضد الأعداء."
+            }, {
+                id: 224,
+                name: "motoGP 22",
+                platform: "PS4",
+                description: "المحاكاة الرسمية لبطولة الدراجات النارية الأقوى والأسرع في العالم، تقدم أدق تفاصيل القيادة الواقعية، وإدارة الفرق والمهندسين، وأطوار لعب تاريخية ممتازة."
+            }, {
+                id: 225,
+                name: "NBA 2k 18",
+                platform: "PS4",
+                description: "نسخة كلاسيكية ممتازة من سلسلة محاكاة كرة السلة الأمريكية الاحترافية، تقدم طور مهنة ممتع وبناء فريقك الخاص لخوض المباريات وحصد البطولات الكبرى."
+            }, {
+                id: 226,
+                name: "riders republic",
+                platform: "PS4",
+                description: "ساحة رياضية ضخمة ومفتوحة تجمع آلاف اللاعبين للمنافسة الجماعية الحماسية في ركوب الدراجات الجبلية، التزلج على الجليد، والطيران بالبدلات المجنحة النفاثة في متنزهات طبيعية."
+            }, {
+                id: 227,
+                name: "sniper elite 5",
+                platform: "PS4",
+                description: "لعبة قنص وتسلل تقع أحداثها في فرنسا عام 1944، تقدم خرائط ضخمة تمنحك حرية التسلل خلف خطوط العدو، مع كاميرا الأشعة السينية الشهيرة لتوثيق الإصابات القاتلة بدقة."
+            }, {
+                id: 228,
+                name: "sonic team racing",
+                platform: "PS4",
+                description: "سباقات سيارات كارت مميزة تعتمد بالكامل على العمل والتعاون الجماعي ومشاركة الأسلحة والقدرات بين أعضاء الفريق الواحد لتحقيق المركز الأول مع شخصيات عالم سونيك."
+            }, {
+                id: 229,
+                name: "boomerang fu",
+                platform: "PS4",
+                description: "لعبة حفلات جماعية مضحكة وسريعة الإيقاع، يتحكم فيها اللاعبون بقطع طعام ظريفة (كالبيتزا والحليب) تقاتل بعضها باستخدام ارتداد أسلحة البومرانج وقدرات التجميد والتخفي."
+            }, {
+                id: 230,
+                name: "dark light",
+                platform: "PS4",
+                description: "لعبة أكشن ومنصات بطابع سايبربانك سوداوي خيالي، تقاتل فيها وحوشاً متحورة وغير مرئية باستخدام مهارات التخفي وأشعة الضوء وسلاحك الفتاك في عالم مدمر كئيب."
+            }, {
+                id: 231,
+                name: "fuzz ball",
+                platform: "PS4",
+                description: "لعبة حركية عائلية ومرحة، تتحكم فيها بكائنات قطيفة دائرية تتدحرج وتصطدم ببعضها بقوة في ساحات منوعة، والهدف هو دفع الخصوم خارج الحلبة للفوز بالمباراة."
+            }, {
+                id: 232,
+                name: "rubber bandits",
+                platform: "PS4",
+                description: "لعبة سرقة وقتال جماعية مضحكة للغاية، تنافس مع أصدقائك لجمع أكبر قدر من الأموال والمسروقات، واستخدم الأسلحة العشوائية لضرب المنافسين والهروب قبل وصول الشرطة."
+            }, {
+                id: 233,
+                name: "scars above",
+                platform: "PS4",
+                description: "لعبة تصويب وخيال علمي صعبة ومليئة بالتحديات، تتحكم بعالمة فضاء تحاول البقاء على كوكب فضائي غامض، وتستخدم أسلحة عناصر الطبيعة (النار، الثلج) لهزيمة المخلوقات المرعبة."
+            }, {
+                id: 234,
+                name: "stikbold a dodgeball",
+                platform: "PS4",
+                description: "لعبة رياضة كرة الهدف (Dodgeball) بطابع ريترو سبعيني مضحك وقصة مجنونة مليئة بالتحديات والمباريات الغريبة والممتعة جداً عند اللعب المشترك مع الأصدقاء."
+            }, {
+                id: 235,
+                name: "the forest",
+                platform: "PS4",
+                description: "بعد تحطم طائرتك في غابة معزولة وغموض، يتوجب عليك بناء مأواك، صناعة الأسلحة، والبحث عن طفلك المخطوف مع الدفاع عن نفسك ضد قبائل آكلي لحوم البشر المرعبين."
+            }, {
+                id: 236,
+                name: "tools up",
+                platform: "PS4",
+                description: "لعبة تعاونية ممتعة ومضحكة جداً لإعادة تجديد وطلاء جدران الشقق والمنازل، يتوجب عليك العمل مع فريقك لتنظيف الشقة ووضع السجاد والطلاء بدقة قبل انتهاء الوقت المخصص."
+            }, {
+                id: 237,
+                name: "oddballers",
+                platform: "PS4",
+                description: "لعبة حفلات جماعية مجنونة ومضحكة مبنية على رمي الكرات والأشياء الغريبة والعشوائية على المنافسين لتهزمهم في أطوار لعب منوعة ومبتكرة ومناسبة للجمعات المسلية."
+            }, {
+                id: 238,
+                name: "the smurfs village party",
+                platform: "PS4",
+                description: "شارك السنافر الزرقاء في حفلتهم الكبرى عبر مجموعة ممتعة وضخمة من الألعاب المصغرة والمغامرات الكرتونية المسلية والملونة والمناسبة جداً للأطفال والعائلة."
+            }, {
+                id: 239,
+                name: "god of war 2018",
+                platform: "PS4",
+                description: "انطلاقة كريتوس الجديدة في الميثولوجيا النوردية، حيث يعيش كرجل عادي ويعلم ابنه أترعيوس كيف يكون محارباً في رحلة عاطفية وملحمية مذهلة حازت على جائزة لعبة العام."
+            }, {
+                id: 240,
+                name: "sekiro",
+                platform: "PS4",
+                description: "لعبة أكشن وساموراي بالغة الصعوبة من استوديو FromSoftware، واجه الأعداء والزعماء الأقوياء بمهارة السيف البالغة والصد الدقيق لاستعادة شرف سيدك الشاب المخطوف."
+            }, {
+                id: 241,
+                name: "paradise remastered",
+                platform: "PS4",
+                description: "لعبة سباقات سيارات عنيفة وكلاسيكية في عالم مفتوح، تمتع بالسرعات الجنونية، القفزات الاستعراضية، وتحطيم وتدمير سيارات الخصوم بالكامل في حلبات وشوارع المدينة المفتوحة."
+            }, {
+                id: 242,
+                name: "pepsi man",
+                platform: "PS4",
+                description: "النسخة الكلاسيكية المحبوبة لبطل البيبسي الشهير، اركض بأقصى سرعة وتفادَ الشاحنات والعقبات لجمع علب البيبسي وإيصالها للأشخاص العطشى في شوارع المدينة المضحكة."
+            }, {
+                id: 243,
+                name: "the witcher 3 wild hunt",
+                platform: "PS4",
+                description: "واحدة من أعظم ألعاب العالم المفتوح والآر بي جي في التاريخ، تقمص دور صائد الوحوش 'جيرالت' واستخدم سيوفك وقدرات السحر للبحث عن ابنتك المتبناة في عالم خيالي شاسع ومذهل."
+            },
+            // --- ألعاب PS3 ---
+            {
+                id: 5,
+                name: "Air Conflicts Secret Wars",
+                platform: "PS3",
+                description: "لعبة محاكاة طيران حربية تدور أحداثها خلال الحربين العالميتين الأولى والثانية، تقدم معارك جوية مثيرة ومهمات قصف وهجوم بالطائرات الكلاسيكية القديمة."
+            }, {
+                id: 6,
+                name: "Watch Dogs",
+                platform: "PS3",
+                description: "تحكم بالهاكر المحترف 'آيدن بيرس' واستخدم مهارات القرصنة المتطورة للتحكم بمدينة شيكاغو بالكامل واختراق الكاميرات والهواتف للانتقام لعائلتك في عالم مفتوح."
+            }, {
+                id: 7,
+                name: "Iron Sky",
+                platform: "PS3",
+                description: "لعبة معارك فضائية حماسية مبنية على الفيلم الشهير، تقود فيها مركبات حربية فضائية متطورة لحماية كوكب الأرض من غزو نازي غامض وقادم من القواعد السرية على القمر."
+            }, {
+                id: 8,
+                name: "007 Legends",
+                platform: "PS3",
+                description: "عش أشهر وأخطر مهمات العميل السري الأسطوري جيمس بوند المستوحاة من أفلامه الكلاسيكية والحديثة في لعبة تصويب حماسية من منظور الشخص الأول مليئة بأدوات الجاسوسية."
+            }, {
+                id: 9,
+                name: "The Last of Us",
+                platform: "PS3",
+                description: "بداية الرحلة الأسطورية والمؤثرة لجويل وإيلي على جهاز البلايستيشن 3، قاتل من أجل النجاة ضد البشر والموبوئين بالفطر القاتل في عالم مدمر وجميل الكآبة."
+            }, {
+                id: 10,
+                name: "RDR1",
+                platform: "PS3",
+                description: "ملحمة الغرب الأمريكي المتوحش الأولى، تتبع قصة المحارب السابق 'جون مارستون' الذي يجبره عملاء الحكومة على ملاحقة وتصفية أفراد عصابته القدامى لحماية عائلته."
+            }, {
+                id: 11,
+                name: "Adventure Time",
+                platform: "PS3",
+                description: "انضم لفين وجيك في رحلة استكشاف وحل ألغاز ممتعة في أرض أوو بأسلوب ألعاب المغامرات الكلاسيكية، ومناسبة جداً لجميع محبي كرتون وقت المغامرة الشهير."
+            }, {
+                id: 12,
+                name: "Army of Two",
+                platform: "PS3",
+                description: "لعبة تصويب حماسية تركز بالكامل على التعاون والتنسيق التام بين مرتزقين مسلحين لتنفيذ مهمات عسكرية سرية ومعقدة حول العالم، وتمتاز بتعديل وتطوير الأسلحة والدروع."
+            }, {
+                id: 13,
+                name: "Assassin's Creed Revelations",
+                platform: "PS3",
+                description: "الفصل الختامي والأخير لقصة المغتال الإيطالي الأسطوري 'إيزيو أوديتوري' في مدينة القسطنطينية (إسطنبول)، متبعاً خطوات معلمه الأقدم الطائر لكشف أسرار المكتبة القديمة."
+            }, {
+                id: 14,
+                name: "Assassin's Creed 2",
+                platform: "PS3",
+                description: "بداية مسيرة إيزيو أوديتوري التاريخية في إيطاليا عصر النهضة، خض رحلة انتقام طويلة وممتعة وتعلم مهارات التخفي، والقفز بين أسطح المنازل، والاغتيال بالشفرة الخفية."
+            }, {
+                id: 15,
+                name: "Assassin's Creed 3",
+                platform: "PS3",
+                description: "خض أحداث الثورة الأمريكية الشرسة بشخصية المحارب 'كونور' من السكان الأصليين، مستخدماً مهارات التخفي والقتال بالفأس والسهام في الغابات الكثيفة والمدن الأمريكية الناشئة."
+            }, {
+                id: 16,
+                name: "Batman Arkham Origins",
+                platform: "PS3",
+                description: "تروي قصة بداية مسيرة باتمان الشاب في مدينة غوثام، حيث يجد نفسه مستهدفاً من قبل ثمانية من أخطر القتلة المأجورين في العالم في ليلة عيد الميلاد الباردة."
+            }, {
+                id: 17,
+                name: "Battlefield 4",
+                platform: "PS3",
+                description: "معارك حربية حديثة مذهلة تمتاز بأطوار لعب جماعي واسعة النطاق وبيئات قابلة للتدمير بالكامل بفعل القصف والدبابات، مع طور قصة عسكري حماسي ومؤثر."
+            }, {
+                id: 18,
+                name: "Little Big Planet",
+                platform: "PS3",
+                description: "لعبة منصات إبداعية مميزة جداً، تمنحك التحكم الكامل بالدمية الظريفة 'ساكبوي' وتتيح لك بناء وتصميم عوالم ومستويات كاملة ومشاركتها مع اللاعبين الآخرين بذكاء."
+            }, {
+                id: 19,
+                name: "Ben 10",
+                platform: "PS3",
+                description: "حارب الفضائيين الأشرار وأنقذ كوكب الأرض مستخدماً قدرات وأشكال الفضائيين الخارقين المختلفة التي تمنحها لك ساعة الأومنيتريكس السحرية لـ بن تنيسون."
+            }, {
+                id: 20,
+                name: "Brothers in Arms Hells Highway",
+                platform: "PS3",
+                description: "لعبة تصويب وتكتيك عسكري واقعية جداً، تقود فيها فصيلة من الجنود المظليين خلال الحرب العالمية الثانية في عملية ماركت جاردن الشهيرة، مع التركيز على التخطيط وإعطاء الأوامر."
+            }, {
+                id: 21,
+                name: "Need for Speed Undercover",
+                platform: "PS3",
+                description: "خض سباقات شوارع عنيفة وسريعة، واعمل كعميل سري متخفٍ لصالح الشرطة لاختراق وتفكيك شبكة إجرامية دولية لتهريب السيارات في قصة مليئة بالإثارة والمطاردات."
+            }, {
+                id: 22,
+                name: "Far Cry 3",
+                platform: "PS3",
+                description: "حارب من أجل النجاة على جزيرة استوائية مجنونة يسيطر عليها قراصنة قساة بقيادة الشخصية الأيقونية المضطربة 'فاس'، وطور مهاراتك وصيدك للبقاء والهروب."
+            }, {
+                id: 23,
+                name: "Rango",
+                platform: "PS3",
+                description: "لعبة مغامرات وأكشن فكاهية وممتعة مبنية على فيلم الأنيميشن الشهير، تتبع مغامرات الحرباء الطريف رانجو في بلدة الغرب الأمريكي المعزولة ومليئة بالتحديات المسلية."
+            }, {
+                id: 24,
+                name: "Sniper Ghost Warrior",
+                platform: "PS3",
+                description: "تجربة قنص وتسلل واقعية تتطلب حساب مسافة الهدف، سرعة الرياح، ونبضات القلب للتسلل خلف خطوط الأعداء وتنفيذ الاغتيالات الصامتة بالبنادق القناصة المتطورة."
+            }, {
+                id: 25,
+                name: "Hitman Absolution",
+                platform: "PS3",
+                description: "العميل الأسطوري 47 يعود في مهمة شخصية للغاية، تمنحك اللعبة خيارات متعددة وأساليب ذكية للتخفي، التنكر، والتخلص من الأهداف والاغتيال دون ترك أي أثر ملموس."
+            }, {
+                id: 26,
+                name: "Naruto Shippuden Ultimate Ninja",
+                platform: "PS3",
+                description: "معارك نينجا ملحمية وثنائية تعيد سرد أحداث أنمي ناروتو شيبودن الأيقوني بحركات نينجوتسو قاضية ورسوميات كرتونية مذهلة وأسلوب قتال سريع وممتع لعشاق الأنمي."
+            }, {
+                id: 27,
+                name: "The Amazing Spider Man",
+                platform: "PS3",
+                description: "تأرجح بحرية كاملة في شوارع مدينة نيويورك كسبايدرمان، وحارب الجريمة والعصابات في قصة حماسية مكملة وموسعة لأحداث الفيلم السينمائي الشهير."
+            }, {
+                id: 28,
+                name: "Sonic All Stars Racing",
+                platform: "PS3",
+                description: "سباقات كارت جنونية وممتعة تجمع أشهر شخصيات شركة سيجا، حيث المركبات لديها القدرة على التحول التلقائي لتناسب القيادة على الأرض، في الجو، أو فوق الماء."
+            }, {
+                id: 29,
+                name: "Bioshock Infinite",
+                platform: "PS3",
+                description: "رحلة خيالية مذهلة إلى مدينة كولومبيا الطائرة في السماء لإنقاذ الفتاة 'إليزابيث' التي تمتلك قوى خارقة لفتح الفجوات الزمنية، في قصة عميقة وتصويب حماسي ممتاز."
+            }, {
+                id: 30,
+                name: "PES 13",
+                platform: "PS3",
+                description: "تعتبر من أفضل وأقوى أجزاء سلسلة بيس الكلاسيكية المحبوبة، وتمتاز بالتحكم الكامل والدقيق في الكرة والواقعية التكتيكية الممتازة التي يعشقها جميع اللاعبين."
+            }, {
+                id: 31,
+                name: "Call of Duty Ops 2",
+                platform: "PS3",
+                description: "مغامرة تصويب أيقونية تجمع بين أحداث الحرب الباردة في الستينيات وحرب مستقبلية متطورة تكنولوجياً، مع طور الزومبي الشهير واللعب الجماعي الأقوى على البلايستيشن 3."
+            }, {
+                id: 32,
+                name: "Middle Earth Shadow of Mordor",
+                platform: "PS3",
+                description: "خض معركة انتقام ملحمية في أرض موردور ضد جيوش ساورون، مستخدماً نظام النيمسيس المبتكر الذي يجعل الأعداء يتذكرون معاركهم السابقة معك ويطورون حصانات ضدك."
+            }, {
+                id: 33,
+                name: "GTA V",
+                platform: "PS3",
+                description: "النسخة الأصلية والكلاسيكية الأسطورية للعبة قراند 5 على جهاز البلايستيشن 3، تتبع قصة مايكل، فرانكلين، وتريفور في مدينة لوس سانتوس وعمليات السطو الكبرى."
+            }, {
+                id: 34,
+                name: "Assassin's Creed lV Black Flag",
+                platform: "PS3",
+                description: "أبحر في بحر الكاريبي كقرصان شجاع وأساسن متخفٍ، قد سفينتك الخاصة في معارك بحرية ملحمية، وابحث عن الكنوز المفقودة واستكشف جزر القراصنة المفتوحة."
+            }, {
+                id: 35,
+                name: "Rambo",
+                platform: "PS3",
+                description: "لعبة تصويب على مسار ثابت (On-rail) تعيد عيش اللحظات والأكشن القتالي الملحمي من أفلام رامبو الكلاسيكية الأيقونية باستخدام القوس المتفجر والرشاشات الثقيلة."
+            }, {
+                id: 36,
+                name: "Injustice",
+                platform: "PS3",
+                description: "لعبة قتال ممتازة ومثيرة تجمع أبطال دي سي كومكس (باتمان، سوبرمان، فلاش) في عالم موازٍ ومظلم تحول فيه سوبرمان إلى حاكم مستبد وظالم بعد كارثة كبرى."
+            }, {
+                id: 37,
+                name: "Minecraft PS3 Edition",
+                platform: "PS3",
+                description: "النسخة الكلاسيكية المحبوبة من لعبة البناء والاستكشاف اللامتناهية، ابنِ بيتك الخاص واجمع الموارد وحارب الكائنات الليلية المزعجة مع أصدقائك بشاشة منقسمة."
+            }, {
+                id: 38,
+                name: "The Amazing Spider Man 2",
+                platform: "PS3",
+                description: "تابع مغامرة الرجل العنكبوت في مواجهة أشرار نيويورك بفضل نظام قتال وتأرجح محسن وممتع، وقصة موسعة تمنحك تجربة بطولية ممتازة في شوارع المدينة المفتوحة."
+            }, {
+                id: 39,
+                name: "Battlefield Hardline",
+                platform: "PS3",
+                description: "تغيير ثوري ومثير في السلسلة يركز على معارك الشوارع والمطاردات الحماسية والسرقات المسلحة بين رجال الشرطة واللصوص في أطوار لعب جماعية سريعة ومبتكرة."
+            }, {
+                id: 40,
+                name: "Minecraft Story Mode",
+                platform: "PS3",
+                description: "مغامرة قصصية وتفاعلية مسلية في عالم ماينكرافت من استوديو Telltale، تعتمد بالكامل على قراراتك واختياراتك السريعة لتوجيه الأحداث ومصير الأصدقاء."
+            }, {
+                id: 41,
+                name: "PES 18",
+                platform: "PS3",
+                description: "تطوير متميز وممتع لسلسلة كرة القدم الكلاسيكية على البلايستيشن 3، بأسلوب لعب واقعي ومستقر وتحديثات ممتازة للملاعب والخطط التكتيكية والمباريات الودية."
+            }, {
+                id: 42,
+                name: "Ninja Gaiden 3",
+                platform: "PS3",
+                description: "لعبة تقطيع وأكشن نينجا بالغة الصعوبة والإثارة، تتحكم فيها بالنينجا الأسطوري 'ريو هايابوسا' لمواجهة منظمة إرهابية عالمية باستخدام السيف والمهارات السحرية."
+            }, {
+                id: 43,
+                name: "Tekken Tag Tournament 2",
+                platform: "PS3",
+                description: "قتال ثنائي حماسي يجمع أضخم تشكيلة من مقاتلي سلسلة تيكين الأسطوريين، يتيح لك اختيار مقاتلين والتبديل بينهما أثناء المعركة لتنفيذ حركات كومبو مشتركة ومدمرة."
+            }, {
+                id: 44,
+                name: "Blood Drive",
+                platform: "PS3",
+                description: "لعبة قتال سيارات دموية وعنيفة، تجمع بين مطاردات السيارات المسلحة بالرشاشات ومحاربة ودهس حشود الزومبي في ساحات مغلقة ومليئة بالفوضى والإثارة."
+            }, {
+                id: 45,
+                name: "Blur",
+                platform: "PS3",
+                description: "لعبة سباقات السيارات الأسطورية والمحبوبة، تمزج بشكل عبقري بين السيارات الحقيقية المرخصة وقدرات الأسلحة الخارقة (كالصدمات الكهربائية والألغام) لتعطيل المنافسين."
+            }, {
+                id: 46,
+                name: "Lord of Rings War in the North",
+                platform: "PS3",
+                description: "لعبة أكشن وتقييم أدوار (RPG) تعاونية ممتازة تدور في المناطق الشمالية لعالم سيد الخواتم الأسطوري، حيث تقاتل مع أصدقائك جيوش الظلام لحماية الأرض."
+            }, {
+                id: 47,
+                name: "Batman Arkham City",
+                platform: "PS3",
+                description: "تجول في سجن أرخام سيتي المفتوح والضخم لمواجهة الجوكر وجميع أشرار غوثام، في قصة تعتبر من أروع قصص باتمان بفضل نظام القتال الحر السلس والأدوات الذكية."
+            }, {
+                id: 48,
+                name: "Sonic Generations",
+                platform: "PS3",
+                description: "احتفالية رائعة بمرور 20 عاماً على سونيك، تجمع بين أسلوب اللعب الكلاسيكي ثنائي الأبعاد (سونيك القديم) والحديث ثلاثي الأبعاد (سونيك الجديد) في مراحل أيقونية محسنة."
+            }, {
+                id: 49,
+                name: "Cars 2",
+                platform: "PS3",
+                description: "انضم إلى أكاديمية التجسس الدولية مع برق بنزين وأصدقائه في سباقات مسلحة بالصواريخ والأسلحة وممتعة جداً ومستوحاة بالكامل من أحداث فيلم ديزني الشهير."
+            }, {
+                id: 50,
+                name: "Need for Speed Most Wanted",
+                platform: "PS3",
+                description: "مطاردات شوارع جنونية ومفتوحة ضد الشرطة في مدينة كيرهيفن، عليك التسابق وهزيمة قائمة أخطر 10 سائقين في المدينة لتستولي على سياراتهم وتصبح الرقم واحد."
+            }, {
+                id: 51,
+                name: "Dead Space 3",
+                platform: "PS3",
+                description: "رعب وخيال علمي في كوكب متجمد وموحش، قاتل كائنات النيكرومورف المرعبة برفقة آيزك كلارك بالتعاون المشترك مع صديقك لإنهاء تهديد العلامات الفضائية نهائياً."
+            }, {
+                id: 52,
+                name: "Need for Speed Rivals",
+                platform: "PS3",
+                description: "اختر جانبك المفضّل في مدينة ريدفيو؛ إما أن تكون شرطياً تستخدم التقنيات المتطورة لمطاردة واعتقال المخالفين، أو سائقاً متهوراً يهرب بسرعات جنونية لكسب الشهرة."
+            }, {
+                id: 53,
+                name: "Call of Duty Ghosts",
+                platform: "PS3",
+                description: "تروي قصة فرقة 'الأشباح' النخبوية والسرية التي تقاتل في حرب عصابات لحماية ما تبقى من الولايات المتحدة المدمرة ضد قوة عظمى غازية في قصة تصويب مشوقة."
+            }, {
+                id: 54,
+                name: "Lego Batman 3",
+                platform: "PS3",
+                description: "سافر إلى الفضاء الخارجي برفقة باتمان وأبطال فرقة العدالة لإحباط مخطط برينياك الشرير لتصغير وتدمير كوكب الأرض، بأسلوب ألعاب ليغو الفكاهي والمليء بالألغاز."
+            }, {
+                id: 55,
+                name: "Ninja Turtles Danger of the Ooze",
+                platform: "PS3",
+                description: "لعبة منصات وأكشن جانبية مسلية تجمع سلاحف النينجا الأربعة في شوارع وأنفاق نيويورك لإنقاذ المدينة وإحباط مخططات شريدر وجيش الكرانغ الفضائي."
+            }, {
+                id: 56,
+                name: "2K 15",
+                platform: "PS3",
+                description: "نسخة متميزة ومستقرة من سلسلة محاكاة دوري كرة السلة الأمريكي الاحترافية، تقدم أسلوب لعب ممتعاً وأطوار لعب منوعة لجميع عشاق هذه الرياضة."
+            }, {
+                id: 57,
+                name: "Assassin's Creed Rogue",
+                platform: "PS3",
+                description: "قصة فريدة ومثيرة تتحكم فيها بشخصية 'شاي كورماك' الذي ينقلب على طائفة الأساسنز بعد مأساة، ويتحول إلى صائد أساسنز شرس لصالح فرسان الهيكل (التمبلرز)."
+            }, {
+                id: 58,
+                name: "Call of Duty Advanced Warfare",
+                platform: "PS3",
+                description: "خض معارك المستقبل المتطور بالاستعانة بالدروع والبدلات الخارقة (Exoskeleton) التي تمنح الجندي قدرات قفز، تخفٍ، وحركة فائقة السرعة في قصة وتصويب حماسي."
+            }, {
+                id: 59,
+                name: "Call of Duty Ops 1",
+                platform: "PS3",
+                description: "عد إلى حقبة الحرب الباردة في الستينيات وعيش قصة مليئة بالغموض والمهمات السرية، التحقيقات، والاغتيالات التاريخية مع فرقة العمليات السوداء الشهيرة."
+            }, {
+                id: 60,
+                name: "Call of Duty Modern Warfare 2",
+                platform: "PS3",
+                description: "واحدة من أشهر وأنجح ألعاب التصويب في التاريخ، معارك عسكرية ملحمية ضد الإرهاب، وطور عمليات خاصة (Spec Ops) لا يُنسى عند اللعب الثنائي مع صديقك."
+            }, {
+                id: 61,
+                name: "Call of Duty Modern Warfare 3",
+                platform: "PS3",
+                description: "الفصل الختامي والملحمى لقصة الحرب العالمية الثالثة المدمرة، تتبع الكابتن برايس وفرقة العمليات في ملاحقة الإرهابي الروسي ماكاروف في عواصم العالم."
+            }, {
+                id: 62,
+                name: "Cars Race o Rama",
+                platform: "PS3",
+                description: "صمم وعدل سيارتك السباقية الخاصة ونافس في بطولات ومضامير متعددة لهزيمة خصمك اللدود ومساعديه في عالم ديزني سيارات الكرتوني الممتع والمناسب للأطفال."
+            }, {
+                id: 63,
+                name: "Lords of Shadow",
+                platform: "PS3",
+                description: "إعادة تخيل ممتازة وأسطورية لسلسلة كاسلفينيا الشهيرة، تتبع البطل غابرييل في رحلة أكشن وتقطيع ملحمية ومظلمة باستخدام سوط خارق لهزيمة أسياد الظلام والوحوش."
+            }, {
+                id: 64,
+                name: "Dirt 3",
+                platform: "PS3",
+                description: "لعبة سباقات رالي ممتازة جداً، توفر مسارات طينية وثلجية رائعة في مختلف دول العالم، وطور تحديات الجيمكانا الاستعراضي الشهير المليء بالحركات البهلوانية بالسيارات."
+            }, {
+                id: 65,
+                name: "Dragon Ball Z Burstlimit",
+                platform: "PS3",
+                description: "لعبة قتال سريعة وحماسية تعيد إحياء أشهر معارك أنمي دراغون بول زد الأيقونية (مثل قتال فريزا وسيل) برسوميات سل-شاديد سينمائية جميلة وأسلوب قتال مبسط."
+            }, {
+                id: 66,
+                name: "Driver San Francisco",
+                platform: "PS3",
+                description: "ميزة ابتكارية فريدة تسمى (Shift) تتيح لك الانتقال الفوري وعبر الروح بين جميع السيارات والشاحنات في شوارع سان فرانسيسكو المفتوحة أثناء خوض المطاردات والسباقات."
+            }, {
+                id: 67,
+                name: "The Evil Within",
+                platform: "PS3",
+                description: "لعبة رعر بقاء نفسي شديدة الرعب من تصميم المطور شينجي ميكامي، حارب للنجاة وحل الألغاز داخل عوالم كابوسية متغيرة ومشوهة مليئة بالوحوش ومرعبة العقل."
+            }, {
+                id: 68,
+                name: "F1 Race Stars",
+                platform: "PS3",
+                description: "سباقات فورمولا 1 ممتعة وفكاهية بطابع كرتوني وسيارات كارت صغيرة، تحتوي على أسلحة وقدرات خارقة ومسارات خيالية جنونية تناسب اللعب الجماعي العائلي المسلي."
+            }, {
+                id: 69,
+                name: "FIFA 19",
+                platform: "PS3",
+                description: "خض غمار متعة كرة القدم العالمية على البلايستيشن 3، تقدم اللعبة تحديثات ممتازة لأسلوب اللعب التكتيكي والفرق والبطولات الكلاسيكية المفضلة لدى الجميع."
+            }, {
+                id: 71,
+                name: "FIFA Street 3",
+                platform: "PS3",
+                description: "كرة قدم الشوارع الشهيرة بطابع رسومي كرتوني مميز جداً وطويل القامة، نفذ حركات مهارية خارقة واستعراضات جنونية في ملاعب وحواري حول العالم بهدف إهانة الخصم."
+            }, {
+                id: 72,
+                name: "Sega Sonic",
+                platform: "PS3",
+                description: "مجموعة سباقات ومغامرات كلاسيكية ممتعة تجمع القنفذ الأزرق السريع سونيك وأصدقائه المحبوبين في مراحل أيقونية وسريعة الإيقاع تضمن لك متعة أركيدية خالصة."
+            }, {
+                id: 73,
+                name: "God of War 3",
+                platform: "PS3",
+                description: "الفصل الختامي والملحمي لقصة اليونان على البلايستيشن 3، يقود كريتوس هجوماً تدميرياً عنيفاً على جبل أوليمبوس للانتقام من والده زيوس وجميع الآلهة الإغريقية القديمة."
+            }, {
+                id: 74,
+                name: "GTA lV",
+                platform: "PS3",
+                description: "قصة المهاجر الشرقي نيكو بيليك في مدينة ليبرتي سيتي الشبيهة بنيويورك، وعيشه للجانب المظلم من الحلم الأمريكي في عالم مفتوح واقعي للغاية وفيزياء سيارات ثقيلة."
+            }, {
+                id: 75,
+                name: "Green Lantern",
+                platform: "PS3",
+                description: "تحكم بالبطل الخارق الفانوس الأخضر (هال جوردان) واستخدم قوى الخاتم السحري لصنع أسلحة ودروع من الطاقة الخضراء ومحاربة جيوش الفضاء الأشرار لإنقاذ المجرة."
+            }, {
+                id: 76,
+                name: "Hitman HD",
+                platform: "PS3",
+                description: "حزمة أسطورية مجمعة تضم الأجزاء الكلاسيكية المحسنة بدقة عالية للعميل 47، لتنفيذ عمليات الاغتيال المعقدة بالتخفي، التسلل، والتنكر بذكاء شديد حول العالم."
+            }, {
+                id: 77,
+                name: "Ice Age 4",
+                platform: "PS3",
+                description: "لعبة مغامرات ومنصات فكاهية مقتبسة بالكامل من فيلم العصر الجليدي الأيقوني الرابع، مليئة بالتحديات والألعاب المصغرة الطريفة والمسلية والمناسبة جداً للأطفال."
+            }, {
+                id: 78,
+                name: "Infamous 2",
+                platform: "PS3",
+                description: "تابع قصة كول ماكغراث في مدينة نيو ماريه، طور قواك الكهربائية المدمرة بالكامل واختر عبر قراراتك أن تكون بطلاً محبوباً ومخلصاً للمدينة أو مدمراً شريراً لها."
+            }, {
+                id: 79,
+                name: "Iron Man 2",
+                platform: "PS3",
+                description: "ارتدِ بدلة توني ستارك الحديدية الطائرة واستخدم ترسانة أسلحتك الليزرية والصاروخية المتطورة لحماية العالم وتدمير جيوش الروبوتات الطائرة في معارك أكشن سريعة."
+            }, {
+                id: 80,
+                name: "Avatar",
+                platform: "PS3",
+                description: "استكشف كوكب باندورا الساحر المأخوذ من الفيلم الشهير، واختر بين القتال بجانب جيش البشر المستعمر أو الدفاع عن الطبيعة والقبيلة برفقة سكان النافي الزرق."
+            }, {
+                id: 81,
+                name: "Kung Panda 2",
+                platform: "PS3",
+                description: "لعبة أكشن ومغامرات كرتونية فكاهية ومسلية جداً، تتحكم فيها بالباندا المحبوب 'بو' وأصدقائه الخمسة الغاضبين لحماية وادي السلام باستخدام مهارات الكونغ فو."
+            }, {
+                id: 82,
+                name: "Lego Marvel Super Heroes",
+                platform: "PS3",
+                description: "اجمع وحرك أشهر أبطال مارفل (أيرون مان، ثور، سبايدرمان) لإنقاذ مدينة نيويورك من تحالف لوكي والأشرار بأسلوب ألعاب ليغو الفكاهي والمليء بالألغاز الممتعة."
+            }, {
+                id: 83,
+                name: "Little Big Planet Karting",
+                platform: "PS3",
+                description: "سباقات كارت ممتعة في عوالم الدمية ساكبوي، تتيح لك التسابق السريع وتمنحك أدوات ضخمة لتصميم وتعديل مساراتك وسياراتك الخاصة ومشاركتها مع اللاعبين أونلاين."
+            }, {
+                id: 84,
+                name: "Madagascar Kartz",
+                platform: "PS3",
+                description: "سباقات سيارات كارت مرحة وسريعة تضم جميع شخصيات الحيوانات المحبوبة من سلسلة أفلام مدغشقر الكرتونية في مسارات جنونية مليئة بالقفزات والخدع المسلية."
+            }, {
+                id: 85,
+                name: "Mafia 2",
+                platform: "PS3",
+                description: "عيش الحياة الكاملة للعصابات الإيطالية الكلاسيكية في الأربعينيات بمدينة إمباير باي، من خلال قصة درامية سينمائية متقنة تتبع مسيرة الشاب فيتو سكاليتّا في عالم الجريمة."
+            }, {
+                id: 86,
+                name: "Max Payne 3",
+                platform: "PS3",
+                description: "قصة سوداوية وإطلاق نار منمنم ومميز للغاية يعتمد على ميزة تباطؤ الوقت والغطس (Bullet Time) الأيقونية، بطلها المحقق السابق المكتئب ماكس بين في البرازيل."
+            }, {
+                id: 88,
+                name: "Metal Gear The Phantom Pain",
+                platform: "PS3",
+                description: "التحفة الأسطورية للتسلل والاختراق في عالم مفتوح، قد فرقة المرتزقة الخاصة بك (Mother Base) ونفذ مهماتك العسكرية بحرية تامة وبأعلى مستويات الذكاء الاصطناعي."
+            }, {
+                id: 89,
+                name: "Metal Slug 2",
+                platform: "PS3",
+                description: "نسخة البلايستيشن 3 من لعبة الأركيد وإطلاق النار الكلاسيكية الشهيرة في الوطن العربي بـ (حرب الخليج)، دمر الأعداء والمركبات بأسلوب ثنائي الأبعاد حماسي ومضحك."
+            }, {
+                id: 90,
+                name: "Metro Last Light",
+                platform: "PS3",
+                description: "رعب وتصويب من منظور الشخص الأول في أنفاق المترو المظلمة بروسيا بعد الكارثة النووية، حارب الوحوش المتحورة والشرسة والفصائل البشرية المعادية من أجل النجاة."
+            }, {
+                id: 91,
+                name: "Midnight Club",
+                platform: "PS3",
+                description: "واحدة من أروع سباقات الشوارع الليلية والمفتوحة بمدينة لوس أنجلوس، تمتاز بتعديل وتخصيص خارق وواسع للسيارات ومطاردات شرطة شرسة وسريعة للغاية."
+            }, {
+                id: 92,
+                name: "Mini Ninja",
+                platform: "PS3",
+                description: "مغامرة نينجا صغيرة ولطيفة جداً بطابع كرتوني ساحر، استخدم السحر القديم ومهارات السيف والتبديل بين الأصدقاء لإعادة السلام للقرية وهزيمة جيش الساموراي الشريرة."
+            }, {
+                id: 93,
+                name: "Mortal Kombat komplete Edition",
+                platform: "PS3",
+                description: "النسخة الكاملة والشاملة من لعبة القتال العنيفة والدموية الأسطورية التي تعيد سرد قصة الأجزاء الثلاثة الأولى بحركات قاضية (Fatality) دموية ومثيرة للغاية."
+            }, {
+                id: 94,
+                name: "MX vs ATV Alive",
+                platform: "PS3",
+                description: "سباقات دراجات نارية وسيارات دفع رباعي وعرة في مضامير ترابية وطينية حماسية، تعتمد بقوة على فيزياء الحركة الواقعية والتحكم المتقن في توازن السائق."
+            }, {
+                id: 95,
+                name: "Need for Speed the Run",
+                platform: "PS3",
+                description: "سباق ملحمي ومثير يمتد من مدينة سان فرانسيسكو إلى نيويورك، تخوضه تحت وطأة ملاحقة الشرطة الفيدرالية وعصابات المافيا الخطيرة في قصة أكشن فريدة."
+            }, {
+                id: 96,
+                name: "Ninja Gaiden Sigma 2",
+                platform: "PS3",
+                description: "تجربة أكشن وتقطيع نينجا فائقة السرعة والصعوبة بالسيوف والأسلحة الفتاكة، تقاتل فيها عشائر النينجا المعادية والشياطين الضخمة في مستويات حماسية ومتقنة."
+            }, {
+                id: 97,
+                name: "Painkiller Hell Damnation",
+                platform: "PS3",
+                description: "لعبة تصويب منظور شخص أول كلاسيكية، عنيفة وسريعة جداً، تقاتل فيها حشوداً هائلة وضخمة من وحوش وشياطين الجحيم في ساحات منوعة باستخدام أسلحة مدمرة."
+            }, {
+                id: 98,
+                name: "Prototype",
+                platform: "PS3",
+                description: "تحكم بـ أليكس ميرسر الذي يمتلك قدرات تحول بايولوجية خارقة ومرعبة، دمر جيوش الأعداء، التهم البشر لكسب ذاكرتهم، وتجول واقفز بحرية فوق ناطحات سحاب نيويورك."
+            }, {
+                id: 99,
+                name: "PES 19",
+                platform: "PS3",
+                description: "من آخر إصدارات سلسلة بيس الرائعة والمستقرة على هذا الجيل، تقدم محاكاة كرة قدم كلاسيكية ممتازة وأسلوب لعب سريع وممتع يعشقه ملاك البلايستيشن 3."
+            }, {
+                id: 100,
+                name: "Ratch Clank Future",
+                platform: "PS3",
+                description: "مغامرة خيال علمي ممتازة تأخذ السنور الذكي راتشيت وروبوته كلانك في رحلة فضائية لحل لغز ماضيه المفقود، باستخدام ترسانة ضخمة من الأسلحة الغريبة والمبتكرة."
+            }, {
+                id: 101,
+                name: "Rayman Origins",
+                platform: "PS3",
+                description: "مغامرة منصات ثنائية الأبعاد ساحرة ومبهجة الألوان، تدعم اللعب الجماعي حتى 4 لاعبين على نفس الشاشة، ومملوءة بالضحك والمستويات الذكية والموسيقى الرائعة."
+            }, {
+                id: 102,
+                name: "Red Faction",
+                platform: "PS3",
+                description: "لعبة أكشن وتصويب تتميز بفيزياء تدمير بيئية غير مسبوقة وقابلة للهدم بالكامل، استخدم المطارق الثقيلة والمتفجرات لهدم المباني والجسور بالكامل فوق رؤوس الأعداء."
+            }, {
+                id: 103,
+                name: "Resident Evil 6",
+                platform: "PS3",
+                description: "ملحمة رعب وأكشن تقدم أربع قصص متقاطعة ومختلفة لشخصيات السلسلة الشهيرة (مثل ليون وكريس) لمواجهة وباء فايروس سي الذي يهدد العالم بالتحول لزومبي."
+            }, {
+                id: 104,
+                name: "Rio",
+                platform: "PS3",
+                description: "لعبة حفلات ترفيهية تضم ألعاباً مصغرة ممتعة ومبهجة ومملوءة بالألوان مقتبسة من فيلم الأنيميشن ريو الأيقوني، مناسبة جداً ومسلية للعب الجماعي مع العائلة والأطفال."
+            }, {
+                id: 105,
+                name: "Sniper Elite 3",
+                platform: "PS3",
+                description: "خض حرب القناص السري في قارة إفريقيا خلال الحرب العالمية الثانية، مع فيزياء قنص واقعية تتأثر بالجاذبية والرياح، وكاميرا الأشعة السينية الشهيرة لتوثيق اللقطات."
+            }, {
+                id: 106,
+                name: "Spider Man 3",
+                platform: "PS3",
+                description: "دافع عن مدينة نيويورك المفتوحة كسبايدرمان، وارتدِ البدلة السوداء الفضائية التي تمنحك قوى عنيفة ومدمرة في لعبة عالم مفتوح مستوحاة بالكامل من الفيلم السينمائي الثالث."
+            }, {
+                id: 107,
+                name: "Spongebob Plankton Robotic",
+                platform: "PS3",
+                description: "انطلق مع سبونج بوب وبسيط وسلطع لإحباط مخطط بلانكتون الشرير الجديد الذي يقود جيشاً من الروبوتات لتدمير قاع الهامور وسرقة الوصفة السرية في لعبة منصات مسلية."
+            }, {
+                id: 108,
+                name: "The Incredible Hulk",
+                platform: "PS3",
+                description: "تحكم بالعملاق الأخضر الغاضب هولك ودمر مدينة نيويورك المفتوحة بالكامل، استخدم السيارات كقواذف والمباني كمطارق لتدمير جيوش الأعداء والروبوتات الضخمة."
+            }, {
+                id: 109,
+                name: "The Smurfs 2",
+                platform: "PS3",
+                description: "لعبة منصات ومغامرات كرتونية لطيفة وملونة مقتبسة من فيلم السنافر الثاني، سافر عبر عواصم العالم (مثل باريس) لإنقاذ سنفورة المخطوفة من شر غارغاميل."
+            }, {
+                id: 110,
+                name: "The House of the Dead 3",
+                platform: "PS3",
+                description: "لعبة التصويب الكلاسيكية الأركيدية الأيقونية من شركة سيجا، استخدم بندقيتك للقضاء السريع على جحافل الزومبي والمسوخ المرعبة المتدفقة نحوك قبل أن يقضوا عليك."
+            }, {
+                id: 111,
+                name: "Tomb Raider",
+                platform: "PS3",
+                description: "إعادة إحياء أسطورية تروي بداية مسيرة لارا كروفت الشابة، وكيف تحولت من فتاة رقيقة إلى ناجية ومقاتلة قوية ومكتشفة مقابر في جزيرة يابانية غامضة وموحشة."
+            }, {
+                id: 112,
+                name: "Top Spin 4",
+                platform: "PS3",
+                description: "تعتبر اللعبة الأفضل في محاكاة رياضة التنس الأرضي، بفضل أسلوب التحكم العميق والواقعي ومجموعة كبيرة من الملاعب والبطولات واللاعبين الأسطوريين المحترفين."
+            }, {
+                id: 113,
+                name: "Transformers Fall of Cybertron",
+                platform: "PS3",
+                description: "خض الحرب الأهلية الختامية والأخيرة بين الأوتوبوتس والديسبتيكونز على كوكبهم الآلي السايلبرترون في معارك آليين ملحمية وقصة خيال علمي ممتازة ومشوقة."
+            }, {
+                id: 114,
+                name: "Up",
+                platform: "PS3",
+                description: "عش مغامرة الجد العجوز كارل والطفل الكشاف راسل وكلبهم الناطق في البراري الشاسعة المستوحاة من فيلم ديزني الشهير، عبر حل الألغاز والتعاون الثنائي لتخطي العقبات."
+            }, {
+                id: 115,
+                name: "Virtua Tennis 4",
+                platform: "PS3",
+                description: "لعبة تنس ممتعة وسريعة الإيقاع من شركة سيجا، توفر طور مهنة مسلٍ جداً على شكل خريطة عالم، وألعاباً مصغرة مبتكرة ومضحكة لتدريب وتطوير مهارات لاعبك."
+            }, {
+                id: 116,
+                name: "Legends of Troy",
+                platform: "PS3",
+                description: "خض معارك تاريخية دموية وملحمية في حرب طروادة الأسطورية مستوحاة من الميثولوجيا الإغريقية، بأسلوب قتال حماسي (هيروز) يجعلك تقاتل مئات الجنود بسيفك."
+            }, {
+                id: 117,
+                name: "2K 17",
+                platform: "PS3",
+                description: "نسخة متميزة من سلسلة كرة السلة الأمريكية الرسمية تقدم طور قصة متكامل وتحسينات ممتازة للرسوميات والتحكم الكلاسيكي المستقر على جهاز البلايستيشن 3."
+            }, {
+                id: 118,
+                name: "2K 14",
+                platform: "PS3",
+                description: "محاكاة كرة السلة الأسطورية والمحبوبة التي قدمت أحد أفضل أطوار اللعب والتحكم المستقر والسلس لجميع محبي الرياضة والبطولات الاحترافية الاحتفالية."
+            }
+        ];
+
+        let cart = [];
+
+        // دالة عرض الألعاب وقراءة الصور محلياً تلقائياً بناءً على الـ id
+        function renderGames() {
+            const grid = document.getElementById('games-grid');
+            grid.innerHTML = '';
+
+            const searchQuery = document.getElementById('search-input').value.toLowerCase().trim();
+
+            const filteredGames = gamesList.filter(game => {
+                const matchesPlatform = (currentPlatform === 'All' || game.platform === currentPlatform);
+                const matchesSearch = game.name.toLowerCase().includes(searchQuery);
+                return matchesPlatform && matchesSearch;
+            });
+
+            if (filteredGames.length === 0) {
+                grid.innerHTML = '<p style="color: #888; padding: 20px;">لا توجد ألعاب تطابق بحثك حالياً.</p>';
+                return;
+            }
+
+            filteredGames.forEach(game => {
+                const tagClass = game.platform.toLowerCase();
+
+                // تحديد المسار المحلي التلقائي داخل فولدر images
+                const localImagePath = `images/${game.id}.jpg`;
+
+                const card = `
+                    <div class="card">
+                        <img src="${localImagePath}" alt="${game.name}" onerror="this.onerror=null; this.src='https://placehold.co/200x250/333/fff?text=${encodeURIComponent(game.name)}'">
+                        <h3 style="font-size: 16px; margin: 10px 0;">${game.name}</h3>
+                        <span class="tag ${tagClass}">${game.platform}</span>
+                        <div class="btn-container">
+                            <button class="add-btn" onclick="addToCart(${game.id})">أضف للسلة</button>
+                            <button class="details-btn" onclick="showDetails(${game.id})">تفاصيل</button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // دالة فتح نافذة التفاصيل وعرض البيانات
+        function showDetails(id) {
+            const game = gamesList.find(g => g.id === id);
+            if (game) {
+                const modal = document.getElementById('details-modal');
+                const modalImg = document.getElementById('modal-img');
+                const modalTitle = document.getElementById('modal-title');
+                const modalTag = document.getElementById('modal-tag');
+                const modalDesc = document.getElementById('modal-desc');
+                const modalAddBtn = document.getElementById('modal-add-btn');
+
+                // إعداد الصورة
+                modalImg.src = `images/${game.id}.jpg`;
+                modalImg.onerror = function() {
+                    this.onerror = null;
+                    this.src = `https://placehold.co/200x250/333/fff?text=${encodeURIComponent(game.name)}`;
+                };
+
+                // إعداد النصوص والبيانات
+                modalTitle.innerText = game.name;
+                modalTag.innerText = game.platform;
+                modalTag.className = `tag ${game.platform.toLowerCase()}`;
+                modalDesc.innerText = game.description || "لا تتوفر تفاصيل إضافية عن هذه اللعبة حالياً.";
+
+                // ربط زر الإضافة داخل المودال باللعبة
+                modalAddBtn.setAttribute('onclick', `addToCart(${game.id}); closeDetails();`);
+
+                // إظهار النافذة
+                modal.style.display = 'flex';
+            }
+        }
+
+        // دالة إغلاق نافذة التفاصيل
+        function closeDetails() {
+            document.getElementById('details-modal').style.display = 'none';
+        }
+
+        // إغلاق النافذة عند الضغط في أي مكان خارج المحتوى الأبيض
+        window.onclick = function(event) {
+            const modal = document.getElementById('details-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function filterGames(platform) {
+            currentPlatform = platform;
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + platform).classList.add('active');
+            renderGames();
+        }
+
+        function addToCart(id) {
+            const game = gamesList.find(g => g.id === id);
+            if (!cart.find(item => item.id === id)) {
+                cart.push(game);
+                updateCartUI();
+            } else {
+                alert("هذه اللعبة موجودة بالفعل في السلة!");
+            }
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartContainer = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                cartContainer.innerHTML = '<p style="color: #888;">السلة فارغة حالياً.</p>';
+                return;
+            }
+
+            cartContainer.innerHTML = '';
+            cart.forEach(item => {
+                cartContainer.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name} <small style="color:#aaa;">(${item.platform})</small></span>
+                        <span style="color: #ff4444; cursor: pointer; font-weight: bold;" onclick="removeFromCart(${item.id})">X</span>
+                    </div>
+                `;
+            });
+        }
+
+        function toggleAddress() {
+            const deliverySelected = document.querySelector('input[name="delivery"]:checked').value;
+            const addressContainer = document.getElementById('address-container');
+            if (deliverySelected === 'delivery') {
+                addressContainer.style.display = 'block';
+            } else {
+                addressContainer.style.display = 'none';
+            }
+        }
+
+        function sendToWhatsApp() {
+            if (cart.length === 0) {
+                alert("برجاء اختيار لعبة واحدة على الأقل لإتمام الطلب!");
+                return;
+            }
+
+            let message = "*مرحباً، أود طلب الألعاب التالية:*\n\n";
+            cart.forEach((item, index) => {
+                message += `${index + 1}- ${item.name} [${item.platform}]\n`;
+            });
+
+            const deliveryOption = document.querySelector('input[name="delivery"]:checked').value;
+
+            if (deliveryOption === 'pickup') {
+                message += "\n*طريقة الاستلام:* سأقوم بالاستلام من مقر المتجر 🏪";
+            } else {
+                const addressText = document.getElementById('address').value.trim();
+                if (addressText === "") {
+                    alert("برجاء كتابة العنوان بالتفصيل!");
+                    return;
+                }
+                message += `\n*طريقة الاستلام:* توصيل 🚚\n*العنوان:* ${addressText}`;
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`, '_blank');
+        }
+
+        function requestMissingGame() {
+            const message = "*مرحباً، كنت أبحث عن لعبة غير موجودة في المتجر وأريد أن أطلب توفيرها لي:* \n\n (اكتب اسم اللعبة هنا: )";
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`, '_blank');
+        }
+
+        // تشغيل أولي لعرض الألعاب بمجرد فتح الصفحة
+        renderGames();
+    </script>
+</body>
+
+</html>
