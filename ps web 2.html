@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        :root {
+         :root {
             --primary: #0070d1;
             --primary-hover: #0088ff;
             --primary-glow: rgba(0, 136, 255, 0.45);
@@ -35,7 +35,7 @@
             --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --transition-smooth: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
+        
         * {
             box-sizing: border-box;
         }
@@ -43,10 +43,7 @@
         body {
             font-family: 'Cairo', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
-            background-image: 
-                radial-gradient(circle at 15% 20%, rgba(0, 112, 209, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 85% 60%, rgba(112, 0, 255, 0.12) 0%, transparent 45%),
-                radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 15% 20%, rgba(0, 112, 209, 0.15) 0%, transparent 45%), radial-gradient(circle at 85% 60%, rgba(112, 0, 255, 0.12) 0%, transparent 45%), radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
@@ -54,8 +51,8 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
-
         /* رأس الصفحة Gaming Theme */
+        
         header {
             background: linear-gradient(135deg, rgba(7, 9, 14, 0.9) 0%, rgba(0, 50, 130, 0.6) 50%, rgba(112, 0, 255, 0.4) 100%);
             backdrop-filter: blur(16px);
@@ -66,7 +63,7 @@
             overflow: hidden;
             border-bottom: 1px solid rgba(0, 240, 255, 0.2);
         }
-
+        
         header::after {
             content: '';
             position: absolute;
@@ -98,8 +95,8 @@
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
             text-transform: uppercase;
         }
-        
         /* الحاوية الرئيسية */
+        
         .container {
             max-width: 1280px;
             margin: 35px auto;
@@ -113,7 +110,7 @@
             flex: 2;
             min-width: 320px;
         }
-
+        
         .section-title {
             font-size: 22px;
             font-weight: 800;
@@ -125,13 +122,14 @@
             color: #ffffff;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
-        
         /* أزرار الفلترة نيون */
+        
         .filter-buttons {
             display: flex;
             gap: 12px;
             margin-bottom: 20px;
             flex-wrap: wrap;
+            align-items: center;
         }
         
         .filter-btn {
@@ -147,6 +145,10 @@
             font-size: 14px;
             transition: var(--transition-smooth);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .filter-btn:hover {
@@ -163,8 +165,45 @@
             border-color: rgba(255, 255, 255, 0.4);
             box-shadow: 0 6px 25px var(--primary-glow), 0 0 15px rgba(112, 0, 255, 0.4);
         }
+        /* تنسيق وتأثير اللمعان المستمر لزر صيانة */
         
+        @keyframes constantGlow {
+            0% {
+                box-shadow: 0 0 8px var(--accent-cyan), 0 0 15px rgba(0, 240, 255, 0.4);
+                border-color: var(--accent-cyan);
+                filter: brightness(1);
+            }
+            50% {
+                box-shadow: 0 0 25px var(--accent-cyan), 0 0 40px rgba(0, 240, 255, 0.8), 0 0 15px var(--accent-purple);
+                border-color: #ffffff;
+                filter: brightness(1.25);
+            }
+            100% {
+                box-shadow: 0 0 8px var(--accent-cyan), 0 0 15px rgba(0, 240, 255, 0.4);
+                border-color: var(--accent-cyan);
+                filter: brightness(1);
+            }
+        }
+        
+        .glowing-maintenance-btn {
+            background: linear-gradient(135deg, #7000ff 0%, #0070d1 50%, #00f0ff 100%);
+            background-size: 200% 200%;
+            animation: constantGlow 2s infinite ease-in-out, gradientMove 4s infinite alternate;
+            color: #ffffff !important;
+            font-weight: 900;
+            border: 1px solid var(--accent-cyan);
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
         /* مربع البحث */
+        
         .search-container {
             margin-bottom: 25px;
         }
@@ -182,28 +221,28 @@
             box-sizing: border-box;
             outline: none;
             transition: var(--transition-smooth);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.4);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
         }
         
         #search-input::placeholder {
             color: var(--text-muted);
             opacity: 0.8;
         }
-
+        
         #search-input:focus {
             border-color: var(--accent-cyan);
             background: rgba(25, 35, 56, 0.85);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25), inset 0 1px 3px rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.3);
         }
-        
         /* شبكة البطاقات */
+        
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 22px;
         }
-        
         /* البطاقة 3D Glassmorphism مع Glowing Hover */
+        
         .card {
             background: var(--surface-card);
             backdrop-filter: blur(16px);
@@ -224,10 +263,7 @@
             transform: translateY(-8px) scale(1.02);
             background: var(--surface-hover);
             border-color: rgba(0, 240, 255, 0.4);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.6),
-                0 0 25px rgba(0, 112, 209, 0.3),
-                0 0 10px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 112, 209, 0.3), 0 0 10px rgba(0, 240, 255, 0.2);
         }
         
         .game-size-badge {
@@ -243,10 +279,10 @@
             font-weight: 800;
             border: 1px solid rgba(255, 200, 59, 0.4);
             z-index: 2;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
             letter-spacing: 0.5px;
         }
-
+        
         .card-img-wrapper {
             position: relative;
             border-radius: var(--radius-sm);
@@ -261,11 +297,11 @@
             object-fit: cover;
             transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
-
+        
         .card:hover img {
             transform: scale(1.08);
         }
-
+        
         .card-title {
             font-size: 15px;
             font-weight: 800;
@@ -310,7 +346,7 @@
         button {
             font-family: inherit;
         }
-
+        
         button.add-btn {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: white;
@@ -326,7 +362,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         button.add-btn::after {
             content: '';
             position: absolute;
@@ -334,12 +370,12 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transform: rotate(30deg);
             transition: 0.5s;
             opacity: 0;
         }
-
+        
         button.add-btn:hover::after {
             opacity: 1;
             transform: rotate(30deg) translate(20%, 20%);
@@ -370,8 +406,8 @@
             transform: translateY(-2px);
             color: #ffffff;
         }
-
         /* سلة المشتريات Gaming Glass Box */
+        
         .cart-section {
             flex: 1;
             min-width: 300px;
@@ -394,7 +430,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             animation: fadeIn 0.3s ease;
         }
-
+        
         .remove-icon {
             color: var(--danger-color);
             cursor: pointer;
@@ -404,7 +440,7 @@
             transition: var(--transition-fast);
             background: rgba(255, 59, 92, 0.1);
         }
-
+        
         .remove-icon:hover {
             background: rgba(255, 59, 92, 0.25);
             box-shadow: 0 0 10px rgba(255, 59, 92, 0.4);
@@ -425,11 +461,11 @@
             transition: var(--transition-fast);
             font-weight: 600;
         }
-
+        
         .delivery-options label:hover {
             color: var(--accent-cyan);
         }
-
+        
         .delivery-options input[type="radio"] {
             accent-color: var(--accent-cyan);
             width: 17px;
@@ -455,7 +491,7 @@
             outline: none;
             transition: var(--transition-fast);
         }
-
+        
         textarea:focus {
             border-color: var(--accent-cyan);
             box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
@@ -485,8 +521,8 @@
             box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
             filter: brightness(1.1);
         }
-        
         /* قسم طلب لعبة مفقودة */
+        
         .request-game-section {
             width: 100%;
             background: linear-gradient(135deg, rgba(19, 26, 42, 0.8) 0%, rgba(28, 38, 61, 0.9) 100%);
@@ -517,8 +553,8 @@
             display: inline-flex;
             margin: 0 auto;
         }
-        
         /* النافذة المنبثقة (Modal) السريعة والنقية */
+        
         .modal {
             display: none;
             position: fixed;
@@ -556,8 +592,8 @@
             object-fit: cover;
             border-radius: var(--radius-sm);
             background-color: #0c0f17;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .modal-content h2 {
@@ -601,21 +637,35 @@
             transform: rotate(90deg);
             box-shadow: 0 0 12px rgba(255, 59, 92, 0.5);
         }
-
         /* Keyframes للانتقالات النيون */
+        
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
-
+        
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(25px) scale(0.96); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
-
+        
         @keyframes pulseGlow {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 0.5;
+            }
+            100% {
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -635,6 +685,7 @@
                 <button id="btn-All" class="filter-btn active" onclick="filterGames('All')">الكل</button>
                 <button id="btn-PS4" class="filter-btn" onclick="filterGames('PS4')">ألعاب PS4</button>
                 <button id="btn-PS3" class="filter-btn" onclick="filterGames('PS3')">ألعاب PS3</button>
+                <a href="https://gallaahmed1-ops.github.io/PS-TECH-/" target="_blank" class="filter-btn glowing-maintenance-btn">🔧 صيانة</a>
             </div>
 
             <div class="search-container">
@@ -837,7 +888,7 @@
                 name: "marvel spider man",
                 platform: "PS4",
                 size: "67 GB",
-                description: "عش التجربة الكاملة لكونك الرجل العنكبوت في مدينة نيويورك المفتوحة والمذهلة، مع آليات تأرجح وحركة سلسة للغاية ونظام قتال ممتع يواجه فيه أشهر أشرار الكوميكس."
+                description: "عش التجربة الكاملة لكونك الرجل العنكبوت في مدينة نيويورك المفتوحة والمذهلة، مع آليات تأرجح والحركة سلسة للغاية ونظام قتال ممتع يواجه فيه أشهر أشرار الكوميكس."
             }, {
                 id: 25,
                 name: "assassins creed mirage",
@@ -1185,7 +1236,7 @@
                 name: "far cry 6",
                 platform: "PS4",
                 size: "35 GB",
-                description: "انضم للثورة المسلحة في جزيرة يارا الاستوائية المفتوحة للإطاحة بالديكتاتور أنطون كاستيلو، مستخدماً ترسانة ضخمة ومبتكرة من الأسلحة المصنوعة يدوياً وحيوانات مروضة."
+                description: "انضم للثورة المسلحة في جزيرة يارا الاستوائية المفتوحة للإطاحة بالديكتاتور أنطون كاستيلو، مستخدماً ترسانة ضخمة ومبتكرة من الأسلحة المصنوعة يدوياً الحيوانات مروضة."
             }, {
                 id: 83,
                 name: "grip",
@@ -2386,7 +2437,9 @@
         function filterGames(platform) {
             currentPlatform = platform;
             const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            buttons.forEach(btn => {
+                if (btn.id.startsWith('btn-')) btn.classList.remove('active');
+            });
             const activeBtn = document.getElementById('btn-' + platform);
             if (activeBtn) activeBtn.classList.add('active');
             renderGames();
