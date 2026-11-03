@@ -19,8 +19,8 @@
             --accent-pink: #ff0078;
             --bg: #07090e;
             --surface: #0f1420;
-            --surface-card: rgba(19, 26, 42, 0.75);
-            --surface-hover: rgba(28, 38, 61, 0.85);
+            --surface-card: rgba(19, 26, 42, 0.85);
+            --surface-hover: rgba(28, 38, 61, 0.95);
             --text-main: #f5f8fc;
             --text-muted: #8e9bb0;
             --accent-gold: #ffc83b;
@@ -32,47 +32,117 @@
             --radius-sm: 10px;
             --radius-md: 16px;
             --radius-lg: 24px;
-            --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-smooth: 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+            --transition-fast: 0.2s ease;
+            --transition-smooth: 0.3s ease;
         }
         
         * {
             box-sizing: border-box;
         }
         
+        @property --border-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        
         body {
             font-family: 'Cairo', system-ui, -apple-system, sans-serif;
             background-color: var(--bg);
-            background-image: radial-gradient(circle at 15% 20%, rgba(0, 112, 209, 0.15) 0%, transparent 45%), radial-gradient(circle at 85% 60%, rgba(112, 0, 255, 0.12) 0%, transparent 45%), radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 15% 20%, rgba(0, 112, 209, 0.15) 0%, transparent 50%), radial-gradient(circle at 85% 80%, rgba(112, 0, 255, 0.1) 0%, transparent 50%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg font-family='sans-serif' font-weight='bold'%3E%3Ctext x='20' y='35' font-size='13' fill='%2300f0ff' fill-opacity='0.2'%3E▲%3C/text%3E%3Ctext x='90' y='35' font-size='13' fill='%23ff0078' fill-opacity='0.2'%3E◯%3C/text%3E%3Ctext x='20' y='105' font-size='13' fill='%230070d1' fill-opacity='0.2'%3E✕%3C/text%3E%3Ctext x='90' y='105' font-size='13' fill='%23ffc83b' fill-opacity='0.2'%3E□%3C/text%3E%3C/g%3E%3C/svg%3E");
             background-attachment: fixed;
             color: var(--text-main);
             margin: 0;
             padding: 0;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            position: relative;
+            min-height: 100vh;
+        }
+        /* إطار النيون المتحرك الخفيف والسريع */
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 99999;
+            padding: 2px;
+            border-radius: 0;
+            background: conic-gradient( from var(--border-angle), #00f0ff 0%, #0070d1 25%, transparent 50%, #0070d1 75%, #00f0ff 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBorder 4s linear infinite;
+        }
+        
+        @keyframes rotateBorder {
+            to {
+                --border-angle: 360deg;
+            }
+        }
+        /* شريط الإعلانات المتحرك العلوي (بالاتجاه المعاكس) */
+        
+        .ticker-bar {
+            background: linear-gradient(90deg, #0f1420, #0070d1, #7000ff, #0f1420);
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+            color: #ffffff;
+            padding: 8px 0;
+            font-size: 13px;
+            font-weight: 800;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .ticker-content {
+            display: inline-block;
+            animation: marqueeReverse 40s linear infinite;
+            padding-right: 100%;
+        }
+        
+        .ticker-content span {
+            margin-right: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        @keyframes marqueeReverse {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+            100% {
+                transform: translate3d(100%, 0, 0);
+            }
         }
         /* رأس الصفحة Gaming Theme */
         
         header {
-            background: linear-gradient(135deg, rgba(7, 9, 14, 0.9) 0%, rgba(0, 50, 130, 0.6) 50%, rgba(112, 0, 255, 0.4) 100%);
-            backdrop-filter: blur(16px);
-            padding: 40px 20px;
+            background: linear-gradient(135deg, rgba(7, 9, 14, 0.95) 0%, rgba(0, 50, 130, 0.7) 100%);
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(0, 240, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
             position: relative;
-            overflow: hidden;
             border-bottom: 1px solid rgba(0, 240, 255, 0.2);
-        }
-        
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-purple), transparent);
-            animation: pulseGlow 3s infinite alternate;
         }
         
         h1 {
@@ -83,7 +153,6 @@
             background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 70%, #9bc5ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 112, 209, 0.6);
         }
         
         .creator {
@@ -92,7 +161,6 @@
             color: var(--accent-cyan);
             font-weight: 700;
             letter-spacing: 1px;
-            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
             text-transform: uppercase;
         }
         /* الحاوية الرئيسية */
@@ -120,31 +188,36 @@
             align-items: center;
             gap: 10px;
             color: #ffffff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
-        /* أزرار الفلترة نيون */
+        /* أدوات الفلترة والترتيب */
+        
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
         
         .filter-buttons {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
             flex-wrap: wrap;
             align-items: center;
         }
         
         .filter-btn {
-            background: rgba(19, 26, 42, 0.7);
-            backdrop-filter: blur(10px);
+            background: rgba(19, 26, 42, 0.9);
             color: var(--text-muted);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 10px 24px;
+            padding: 10px 18px;
             border-radius: var(--radius-md);
             cursor: pointer;
             font-weight: 700;
             font-family: inherit;
             font-size: 14px;
             transition: var(--transition-smooth);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -152,55 +225,96 @@
         }
         
         .filter-btn:hover {
-            background: rgba(28, 38, 61, 0.9);
+            background: rgba(28, 38, 61, 1);
             color: #ffffff;
             border-color: rgba(0, 240, 255, 0.4);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 240, 255, 0.15);
         }
         
         .filter-btn.active {
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: #ffffff;
             border-color: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 6px 25px var(--primary-glow), 0 0 15px rgba(112, 0, 255, 0.4);
+            box-shadow: 0 4px 20px var(--primary-glow);
         }
-        /* تنسيق وتأثير اللمعان المستمر لزر صيانة */
+        /* زر العروض المميز باللون الأحمر مع شارة الخصومات */
         
-        @keyframes constantGlow {
-            0% {
-                box-shadow: 0 0 8px var(--accent-cyan), 0 0 15px rgba(0, 240, 255, 0.4);
-                border-color: var(--accent-cyan);
-                filter: brightness(1);
+        .offers-btn {
+            background: linear-gradient(135deg, #ff3b5c 0%, #b3002d 100%) !important;
+            color: #ffffff !important;
+            font-weight: 900 !important;
+            border: 1px solid #ff0043 !important;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.4);
+        }
+        
+        .offers-btn:hover {
+            box-shadow: 0 6px 22px rgba(255, 59, 92, 0.7);
+            border-color: #ffffff !important;
+        }
+        
+        .offer-badge {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background: var(--accent-gold);
+            color: #07090e;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid #ffffff;
+            animation: pulseBadge 1.5s infinite ease-in-out;
+        }
+        
+        @keyframes pulseBadge {
+            0%,
+            100% {
+                transform: scale(1);
             }
             50% {
-                box-shadow: 0 0 25px var(--accent-cyan), 0 0 40px rgba(0, 240, 255, 0.8), 0 0 15px var(--accent-purple);
-                border-color: #ffffff;
-                filter: brightness(1.25);
+                transform: scale(1.1);
             }
+        }
+        /* قائمة الترتيب المنسدلة */
+        
+        .sort-select {
+            background: rgba(19, 26, 42, 0.9);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 16px;
+            border-radius: var(--radius-md);
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+            outline: none;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .sort-select:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+        
+        @keyframes constantGlow {
+            0%,
             100% {
-                box-shadow: 0 0 8px var(--accent-cyan), 0 0 15px rgba(0, 240, 255, 0.4);
+                box-shadow: 0 0 10px var(--accent-cyan);
                 border-color: var(--accent-cyan);
-                filter: brightness(1);
+            }
+            50% {
+                box-shadow: 0 0 20px var(--accent-cyan);
+                border-color: #ffffff;
             }
         }
         
         .glowing-maintenance-btn {
             background: linear-gradient(135deg, #7000ff 0%, #0070d1 50%, #00f0ff 100%);
-            background-size: 200% 200%;
-            animation: constantGlow 2s infinite ease-in-out, gradientMove 4s infinite alternate;
+            animation: constantGlow 2s infinite ease-in-out;
             color: #ffffff !important;
             font-weight: 900;
             border: 1px solid var(--accent-cyan);
-        }
-        
-        @keyframes gradientMove {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
         }
         /* مربع البحث */
         
@@ -211,28 +325,20 @@
         #search-input {
             width: 100%;
             padding: 15px 22px;
-            background: rgba(19, 26, 42, 0.6);
-            backdrop-filter: blur(12px);
+            background: rgba(19, 26, 42, 0.8);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--radius-md);
             font-size: 15px;
             font-family: inherit;
-            box-sizing: border-box;
             outline: none;
             transition: var(--transition-smooth);
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
-        }
-        
-        #search-input::placeholder {
-            color: var(--text-muted);
-            opacity: 0.8;
         }
         
         #search-input:focus {
             border-color: var(--accent-cyan);
-            background: rgba(25, 35, 56, 0.85);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.3);
+            background: rgba(25, 35, 56, 1);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
         }
         /* شبكة البطاقات */
         
@@ -241,18 +347,16 @@
             grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
             gap: 22px;
         }
-        /* البطاقة 3D Glassmorphism مع Glowing Hover */
         
         .card {
             background: var(--surface-card);
-            backdrop-filter: blur(16px);
             border-radius: var(--radius-md);
             padding: 14px;
             text-align: center;
             transition: var(--transition-smooth);
             position: relative;
             border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -260,18 +364,17 @@
         }
         
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-5px);
             background: var(--surface-hover);
             border-color: rgba(0, 240, 255, 0.4);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(0, 112, 209, 0.3), 0 0 10px rgba(0, 240, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(0, 112, 209, 0.3);
         }
         
         .game-size-badge {
             position: absolute;
             top: 22px;
             right: 22px;
-            background: rgba(7, 9, 14, 0.85);
-            backdrop-filter: blur(10px);
+            background: rgba(7, 9, 14, 0.9);
             color: var(--accent-gold);
             padding: 4px 11px;
             border-radius: var(--radius-sm);
@@ -279,8 +382,52 @@
             font-weight: 800;
             border: 1px solid rgba(255, 200, 59, 0.4);
             z-index: 2;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-            letter-spacing: 0.5px;
+        }
+        /* شارة السعر على البطاقة */
+        
+        .game-price-badge {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 5px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 800;
+            margin: 6px 0 10px 0;
+            display: inline-block;
+        }
+        /* زر المفضلة (القلب) على البطاقة */
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 22px;
+            left: 22px;
+            background: rgba(7, 9, 14, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #8e9bb0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 2;
+            transition: var(--transition-fast);
+            font-size: 14px;
+        }
+        
+        .wishlist-btn:hover {
+            background: rgba(255, 0, 120, 0.2);
+            color: var(--accent-pink);
+            border-color: var(--accent-pink);
+        }
+        
+        .wishlist-btn.active {
+            background: rgba(255, 0, 120, 0.3);
+            color: var(--accent-pink);
+            border-color: var(--accent-pink);
+            box-shadow: 0 0 10px rgba(255, 0, 120, 0.4);
         }
         
         .card-img-wrapper {
@@ -288,24 +435,24 @@
             border-radius: var(--radius-sm);
             overflow: hidden;
             background-color: #0c0f17;
-            height: 260px;
+            height: 240px;
         }
         
         .card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: transform 0.4s ease;
         }
         
         .card:hover img {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
         
         .card-title {
             font-size: 15px;
             font-weight: 800;
-            margin: 14px 0 6px 0;
+            margin: 12px 0 4px 0;
             color: var(--text-main);
             white-space: nowrap;
             overflow: hidden;
@@ -314,27 +461,30 @@
         
         .tag {
             display: inline-block;
-            padding: 4px 12px;
+            padding: 3px 10px;
             border-radius: var(--radius-sm);
             font-size: 11px;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 6px;
             align-self: center;
-            letter-spacing: 0.5px;
         }
         
         .tag.ps4 {
-            background: linear-gradient(135deg, rgba(0, 112, 209, 0.3) 0%, rgba(0, 240, 255, 0.2) 100%);
+            background: rgba(0, 112, 209, 0.2);
             color: var(--accent-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.5);
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+            border: 1px solid rgba(0, 240, 255, 0.4);
         }
         
         .tag.ps3 {
-            background: linear-gradient(135deg, rgba(112, 0, 255, 0.3) 0%, rgba(255, 0, 120, 0.2) 100%);
+            background: rgba(112, 0, 255, 0.2);
             color: #d8b4fe;
-            border: 1px solid rgba(112, 0, 255, 0.5);
-            box-shadow: 0 0 10px rgba(112, 0, 255, 0.2);
+            border: 1px solid rgba(112, 0, 255, 0.4);
+        }
+        
+        .tag.offer {
+            background: rgba(255, 59, 92, 0.2);
+            color: #ff3b5c;
+            border: 1px solid rgba(255, 59, 92, 0.4);
         }
         
         .btn-container {
@@ -351,39 +501,18 @@
             background: linear-gradient(135deg, var(--primary) 0%, var(--accent-purple) 100%);
             color: white;
             border: none;
-            padding: 11px;
+            padding: 10px;
             border-radius: var(--radius-sm);
             cursor: pointer;
             flex: 1.2;
             font-weight: 800;
             font-size: 13px;
             transition: var(--transition-fast);
-            box-shadow: 0 4px 15px rgba(0, 112, 209, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        button.add-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transform: rotate(30deg);
-            transition: 0.5s;
-            opacity: 0;
-        }
-        
-        button.add-btn:hover::after {
-            opacity: 1;
-            transform: rotate(30deg) translate(20%, 20%);
+            box-shadow: 0 4px 12px rgba(0, 112, 209, 0.3);
         }
         
         button.add-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--primary-glow), 0 0 15px rgba(112, 0, 255, 0.4);
             filter: brightness(1.1);
         }
         
@@ -391,7 +520,7 @@
             background: rgba(255, 255, 255, 0.05);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 11px;
+            padding: 10px;
             border-radius: var(--radius-sm);
             cursor: pointer;
             flex: 0.8;
@@ -403,23 +532,20 @@
         button.details-btn:hover {
             background: rgba(255, 255, 255, 0.15);
             border-color: rgba(0, 240, 255, 0.4);
-            transform: translateY(-2px);
-            color: #ffffff;
         }
-        /* سلة المشتريات Gaming Glass Box */
+        /* سلة المشتريات */
         
         .cart-section {
             flex: 1;
             min-width: 300px;
             background: var(--surface-card);
-            backdrop-filter: blur(16px);
             padding: 26px;
             border-radius: var(--radius-md);
             height: fit-content;
             position: sticky;
             top: 25px;
             border: 1px solid rgba(0, 240, 255, 0.15);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 112, 209, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
         
         .cart-item {
@@ -428,7 +554,17 @@
             align-items: center;
             padding: 12px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            animation: fadeIn 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--accent-gold);
         }
         
         .remove-icon {
@@ -437,13 +573,12 @@
             font-weight: 800;
             padding: 4px 8px;
             border-radius: 6px;
-            transition: var(--transition-fast);
             background: rgba(255, 59, 92, 0.1);
+            transition: var(--transition-fast);
         }
         
         .remove-icon:hover {
             background: rgba(255, 59, 92, 0.25);
-            box-shadow: 0 0 10px rgba(255, 59, 92, 0.4);
         }
         
         .delivery-options {
@@ -457,13 +592,7 @@
             margin-bottom: 12px;
             cursor: pointer;
             font-size: 14px;
-            color: var(--text-main);
-            transition: var(--transition-fast);
             font-weight: 600;
-        }
-        
-        .delivery-options label:hover {
-            color: var(--accent-cyan);
         }
         
         .delivery-options input[type="radio"] {
@@ -475,26 +604,22 @@
         #address-container {
             display: none;
             margin-top: 15px;
-            animation: fadeIn 0.3s ease;
         }
         
         textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(7, 9, 14, 0.7);
+            background: rgba(7, 9, 14, 0.9);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: var(--radius-sm);
             resize: vertical;
-            box-sizing: border-box;
             font-family: inherit;
             outline: none;
-            transition: var(--transition-fast);
         }
         
         textarea:focus {
             border-color: var(--accent-cyan);
-            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
         }
         
         .whatsapp-btn {
@@ -509,7 +634,7 @@
             margin-top: 15px;
             font-size: 15px;
             transition: var(--transition-smooth);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -518,22 +643,17 @@
         
         .whatsapp-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.5);
             filter: brightness(1.1);
         }
-        /* قسم طلب لعبة مفقودة */
         
         .request-game-section {
             width: 100%;
-            background: linear-gradient(135deg, rgba(19, 26, 42, 0.8) 0%, rgba(28, 38, 61, 0.9) 100%);
-            backdrop-filter: blur(16px);
+            background: linear-gradient(135deg, rgba(19, 26, 42, 0.9) 0%, rgba(28, 38, 61, 0.95) 100%);
             padding: 35px 25px;
             border-radius: var(--radius-md);
             text-align: center;
             margin-top: 35px;
             border: 1px solid rgba(0, 240, 255, 0.2);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), 0 0 20px rgba(112, 0, 255, 0.15);
-            box-sizing: border-box;
         }
         
         .request-game-section p {
@@ -542,8 +662,6 @@
             margin-bottom: 20px;
             font-weight: 800;
             color: var(--accent-gold);
-            line-height: 1.5;
-            text-shadow: 0 0 10px rgba(255, 200, 59, 0.3);
         }
         
         .request-btn {
@@ -553,7 +671,7 @@
             display: inline-flex;
             margin: 0 auto;
         }
-        /* النافذة المنبثقة (Modal) السريعة والنقية */
+        /* النافذة المنبثقة (Modal) */
         
         .modal {
             display: none;
@@ -563,27 +681,22 @@
             width: 100%;
             height: 100%;
             background-color: rgba(7, 9, 14, 0.85);
-            backdrop-filter: blur(12px);
             z-index: 9999;
             justify-content: center;
             align-items: center;
             padding: 20px;
-            box-sizing: border-box;
-            animation: fadeIn 0.25s ease;
         }
         
         .modal-content {
             background: var(--surface-card);
-            backdrop-filter: blur(20px);
             padding: 32px;
             border-radius: var(--radius-lg);
             max-width: 520px;
             width: 100%;
             text-align: center;
             position: relative;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 112, 209, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(0, 240, 255, 0.25);
-            animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
         .modal-content img {
@@ -592,8 +705,6 @@
             object-fit: cover;
             border-radius: var(--radius-sm);
             background-color: #0c0f17;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .modal-content h2 {
@@ -609,7 +720,11 @@
             font-size: 14px;
             margin: 16px 0 24px 0;
             text-align: justify;
-            text-justify: inter-word;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
         }
         
         .close-btn {
@@ -635,36 +750,53 @@
             background: var(--danger-color);
             border-color: var(--danger-color);
             transform: rotate(90deg);
-            box-shadow: 0 0 12px rgba(255, 59, 92, 0.5);
         }
-        /* Keyframes للانتقالات النيون */
+        /* تنسيق التنبيهات العصرية (Toast Notifications) */
         
-        @keyframes fadeIn {
+        #toast-container {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            z-index: 100000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .toast {
+            background: rgba(15, 20, 32, 0.95);
+            backdrop-filter: blur(10px);
+            color: #ffffff;
+            padding: 12px 20px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.3);
+            font-size: 14px;
+            font-weight: 700;
+            animation: slideInLeft 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @keyframes slideInLeft {
             from {
                 opacity: 0;
+                transform: translateX(-30px);
             }
             to {
                 opacity: 1;
+                transform: translateX(0);
             }
         }
         
-        @keyframes slideUp {
+        @keyframes fadeOut {
             from {
-                opacity: 0;
-                transform: translateY(25px) scale(0.96);
+                opacity: 1;
             }
             to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-        
-        @keyframes pulseGlow {
-            0% {
-                opacity: 0.5;
-            }
-            100% {
-                opacity: 1;
+                opacity: 0;
+                transform: translateY(10px);
             }
         }
     </style>
@@ -672,24 +804,62 @@
 
 <body>
 
+    <!-- شريط الإعلانات المتحرك العلوي (بالاتجاه المعاكس) -->
+    <div class="ticker-bar">
+        <div class="ticker-content">
+            <span>🔥 أهلاً بكم في مكتبة ألعاب بلايستيشن (PS Store)</span>
+            <span>⚡ أقوى عروض وتعديلات ألعاب PS4 و PS3 بأفضل الأسعار</span>
+            <span>💬 تواصل معنا مباشرة عبر واتساب لتنفيذ طلبك فوراً</span>
+            <span>⭐ شارك ألعابك المفضلة بسهولة مع أصدقائك عبر روابط مباشرة</span>
+            <span>🏷️ عروض وخصومات حصرية على الألعاب المميزة</span>
+            <span>🎮 اكتشف أحدث الألعاب والإصدارات الجديدة أولاً بأول</span>
+            <span>📦 استلام سريع من مقر المتجر أو توصيل مباشر إلى باب منزلك</span>
+            <span>💡 صيانة فورية لدراعات و اجهزة ps3 ps4 ps5</span>
+            <span>🎁 POP 01022989335 -------- DOK 01002739812 </span>
+            <span>💡 created and designed by ahmed ehab 01121347052</span>
+        </div>
+    </div>
+
     <header>
         <h1>🎮 PS STORE</h1>
         <p class="creator">(created by ahmed ehab)</p>
     </header>
 
+    <!-- حاوية التنبيهات العصرية -->
+    <div id="toast-container"></div>
+
     <div class="container">
         <div class="games-section">
-            <h2 class="section-title">🕹️ قائمة الألعاب</h2>
+            <h2 id="section-main-title" class="section-title">🕹️ قائمة الألعاب</h2>
 
-            <div class="filter-buttons">
-                <button id="btn-All" class="filter-btn active" onclick="filterGames('All')">الكل</button>
-                <button id="btn-PS4" class="filter-btn" onclick="filterGames('PS4')">ألعاب PS4</button>
-                <button id="btn-PS3" class="filter-btn" onclick="filterGames('PS3')">ألعاب PS3</button>
-                <a href="https://gallaahmed1-ops.github.io/PS-TECH-/" target="_blank" class="filter-btn glowing-maintenance-btn">🔧 صيانة</a>
+            <div class="controls-bar">
+                <div class="filter-buttons">
+                    <button id="btn-All" class="filter-btn active" onclick="filterGames('All')">الكل</button>
+                    <button id="btn-PS4" class="filter-btn" onclick="filterGames('PS4')">ألعاب PS4</button>
+                    <button id="btn-PS3" class="filter-btn" onclick="filterGames('PS3')">ألعاب PS3</button>
+                    <button id="btn-Favorites" class="filter-btn" onclick="filterGames('Favorites')">⭐ المفضلة</button>
+
+                    <!-- زر عروض باللون الأحمر وشارة الخصومات -->
+                    <button id="btn-Offers" class="filter-btn offers-btn" onclick="filterGames('Offers')">
+                        <span class="offer-badge">خصومات 🔥</span>
+                        عروض 🏷️
+                    </button>
+
+                    <a href="https://gallaahmed1-ops.github.io/PS-TECH-/" target="_blank" class="filter-btn glowing-maintenance-btn">🔧 صيانة</a>
+                </div>
+
+                <!-- قائمة الترتيب المنسدلة -->
+                <select id="sort-select" class="sort-select" onchange="renderGames()">
+                    <option value="default">الترتيب الافتراضي</option>
+                    <option value="name-asc">اسم اللعبة (أ - ي)</option>
+                    <option value="name-desc">اسم اللعبة (ي - أ)</option>
+                    <option value="price-asc">السعر (الأرخص أولاً)</option>
+                    <option value="price-desc">السعر (الأغلى أولاً)</option>
+                </select>
             </div>
 
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="🔍 ابحث عن اسم اللعبة هنا..." oninput="renderGames()">
+            <div class="search-container" id="search-box-wrapper">
+                <input type="text" id="search-input" placeholder="🔍 ابحث عن اسم اللعبة أو العرض هنا..." oninput="renderGames()">
             </div>
 
             <div class="grid" id="games-grid">
@@ -701,6 +871,8 @@
             <div id="cart-items">
                 <p style="color: var(--text-muted); font-size: 14px;">السلة فارغة حالياً.</p>
             </div>
+
+            <div id="cart-total-container"></div>
 
             <hr style="border: 0; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 20px 0;">
 
@@ -730,945 +902,983 @@
             <button class="close-btn" onclick="closeDetails()">✕</button>
             <img id="modal-img" src="" alt="">
             <h2 id="modal-title"></h2>
-            <div style="margin: 8px 0; display: flex; justify-content: center; gap: 8px; align-items: center;">
+            <div style="margin: 8px 0; display: flex; justify-content: center; gap: 8px; align-items: center; flex-wrap: wrap;">
                 <span id="modal-tag" class="tag"></span>
                 <span id="modal-size" style="background: rgba(255, 200, 59, 0.15); color: var(--accent-gold); border: 1px solid rgba(255, 200, 59, 0.3); padding: 3px 10px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;"></span>
+                <span id="modal-price" style="background: rgba(0, 240, 255, 0.15); color: var(--accent-cyan); border: 1px solid rgba(0, 240, 255, 0.3); padding: 3px 10px; border-radius: var(--radius-sm); font-size: 11px; font-weight: 700;"></span>
             </div>
             <p id="modal-desc"></p>
-            <button class="add-btn" id="modal-add-btn" style="width: 100%; padding: 12px;">أضف للسلة</button>
+            <div class="modal-actions">
+                <button class="add-btn" id="modal-add-btn" style="flex: 2; padding: 12px;">أضف للسلة</button>
+                <button class="details-btn" id="modal-share-btn" style="flex: 1; padding: 12px; background: rgba(0, 240, 255, 0.1); border-color: var(--accent-cyan); color: var(--accent-cyan);">مشاركة 🔗</button>
+            </div>
         </div>
     </div>
 
     <script>
-        const myWhatsAppNumber = "201121347052";
+        const myWhatsAppNumber = "201022989335"; // رقم واتساب المتجر (بدون + أو 00)
         let currentPlatform = 'All';
+        let favorites = JSON.parse(localStorage.getItem('ps_favorites')) || [];
 
-        const gamesList = [
+        // قائمة العروض الخاصة تبحث في مجلد images بالأسماء: offer_2001.jpg, offer_2002.jpg, offer_2003.jpg
+        const offersList = [{
+            id: 9999,
+            name: "عرض ال500",
+            platform: "عروض",
+            size: "عرض خاص",
+            price: 450,
+            description: "تعديلة + باقة العاب كاملة من اختيارك"
+        }, {
+            id: 9998,
+            name: "عرض ال1000",
+            platform: "عروض",
+            size: "خصم خاص",
+            price: 650,
+            description: "تعديلة + باقة العاب كاملة من اختيارك "
+        }];
+
+        // دالة حاسبة السعر القائمة على نوع الجهاز والحجم (ألعاب PS4 > 10GB = 50 ج.م، الأقل = 30 ج.م، ألعاب PS3 = 20 ج.م)
+        function calculateGamePrice(platform, sizeStr) {
+            if (platform === "PS3") {
+                return 20;
+            }
+            if (platform === "PS4") {
+                let sizeVal = parseFloat(sizeStr);
+                if (sizeStr && sizeStr.toUpperCase().includes("MB")) {
+                    sizeVal = sizeVal / 1024;
+                }
+                if (isNaN(sizeVal)) sizeVal = 0;
+                return sizeVal > 10 ? 50 : 30;
+            }
+            return 30;
+        }
+
+        const rawGamesList = [
             // --- ألعاب PS4 ---
             {
                 id: 1,
                 name: "The Last of Us Part II",
                 platform: "PS4",
                 size: "94 GB",
-                description: "لعبة بقاء وأكشن درامية تتبع قصة إيلي في عالم ما بعد الوباء، حيث تخوض رحلة عنيفة ومؤثرة للبحث عن الانتقام ومواجهة عواقب أفعالها في بيئة قاسية ومليئة بالمخاطر."
+                description: "لعبة بقاء وأكشن درامية تتبع قصة إيلي في عالم ما بعد الوباء."
             }, {
                 id: 2,
                 name: "God of War ragnarok",
                 platform: "PS4",
                 size: "90 GB",
-                description: "ملحمة نوردية أسطورية تتبع رحلة كريتوس وابنه أترعيوس في مواجهة نهاية العالم (راغناروك)، حيث يبحثان عن الإجابات والتحالفات لحماية عائلتهما من غضب آلهة أسغارد."
+                description: "ملحمة نوردية أسطورية تتبع رحلة كريتوس وابنه أترعيوس في مواجهة نهاية العالم."
             }, {
                 id: 3,
                 name: "Spider Man miles",
                 platform: "PS4",
                 size: "41 GB",
-                description: "مغامرة حماسية تتبع البطل الشاب مايلز موراليس وهو يتكيف مع قواه العنكبوتية المذهلة والجديدة، مثل الصعق الكهربائي والاختفاء، لحماية حيه ومدينته من خطر الدمار."
+                description: "مغامرة حماسية تتبع البطل الشاب مايلز موراليس."
             }, {
                 id: 4,
                 name: "Red Dead Redemption 2",
                 platform: "PS4",
                 size: "90.8 GB",
-                description: "واحدة من أضخم ألعاب العالم المفتوح، تروي قصة آرثر مورغان وعصابة فان دير ليند في أواخر عصر الغرب الأمريكي المتوحش، حيث الصراع بين الوفاء للعصابة والحرية الشخصية."
+                description: "واحدة من أضخم ألعاب العالم المفتوح في عصر الغرب الأمريكي."
             }, {
                 id: 5,
                 name: "brawlhalla",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة قتال منصات جماعية ممتعة وسريعة الإيقاع، تجمع مقاتلين أسطوريين من مختلف العصور في ساحات تفاعلية لتحديد المحارب الأقوى باستخدام أسلحة وقدرات فريدة."
+                description: "لعبة قتال منصات جماعية ممتعة وسريعة الإيقاع."
             }, {
                 id: 6,
                 name: "crash bandicoot 4",
                 platform: "PS4",
                 size: "47 GB",
-                description: "يعود كراش بنديكوت في مغامرة شيقة لإنقاذ الكون عبر الأبعاد الزمنية المختلفة، مع الحفاظ على أسلوب اللعب الكلاسيكي الممتع وإضافة أقنعة سحرية تمنح قدرات جديدة وتحديات مبتكرة."
+                description: "يعود كراش بنديكوت في مغامرة شيقة لإنقاذ الكون عبر الأبعاد الزمنية."
             }, {
                 id: 7,
                 name: "days gone arabic",
                 platform: "PS4",
                 size: "62 GB",
-                description: "لعبة بقاء وأكشن ممتازة وعالم مفتوح مدبلجة بالكامل للعربية. تقود فيها دراجتك النارية عبر عالم مدمر وتواجه حشوداً هائلة من الزومبي المتوحشين (الفريكرز) بحثاً عن زوجتك المفقودة."
+                description: "لعبة بقاء وأكشن ممتازة وعالم مفتوح مدبلجة بالكامل للعربية."
             }, {
                 id: 8,
                 name: "dirt 5",
                 platform: "PS4",
                 size: "49 GB",
-                description: "لعبة سباقات سيارات وعرة وجبلية حماسية جداً، تتميز بمؤثرات طقس ديناميكية وتنوع كبير في الحلبات العالمية والسيارات الجبارة لتوفير تجربة قيادة أركيدية مثيرة."
+                description: "لعبة سباقات سيارات وعرة وجبلية حماسية جداً."
             }, {
                 id: 9,
                 name: "pes 2026",
                 platform: "PS4",
                 size: "112 GB",
-                description: "أحدث إصدارات لعبة كرة القدم المجانية الشهيرة من كونامي، تقدم تحسينات في فيزياء حركة اللاعبين وتحديثات مستمرة للفرق وبناء تشكيلة الأحلام (Dream Team) عبر الإنترنت."
+                description: "أحدث إصدارات لعبة كرة القدم المجانية الشهيرة من كونامي."
             }, {
                 id: 10,
                 name: "pes 2027",
                 platform: "PS4",
                 size: "91 GB",
-                description: "أحدث إصدارات لعبة كرة القدم المجانية الشهيرة من كونامي، تقدم تحسينات في فيزياء حركة اللاعبين وتحديثات مستمرة للفرق وبناء تشكيلة الأحلام (Dream Team) عبر الإنترنت."
+                description: "أحدث إصدارات لعبة كرة القدم المجانية الشهيرة من كونامي."
             }, {
                 id: 11,
                 name: "elden ring",
                 platform: "PS4",
                 size: "33 GB",
-                description: "احد افضل العاب السولس و الحرب على الاطلاق كما انها تتميز بانها احد اسهل العاب السولس "
+                description: "احد افضل العاب السولس و الحرب على الاطلاق."
             }, {
                 id: 12,
                 name: "fc 26",
                 platform: "PS4",
                 size: "82 GB",
-                description: "النسخة الأحدث والأكثر تطوراً من سلسلة محاكاة كرة القدم العالمية، تضم أحدث الانتقالات للاندية والمنتخبات، مع تطوير جرافيك مذهل وأسلوب لعب واقعي لا مثيل له."
+                description: "النسخة الأحدث والأكثر تطوراً من سلسلة محاكاة كرة القدم العالمية."
             }, {
                 id: 13,
                 name: "fc 27",
                 platform: "PS4",
                 size: "66 GB",
-                description: "النسخة الأحدث والأكثر تطوراً من سلسلة محاكاة كرة القدم العالمية، تضم أحدث الانتقالات للاندية والمنتخبات، مع تطوير جرافيك مذهل وأسلوب لعب واقعي لا مثيل له."
+                description: "النسخة الأحدث والأكثر تطوراً من سلسلة محاكاة كرة القدم العالمية."
             }, {
                 id: 14,
                 name: "gang beasts",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة قتال جماعية مضحكة للغاية، تتقاتل فيها شخصيات مرنة والهلامية ملونة في بيئات خطرة ومليئة بالفخاخ، والهدف هو رمي الخصوم خارج الساحة لتحقيق الفوز وسط أجواء فكاهية."
+                description: "لعبة قتال جماعية مضحكة للغاية لشخصيات مرنة."
             }, {
                 id: 15,
                 name: "guns gore and cannoli 1",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة أكشن وإطلاق نار ثنائية الأبعاد تدور في أجواء عصابات المافيا الكلاسيكية في العشرينيات، حيث يجد رجل المافيا (فيني) نفسه في مواجهة شرسة ضد المافيا والزومبي معاً."
+                description: "لعبة أكشن وإطلاق نار ثنائية الأبعاد في أجواء عصابات المافيا."
             }, {
                 id: 16,
                 name: "guns gore and cannoli 2",
                 platform: "PS4",
                 size: "2 GB",
-                description: "تابع مغامرة فيني الكانولي في الجزء الثاني المليء بالأكشن والأسلحة المتطورة، حيث تنتقل المعارك إلى حقبة الحرب العالمية الثانية مع تحسينات كبيرة في أسلوب الحركة والقتال."
+                description: "تابع مغامرة فيني الكانولي في الجزء الثاني المليء بالأكشن."
             }, {
                 id: 17,
                 name: "horizon chase 1",
                 platform: "PS4",
                 size: ".5 GB",
-                description: "لعبة سباقات سيارات كلاسيكية رائعة مستوحاة من ألعاب التسعينيات الأيقونية، تعتمد على السرعة الفائقة، وتوفر ألواناً مبهجة وموسيقى حماسية وتحديات في مختلف بلدان العالم."
+                description: "لعبة سباقات سيارات كلاسيكية مستوحاة من التسعينيات."
             }, {
                 id: 18,
                 name: "horizon chase 2",
                 platform: "PS4",
                 size: "9 GB",
-                description: "الجزء الثاني المتطور من لعبة السباقات الأركيدية، يقدم رسوميات عصرية ممتازة وطور لعب جماعي عبر الإنترنت مع الحفاظ على متعة وعفوية السباقات الكلاسيكية السريعة."
+                description: "الجزء الثاني المتطور من لعبة السباقات الأركيدية."
             }, {
                 id: 19,
                 name: "human fall flat",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة ألغاز وفيزياء مضحكة ومبتكرة، تتحكم فيها بشخصية مرنة وغير متماسكة لحل الألغاز البيئية المختلفة والوصول إلى المخرج بالاعتماد على ذكائك ومهاراتك في التحرك والامساك."
+                description: "لعبة ألغاز وفيزياء مضحكة ومبتكرة."
             }, {
                 id: 20,
                 name: "infamous second son",
                 platform: "PS4",
                 size: "28 GB",
-                description: "لعبة أكشن حماسية في مدينة سياتل المفتوحة، بطلها بطل خارق يكتشف فجأة امتلاكه لقوى خارقة تمكنه من امتصاص وتوجيه الدخان، النيون، والتحكم بها لحماية المدينة أو tدميرها."
+                description: "لعبة أكشن حماسية في مدينة سياتل المفتوحة."
             }, {
                 id: 21,
                 name: "injustice 2",
                 platform: "PS4",
                 size: "34 GB",
-                description: "لعبة قتال خارقة تجمع أشهر أبطال وأشرار عالم DC (مثل باتمان، سوبرمان، والجوكر) في قصة سينمائية ممتازة، مع نظام تطوير الدروع وتخصيص قدرات المقاتلين."
+                description: "لعبة قتال خارقة تجمع أشهر أبطال وأشرار عالم DC."
             }, {
                 id: 22,
                 name: "little big planet 3",
                 platform: "PS4",
                 size: "15 GB",
-                description: "لعبة منصات وإبداع عائلية شهيرة، تتبع الدمية (ساكبوي) وأصدقائه الجدد، وتتيح لك اللعبة تصميم مستويات كاملة ومبتكرة ومشاركتها مع مجتمع اللاعبين حول العالم."
+                description: "لعبة منصات وإبداع عائلية شهيرة."
             }, {
                 id: 23,
                 name: "mafia 3",
                 platform: "PS4",
                 size: "49 GB",
-                description: "قصة درامية سوداوية عن الانتقام والجريمة في عالم مفتوح مستوحى من أواخر الستينيات في أمريكا، حيث يسعى الجندي السابق لينكولن كلاي لبناء إمبراطوريته الخاصة وتدمير المافيا الإيطالية."
+                description: "قصة درامية سوداوية عن الانتقام والجريمة في عالم مفتوح."
             }, {
                 id: 24,
                 name: "marvel spider man",
                 platform: "PS4",
                 size: "67 GB",
-                description: "عش التجربة الكاملة لكونك الرجل العنكبوت في مدينة نيويورك المفتوحة والمذهلة، مع آليات تأرجح والحركة سلسة للغاية ونظام قتال ممتع يواجه فيه أشهر أشرار الكوميكس."
+                description: "عش التجربة الكاملة لكونك الرجل العنكبوت في نيويورك."
             }, {
                 id: 25,
                 name: "assassins creed mirage",
                 platform: "PS4",
                 size: "30 GB",
-                description: "العودة لجذور سلسلة الاغتيالات في مدينة بغداد العباسية الرائعة، تتبع اللعبة قصة باسم وهو يتحول من لص شوارع بسيط إلى بارع في التخفي والاغتيال السري."
+                description: "العودة لجذور سلسلة الاغتيالات في مدينة بغداد."
             }, {
                 id: 26,
                 name: "mortal kombat XL",
                 platform: "PS4",
                 size: "41 GB",
-                description: "النسخة الموسعة والشاملة من لعبة القتال العنيفة الأسطورية، تحتوي على شخصيات إضافية مميزة من أفلام الرعب الشهيرة بالإضافة للحركات القاضية والدموية (Fatality)."
+                description: "النسخة الموسعة والشاملة من لعبة القتال الأسطورية."
             }, {
                 id: 27,
                 name: "dragon ball Z: kakarot",
                 platform: "PS4",
                 size: "33 GB",
-                description: "Dragon Ball Z: Kakarot هي لعبة مليئة بالحركة بأسلوب تقمص الأدوار من منظور الشخص الثالث"
+                description: "لعبة مليئة بالحركة بأسلوب تقمص الأدوار."
             }, {
                 id: 28,
                 name: "tekken 7",
                 platform: "PS4",
                 size: "41 GB",
-                description: "الفصل الختامي لصراع عائلة ميشيما التاريخي، تقدم اللعبة قتالاً ثلاثي الأبعاد فائق المتعة والدقة، ومجموعة ضخمة من المقاتلين بحركات قتالية معقدة ومثيرة."
+                description: "الفصل الختامي لصراع عائلة ميشيما التاريخي."
             }, {
                 id: 29,
                 name: "watch dogs 2",
                 platform: "PS4",
                 size: "21 GB",
-                description: "لعبة اختراق ومغامرات ممتعة في عالم مفتوح نابض بالحياة بمدينة سان فرانسيسكو، حيث تقود مجموعة من الهاكرز المبدعين (DedSec) لإسقاط نظام الرقابة الظالم والتحكم بالبنية التحتية."
+                description: "لعبة اختراق ومغامرات ممتعة في سان فرانسيسكو."
             }, {
                 id: 30,
                 name: "adventure time",
                 platform: "PS4",
                 size: "3 GB",
-                description: "لعبة مغامرات وتقمص أدوار مسلية وممتعة ومستوحاة بالكامل من مسلسل الكرتون الأيقوني 'وقت المغامرة'، حيث تنطلق مع فين وجيك لاستكشاف الأسرار وحل الألغاز في أرض أوو."
+                description: "لعبة مغامرات وتقمص أدوار مستوحاة من وقت المغامرة."
             }, {
                 id: 31,
                 name: "beach buggy racing",
                 platform: "PS4",
                 size: "0.2 GB",
-                description: "لعبة سباق سيارات كارت جنونية وممتعة للغاية على الشواطئ، تحتوي على الكثير من القدرات والأسلحة والخدع لتعطيل المنافسين، ومناسبة جداً للعب الجماعي العائلي."
+                description: "لعبة سباق سيارات كارت جنونية على الشواطئ."
             }, {
                 id: 32,
                 name: "counter spy",
                 platform: "PS4",
                 size: "0.7 GB",
-                description: "لعبة تجسس وتسلل ثنائية الأبعاد بطابع رسومي مميز ومستوحى من أجواء الحرب الباردة، حيث يتوجب عليك كعميل سري التسلل خفية لإحباط مخططات إطلاق الصواريخ النووية."
+                description: "لعبة تجسس وتسلل بطابع الحرب الباردة."
             }, {
                 id: 33,
                 name: "monopoly",
                 platform: "PS4",
                 size: "2 GB",
-                description: "النسخة الرقمية التفاعلية من لعبة اللوح الشهيرة (بنك الحظ)، تتيح لك شراء العقارات وبناء الإمبراطورية المالية ومنافسة الأصدقاء والعائلة بلوحة ثلاثية الأبعاد متحركة."
+                description: "النسخة الرقمية التفاعلية من بنك الحظ."
             }, {
                 id: 34,
                 name: "slime rancher",
                 platform: "PS4",
                 size: "2 GB",
-                description: "مغامرة لطيفة ملونة من منظور الشخص الأول، تقوم فيها باستكشاف كوكب فضائي غامض لجمع وتربية الكائنات الهلامية (السلايمز) اللطيفة وإدارة مزرعتك وتطوير أدواتك."
+                description: "مغامرة لطيفة لجمع وتربية الكائنات الهلامية."
             }, {
                 id: 35,
                 name: "angry birds star wars",
                 platform: "PS4",
                 size: "1.7 GB",
-                description: "الدمج الذكي والممتع بين آلية اللعب الكلاسيكية للطيور الغاضبة وعالم حرب النجوم الأسطوري، استخدم السيوف المضيئة وقوى الجيداي لتدمير حصون الخنازير الفضائية."
+                description: "الدمج بين الطيور الغاضبة وعالم حرب النجوم."
             }, {
                 id: 36,
                 name: "battlefield 1",
                 platform: "PS4",
                 size: "42 GB",
-                description: "تجربة ملحمية تأخذك إلى حقبة الحرب العالمية الأولى عبر معارك جماعية ضخمة ومؤثرة، مع استخدام الدبابات الكلاسيكية، الطائرات ثنائية الأجنحة، والقتال العنيف في الخنادق."
+                description: "تجربة ملحمية في الحرب العالمية الأولى."
             }, {
                 id: 37,
                 name: "battlefield V",
                 platform: "PS4",
                 size: "34 GB",
-                description: "خض معارك الحرب العالمية الثانية الشرسة بأحدث الرسوميات وأطوار اللعب الجماعي الضخمة، حيث تعتمد اللعبة على العمل الجماعي التكتيكي والقيادة الحكيمة للمركبات الحربية."
+                description: "معارك الحرب العالمية الثانية الشرسة."
             }, {
                 id: 38,
                 name: "ben 10",
                 platform: "PS4",
                 size: "1.3 GB",
-                description: "تحول إلى الكائنات الفضائية القوية لهزيمة الأشرار وإنقاذ العالم برفقة بن تنيسون، استخدم ساعة الأومنيتريكس للتبديل بين الفضائيين بحركات قتالية كومبو حماسية."
+                description: "تحول إلى الكائنات الفضائية مع بن تنيسون."
             }, {
                 id: 39,
                 name: "car 3",
                 platform: "PS4",
                 size: "7 GB",
-                description: "لعبة سباقات حماسية وممتعة مبنية على فيلم ديزني الشهير 'سيارات 3'، تقدم مجموعة متنوعة من الحلبات، الحركات الاستعراضية، والمنافسات الشرسة المناسبة لجميع الأعمار."
+                description: "لعبة سباقات مبنية على فيلم سيارات 3."
             }, {
                 id: 40,
                 name: "crash team racing",
                 platform: "PS4",
                 size: "22 GB",
-                description: "إعادة البناء الكاملة للعبة سباقات الكارت الأسطورية لكراش، نافس بقوة في حلبات صعبة ومليئة بالمنعطفات واستخدم الصواريخ والقنابل والدريفت لتجاوز أصدقائك."
+                description: "إعادة بناء لعبة سباقات الكارت لكراش."
             }, {
                 id: 41,
                 name: "dead or alive 5",
                 platform: "PS4",
                 size: "9.5 GB",
-                description: "لعبة قتال ثلاثية الأبعاد تمتاز بالحركة والسرعة الفائقة، وتتميز بحلبات قتال تفاعلية وخطيرة تتغير وتتدمر أثناء المعركة مع نظام قتال عميق يعتمد على الصد والهجوم المرتد."
+                description: "لعبة قتال ثلاثية الأبعاد سريعة للغاية."
             }, {
                 id: 42,
                 name: "dead island riptide",
                 platform: "PS4",
                 size: "5 GB",
-                description: "لعبة رعب وبقاء من منظور الشخص الأول، تقاتل فيها مع ناجين آخرين باستخدام أسلحة يدوية قمت بتعديلها بأنفسكم للنجاة من حشود الزومبي المرعبة في جزيرة استوائية منكوبة."
+                description: "لعبة رعب وبقاء من منظور الشخص الأول."
             }, {
                 id: 43,
                 name: "devil may cry 5",
                 platform: "PS4",
                 size: "35 GB",
-                description: "أقوى ألعاب الأكشن والتقطيع السريع، تتحكم بثلاث شخصيات أسطورية (دانتي، نيرو، وفي) بقوى شيطانية خارقة وأسلحة مبتكرة للقضاء على غزو الشياطين بأسلوب قتال سينمائي رائع."
+                description: "أقوى ألعاب الأكشن والتقطيع السريع."
             }, {
                 id: 44,
                 name: "gta V",
                 platform: "PS4",
                 size: "54 GB",
-                description: "المغامرة الأسطورية في عالم لوس سانتوس المفتوح، تتبع قصة ثلاثة مجرمين تتقاطع مساراتهم في سلسلة من عمليات السطو المسلح الكبرى والمهام الحماسية اللامتناهية أونلاين."
+                description: "المغامرة الأسطورية في عالم لوس سانتوس."
             }, {
                 id: 45,
                 name: "minecraft",
                 platform: "PS4",
                 size: ".2 GB",
-                description: "لعبة الإبداع والبقاء الأشهر في العالم، اجمع الموارد وابنِ قلاعاً وعوالم كاملة من المخيلة، واستكشف الكهوف العميقة وحارب الكائنات الليلية الخطيرة للبقاء على قيد الحياة."
+                description: "لعبة الإبداع والبقاء الأشهر في العالم."
             }, {
                 id: 46,
                 name: "mortal kombat 11",
                 platform: "PS4",
                 size: "41.1 GB",
-                description: "القتال العنيف يلتقي بالتحكم بالزمن في قصة سينمائية مذهلة، تقدم اللعبة جرافيك فائق الواقعية، وخيارات ضخمة لتخصيص ملابس وحركات المحاربين مع الفيتاليتي الدموي الشهير."
+                description: "القتال العنيف يلتقي بالتحكم بالزمن."
             }, {
                 id: 47,
                 name: "need for speed heat",
                 platform: "PS4",
                 size: "27 GB",
-                description: "سباقات شوارع ليلية غير قانونية ومطاردات شرطة شرسة وعنيفة، وسباقات نهارية رسمية لكسب الأموال وتعديل سيارتك الخارقة بأعلى مستويات التخصيص والجمال الكرتوني الحماسي."
+                description: "سباقات شوارع ليلية ومطاردات شرطة."
             }, {
                 id: 48,
                 name: "planet vs zombie",
                 platform: "PS4",
                 size: "4 GB",
-                description: "المعركة الاستراتيجية المضحكة والمحبوبة، صمم خط دفاعك بذكاء في حديقة المنزل باستخدام نباتات قاذفة وقوية لمنع جحافل الزومبي الطريفة والغريبة من اقتحام بيتك."
+                description: "المعركة الاستراتيجية ضد جحافل الزومبي."
             }, {
                 id: 49,
                 name: "pes 18",
                 platform: "PS4",
                 size: "31 GB",
-                description: "محاكاة تكتيكية ممتازة لمباريات كرة القدم، تقدم تحسينات ملحوظة في أسلوب اللعب والتحكم في الكرة واللاعبين وأطوار اللعب المفضلة مثل الماستر ليج الكلاسيكي."
+                description: "محاكاة تكتيكية ممتازة لكرة القدم."
             }, {
                 id: 50,
                 name: "pes 19",
                 platform: "PS4",
                 size: "26.5 GB",
-                description: "تجربة كرة قدم واقعية وممتعة مع إضافة تراخيص جديدة كلياً ورسوميات مذهلة تدعم دقة العرض العالية، مع تحسين آلية التمرير والتسديد لتوفير متعة كروية فريدة."
+                description: "تجربة كرة قدم واقعية مع رسوميات مذهلة."
             }, {
                 id: 51,
                 name: "rayman legends",
                 platform: "PS4",
                 size: "7.5 GB",
-                description: "واحدة من أروع ألعاب المنصات ثنائية الأبعاد في التاريخ، تمتاز بألوان ساحرة ومستويات موسيقية إيقاعية مبتكرة وممتعة جداً عند اللعب التعاوني مع الأصدقاء."
+                description: "واحدة من أروع ألعاب المنصات ثنائية الأبعاد."
             }, {
                 id: 52,
                 name: "redident evil village",
                 platform: "PS4",
                 size: "31 GB",
-                description: "رعب بقاء من منظور الشخص الأول، يجد فيها إيثان وينترز نفسه في قرية أوروبية غامضة ومرعبة تحكمها كائنات متوحشة ومصاصو دماء، ويقاتل لإنقاذ ابنته المخطوفة."
+                description: "رعب بقاء من منظور الشخص الأول في قرية غامضة."
             }, {
                 id: 53,
                 name: "rocket league",
                 platform: "PS4",
                 size: "2 GB",
-                description: "الدمج المبتكر والجنوني الأنجح بين رياضة كرة القدم وسيارات الدفع الرباعي النفاثة والسريعة، حلق في الهواء وسجل أهدافاً مذهلة في مباريات حماسية أونلاين."
+                description: "كرة القدم بالسيارات النفاثة السريعة."
             }, {
                 id: 54,
                 name: "stick fight",
                 platform: "PS4",
                 size: "0.3 GB",
-                description: "لعبة قتال فيزيائية بسيطة ومضحكة جداً تعتمد على شخصيات الخطوط (الستيك مان)، تقاتلوا في ساحات تنهار باستمرار وأسلحة عشوائية تسقط من السماء لخلق فوضى مرحة."
+                description: "لعبة قتال فيزيائية بسيطة ومضحكة."
             }, {
                 id: 55,
                 name: "uncharted 4, نهاية لص",
                 platform: "PS4",
                 size: "50 GB",
-                description: "الرحلة الختامية والملحمية لصائد الكنوز الأسطوري نيثان دريك، بحثاً عن كنز القرصان المفقود أفري في قصة ورسوميات سينمائية خلابة حائزة على جوائز ومدبلجة للعربية."
+                description: "الرحلة الختامية لنيثان دريك بحثاً عن الكنز."
             }, {
                 id: 56,
                 name: "unravel 2",
                 platform: "PS4",
                 size: "4 GB",
-                description: "تحكم بدميتين ظريفتين مصنوعتين من الخيوط الملونة وحل الألغاز البيئية بالاعتماد على التعاون والربط بين الخيوط في عالم هادئ وجميل ومناسب جداً لشخصين."
+                description: "مغامرة تعاونية بدميتين مصنوعتين من الخيوط."
             }, {
                 id: 57,
                 name: "2k 22",
                 platform: "PS4",
                 size: "41 GB",
-                description: "المحاكاة الرسمية والأقوى لدوري كرة السلة الأمريكي الاحترافية (NBA)، تقدم تحسينات بصرية ضخمة وأطوار لعب ممتازة تتيح لك عيش مسيرة لاعب محترف بالكامل."
+                description: "محاكاة دوري كرة السلة الأمريكي."
             }, {
                 id: 58,
                 name: "call of duty ops 4",
                 platform: "PS4",
                 size: "91 GB",
-                description: "إصدار متميز يركز بالكامل على أطوار اللعب الجماعي التنافسي، وطور البلاك آوت (البتل رويال) المثير، بالإضافة لثلاث مغامرات كاملة ومشوقة في طور الزومبي."
+                description: "إصدار يركز على اللعب الجماعي والبلاك آوت."
             }, {
                 id: 59,
                 name: "bloodborne",
                 platform: "PS4",
                 size: "26 GB",
-                description: "لعبة Bloodborne هي لعبة تقمص أدوار وحركة تُلعَب من منظور الشخص الثالث . يتحكم اللاعب بشخصية قابلة للتخصيص تُعرف باسم الصياد، واستكشف مدينة يارنام"
+                description: "لعبة تقمص أدوار وحركة مظلمة في يارنام."
             }, {
                 id: 60,
                 name: "far cry 5",
                 platform: "PS4",
                 size: "40 GB",
-                description: "لعبة أكشن وعالم مفتوح بنسخة معربة بالكامل، تخوض فيها حرب عصابات شرسة للإطاحة بنظام حكم ديكتاتوري ظالم في جزيرة معزولة ومليئة بالمحيوانات والمخاطر."
+                description: "حرب عصابات لإطاحة بنظام ديكتاتوري."
             }, {
                 id: 61,
                 name: "ghost of tsushima",
                 platform: "PS4",
                 size: "35 GB",
-                description: "ساموراي ياباني يدافع عن جزيرته المفتوحة تسوشيما ضد الغزو المغولي الشرس، ويضطر للتخلي عن تقاليده الصارمة ليصبح 'الشبح' وينفذ اغتيالات سرية لحماية شعبه."
+                description: "ساموراي ياباني يدافع عن جزيرته."
             }, {
                 id: 62,
                 name: "inside",
                 platform: "PS4",
                 size: "1.5 GB",
-                description: "تحفة فنية غامضة ومظلمة من نوع ألغاز المنصات، تتحكم فيها بطفل صغير يهرب من منظمة غامضة تجري تجارب على البشر، في أجواء كئيبة ومثيرة للتفكير والدهشة."
+                description: "تحفة فنية غامضة ومظلمة من ألغاز المنصات."
             }, {
                 id: 63,
                 name: "naruto X baruto ultimate ninja",
                 platform: "PS4",
                 size: "24.5 GB",
-                description: "لعبة قتال نينجا حماسية تجمع أبطال جيل ناروتو القديم وجيل بوروتو الجديد، وتتيح لك تنفيذ ضربات الجوتسو الخارقة والمشتركة في معارك سريعة الإيقاع ومبهرة الرسوم."
+                description: "لعبة قتال نينجا تجمع جيل ناروتو وبوروتو."
             }, {
                 id: 64,
                 name: "ratchet clank",
                 platform: "PS4",
                 size: "29 GB",
-                description: "مغامرة خيال علمي ممتعة جداً وكوميدية لحيوان اللومباكس ذكي وروبوته الصغير، سافر عبر المجرة واستخدم أسلحة غريبة ومتطورة لإحباط مخططات الأشرار لإنقاذ الكواكب."
+                description: "مغامرة خيال علمي كوميدية وممتعة."
             }, {
                 id: 65,
                 name: "ninja turtles shredders revenge",
                 platform: "PS4",
                 size: "1 GB",
-                description: "العودة الممتعة لألعاب قتال الشوارع الكلاسيكية الكرتونية بطابع التسعينيات، اختر سلحفاتك المفضلة وحارب جنود النينجا وشريدر في معارك جماعية حماسية ومسلية."
+                description: "العودة لألعاب قتال الشوارع الكلاسيكية."
             }, {
                 id: 66,
                 name: "2k 25",
                 platform: "PS4",
                 size: "88 GB",
-                description: "أحدث إصدارات محاكاة كرة السلة الأمريكية، تقدم فيزياء حركة متطورة وتحديثات انتقالات الفرق الشاملة، وطور مهنة متكامل للوصول بـ فريقك إلى صدارة البطولة العالمية."
+                description: "أحدث إصدارات محاكاة كرة السلة الأمريكية."
             }, {
                 id: 67,
                 name: "a way out",
                 platform: "PS4",
                 size: "18 GB",
-                description: "تجربة قصصية سينمائية تعاونية إجبارية للاعبين (شاشة منقسمة)، حيث يتحكم كل لاعب بسجين، ويتوجب عليهما التخطيط والتعاون معاً للهروب من السجن وعيش مغامرة مشوقة."
+                description: "تجربة سينمائية تعاونية للهروب من السجن."
             }, {
                 id: 68,
                 name: "assassins creed odyssey",
                 platform: "PS4",
                 size: "44 GB",
-                description: "رحلة ملحمية في اليونان القديمة، اختر بطل المرتزقة الخاص بك (أليكسيوس أو كاساندرا) واكشف مؤامرات عائلتك السرية في عالم مفتوح ضخم يدمج التاريخ بالأساطير الإغريقية."
+                description: "رحلة ملحمية في اليونان القديمة."
             }, {
                 id: 69,
                 name: "assassins creed origins",
                 platform: "PS4",
                 size: "42.5 GB",
-                description: "استكشف مصر القديمة وعصر الفراعنة برفقة البطل 'بايك'، لتشهد نشأة وتأسيس طائفة المعتزلين (الأساسنز) في عالم مفتوح ساحر يضم الأهرامات والصحاري الشاسعة."
+                description: "استكشف مصر القديمة ونشأة الأساسنز."
             }, {
                 id: 70,
                 name: "assassins creed valhalla",
                 platform: "PS4",
                 size: "42 GB",
-                description: "تقمص دور محارب الفايكنج الأسطوري 'إيفور'، وقد قبيلتك لغزو الممالك الإنجليزية القديمة، وابنِ مستوطنتك الخاصة وخض معارك ضخمة وحصارات حماسية للحصون والأمراء."
+                description: "مغامرة محاربي الفايكنج في إنجلترا."
             }, {
                 id: 71,
                 name: "assassins creed syndicate",
                 platform: "PS4",
                 size: "41 GB",
-                description: "قصة الثورة الصناعية الرائعة في لندن، تحكم بالتوأم جايكوب وإيفي فراي وأسس عصابات الشوارع الخاصة بك لمحاربة فرسان الهيكل وتحرير العمال في أجواء بريطانية كلاسيكية."
+                description: "قصة الثورة الصناعية في لندن."
             }, {
                 id: 72,
                 name: "batman arkham knight",
                 platform: "PS4",
                 size: "46 GB",
-                description: "الخاتمة الأسطورية لسلسلة باتمان، واجه الفزاع وفارس أرخام الغامض في مدينة غوثام المفتوحة، مستخدماً مهارات التسلل والقتال بالإضافة لسيارة باتموبيل المدرعة والفتاكة."
+                description: "الخاتمة الأسطورية لسلسلة باتمان."
             }, {
                 id: 73,
                 name: "brothers a tale of two sons",
                 platform: "PS4",
                 size: "4 GB",
-                description: "قصة عاطفية مؤثرة لرحلة أخوين يبحثان عن علاج لوالدهما المريض، تتحكم بكلا الأخوين في نفس الوقت باستخدام ذراعي التحكم لحل الألغاز البيئية والتعاون لتخطي العقبات."
+                description: "قصة عاطفية مؤثرة لرحلة أخوين."
             }, {
                 id: 74,
                 name: "call of duty WWII",
                 platform: "PS4",
                 size: "62 GB",
-                description: "العودة الملحمية لجذور سلسلة كول أوف ديوتي في معارك الحرب العالمية الثانية، لتخوض قصة سينمائية مؤثرة عن التضحية والزمالة، وطور جماعي كلاسيكي شهير وحماسي."
+                description: "العودة لجذور الحرب العالمية الثانية."
             }, {
                 id: 75,
                 name: "call of duty ops 3",
                 platform: "PS4",
                 size: "43 GB",
-                description: "معارك تصويب مستقبلية متطورة توفر طور قصة تعاوني، وطور زومبي عميق جداً ومليء بالأسرار، مع حركة قتال سريعة تعتمد على القفز النفاث والجري على الجدران."
+                description: "معارك تصويب مستقبلية متطورة."
             }, {
                 id: 76,
                 name: "call of duty ops 6",
                 platform: "PS4",
                 size: "94 GB",
-                description: "أحدث إصدارات سلسلة العمليات السوداء المشوقة، تأخذك في مهمات جاسوسية سرية بالغة الخطورة مليئة بالتشويق والأكشن وطور جماعي تنافسي سريع ومطور بالكامل."
+                description: "أحدث إصدارات العمليات السوداء."
             }, {
                 id: 77,
                 name: "cities skylines",
                 platform: "PS4",
                 size: "3 GB",
-                description: "لعبة بناء وإدارة المدن الأكثر عمقاً ومحاكاة، صمم شبكات الطرق والخدمات والمباني، وتحكم بالاقتصاد والضرائب والصحة لتضمن ازدهار وسعادة سكان مدينتك الحالمة."
+                description: "لعبة بناء وإدارة المدن الأكثر عمقاً."
             }, {
                 id: 78,
                 name: "contra ",
                 platform: "PS4",
                 size: "8 GB",
-                description: "إعادة إحياء حديثة ومليئة بالأكشن للعبة إطلاق النار الكلاسيكية ثنائية الأبعاد، دمر جيوش الفضائيين والآليين مع أصدقائك في مستويات صعبة ومليئة بالزعماء الضخام."
+                description: "إعادة إحياء حديثة للعبة إطلاق النار الكلاسيكية."
             }, {
                 id: 79,
                 name: "control",
                 platform: "PS4",
                 size: "29 GB",
-                description: "مغامرة خيال علمي وغموض مذهلة، تتحكم بمديرة وكالة سرية في مبنى حكومي غريب يغير شكله، وتمتلك قوى خارقة لتحريك الأشياء عن بعد لحل لغز غزو فضائي كابوسي."
+                description: "مغامرة خيال علمي بمديرة وكالة سرية."
             }, {
                 id: 80,
                 name: "detroit become human",
                 platform: "PS4",
                 size: "43.5 GB",
-                description: "قصة تفاعلية عميقة ومؤثرة عن ثلاثة آليين أندرويد يطورون مشاعر بشرية في عالم المستقبل، كل قرار تتخذه يغير مجرى الأحداث تماماً ويقود لنهايات مختلفة ومصيرية."
+                description: "قصة تفاعلية عميقة عن آليين يطورون مشاعر."
             }, {
                 id: 81,
                 name: "dying light",
                 platform: "PS4",
                 size: "14 GB",
-                description: "لعبة بقاء ورعب من منظور الشخص الأول ممتازة، تمزج بين حركات الباركور السريعة وتفادي العقبات نهاراً، وقتال جحافل الزومبي الشرسة والعدوانية التي تصبح أقوى ليلاً."
+                description: "بقاء ورعب مع حركات باركور سريعة."
             }, {
                 id: 82,
                 name: "far cry 6",
                 platform: "PS4",
                 size: "35 GB",
-                description: "انضم للثورة المسلحة في جزيرة يارا الاستوائية المفتوحة للإطاحة بالديكتاتور أنطون كاستيلو، مستخدماً ترسانة ضخمة ومبتكرة من الأسلحة المصنوعة يدوياً الحيوانات مروضة."
+                description: "الثورة المسلحة في جزيرة يارا الاستوائية."
             }, {
                 id: 83,
                 name: "grip",
                 platform: "PS4",
                 size: "3 GB",
-                description: "سباقات سيارات مستقبلية فائقة السرعة وجنونية، حيث السيارات مصممة لتسير على الوجهين وعلى الجدران والأسقف، ومزودة بأسلحة فتاكة لتعطيل وتدمير الخصوم بلمح البصر."
+                description: "سباقات سيارات مستقبلية تسير على الجدران."
             }, {
                 id: 84,
                 name: "horizon zero dawn",
                 platform: "PS4",
                 size: "46 GB",
-                description: "استكشف عالماً مستقبلياً مذهلاً تحكمه آلات ديناصورية ضخمة وغامضة، برفقة الصيادة الماهرة 'ألوي' لتخوض رحلة استكشافية لكشف أسرار الماضي وانهيار الحضارة البشرية."
+                description: "عالم مستقبلي تحكمه آلات ديناصورية."
             }, {
                 id: 85,
                 name: "it take two",
                 platform: "PS4",
                 size: "37 GB",
-                description: "مغامرة تعاونية ساحرة لشخصين حائزة على جائزة لعبة العام، تدمج آليات لعب مبتكرة ومتغيرة باستمرار في قصة فكاهية وعاطفية تهدف لإصلاح علاقة زوجين تحولا لدمى."
+                description: "مغامرة تعاونية ساحرة لشخصين."
             }, {
                 id: 86,
                 name: "j starts victory",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة قتال أنمي حماسية تجمع أشهر أبطال مجلة شونين جامب اليابانية (مثل غوكو، لوفي، ناروتو، وإيتشيجو) في ساحات قتال ثلاثية الأبعاد مدمرة لتحديد البطل الأقوى."
+                description: "لعبة قتال أنمي تجمع أبطال شونين جامب."
             }, {
                 id: 87,
                 name: "kena bridge of spirits",
                 platform: "PS4",
                 size: "9 GB",
-                description: "رحلة استكشافية ساحرة الرسوم وممزوجة بالقتال السريع، تتحكم بالمرشدة الروحية كينا لمساعدة الأرواح الضائعة على السلام برفقة كائنات الروت الصغيرة واللطيفة."
+                description: "رحلة استكشافية ساحرة الرسوم."
             }, {
                 id: 88,
                 name: "little nightmares lll",
                 platform: "PS4",
                 size: "23 GB",
-                description: "لعبة رعب ومنصات غامضة وذكية، تتحكم بطفلة صغيرة ترتدي معطفاً أصفر (سيكس) تحاول الهروب من سفينة ضخمة وكابوسية مليئة بالمسوخ والوحوش الجائعة التي تلاحقها."
+                description: "لعبة رعب ومنصات غامضة وذكية."
             }, {
                 id: 89,
                 name: "little nightmares ll",
                 platform: "PS4",
                 size: "9 GB",
-                description: "لعبة رعب ومنصات غامضة وذكية، تتحكم بطفلة صغيرة ترتدي معطفاً أصفر (سيكس) تحاول الهروب من سفينة ضخمة وكابوسية مليئة بالمسوخ والوحوش الجائعة التي تلاحقها."
+                description: "الجزء الثاني من لعبة الرعب والمنصات."
             }, {
                 id: 90,
                 name: "little nightmares l",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة رعب ومنصات غامضة وذكية، تتحكم بطفلة صغيرة ترتدي معطفاً أصفر (سيكس) تحاول الهروب من سفينة ضخمة وكابوسية مليئة بالمسوخ والوحوش الجائعة التي تلاحقها."
+                description: "الجزء الأول من مغامرة الطفلة بالمعطف الأصفر."
             }, {
                 id: 91,
                 name: "mario mania",
                 platform: "PS4",
                 size: "0.2 GB",
-                description: "مستوحاة من ألعاب المنصات الكلاسيكية، تقدم تحديات قفز وجمع عملات وعقبات مسلية بأسلوب كرتوني خفيف وممتع ومناسب جداً للجلسات العائلية والأطفال."
+                description: "تحديات قفز وجمع عملات بأسلوب كرتوني."
             }, {
                 id: 92,
                 name: "metal gear solid V",
                 platform: "PS4",
                 size: "28 GB",
-                description: "تحفة المخرج هيدو كوجيما في عالم التسلل والاختراق، تمنحك حرية تامة ومطلقة في التخطيط وتنفيذ المهمات العسكرية في عالم مفتوح ضخم باستخدام أدوات الجنود وقدرات منوعة."
+                description: "تحفة هيدو كوجيما في التسلل والاختراق."
             }, {
                 id: 93,
                 name: "metro exodus",
                 platform: "PS4",
                 size: "48 GB",
-                description: "رحلة بقاء ملحمية ومنظور شخص أول عبر قطار يسير في روسيا المدمرة بعد الحرب النووية، تمزج اللعبة بين القتال الشرس، التسلل، واستكشاف البيئات المرعبة والمتحورة."
+                description: "رحلة بقاء عبر قطار في روسيا المدمرة."
             }, {
                 id: 94,
                 name: "moto racer 4",
                 platform: "PS4",
                 size: "6 GB",
-                description: "سباقات دراجات نارية سريعة ومثيرة تجمع بين سباقات المضامير الإسفلتية الرسمية وسباقات الطرق الوعرة والطينية، مليئة بالسرعة والحركات الاستعراضية الخطيرة."
+                description: "سباقات دراجات نارية سريعة ومثيرة."
             }, {
                 id: 95,
                 name: "over cooked",
                 platform: "PS4",
                 size: "0.4 GB",
-                description: "لعبة طبخ جماعية مجنونة وفوضوية تتطلب التعاون والسرعة التامة بين اللاعبين لتحضير وتجهيز الطلبات في مطابخ غريبة ومتحركة ومليئة بالعقبات قبل نفاد الوقت."
+                description: "لعبة طبخ جماعية مجنونة وفوضوية."
             }, {
                 id: 96,
                 name: "overcooked 2",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة طبخ جماعية مجنونة وفوضوية تتطلب التعاون والسرعة التامة بين اللاعبين لتحضير وتجهيز الطلبات في مطابخ غريبة ومتحركة ومليئة بالعقبات قبل نفاد الوقت."
+                description: "الجزء الثاني من مطابخ التحدي والتعاون."
             }, {
                 id: 97,
                 name: "shadow of the tomb raider",
                 platform: "PS4",
                 size: "29 GB",
-                description: "المغامرة الأخيرة لـ لارا كروفت لإنقاذ العالم من نبوءة المايا المدمرة، خض رحلة تسلل وقتال واستكشاف للمقابر الغامضة في غابات أمريكا الجنوبية الكثيفة والموحشة."
+                description: "المغامرة الأخيرة لـ لارا كروفت."
             }, {
                 id: 98,
                 name: "sonic mania",
                 platform: "PS4",
                 size: "0.2 GB",
-                description: "احتفالية كبرى بألعاب سونيك الكلاسيكية ثنائية الأبعاد، تقدم مستويات محسنة ومبتكرة وسرعة فائقة ورسوميات بكسل ريترو مميزة تعيد ذكريات الأجزاء الأسطورية القديمة."
+                description: "احتفالية بألعاب سونيك الكلاسيكية."
             }, {
                 id: 99,
                 name: "tennis world tour",
                 platform: "PS4",
                 size: "4 GB",
-                description: "محاكاة رياضية واقعية وممتعة للتنس الأرضي، تتيح لك تخصيص لاعبك بالكامل والمنافسة في البطولات العالمية الكبرى ضد أشهر نجوم اللعبة العالميين لتسلق الصدارة."
+                description: "محاكاة رياضية واقعية للتنس الأرضي."
             }, {
                 id: 100,
                 name: "the evil within 1",
                 platform: "PS4",
                 size: "50 GB",
-                description: "لعبة رعب بقاء نفسية مرعبة من ابتكار المطور شينجي ميكامي، تأخذك في رحلة مشوهة ومرعبة داخل عقل مجنون مليء بالكوابيس والوحوش الغريبة التي تلاحقك باستمرار."
+                description: "رعب بقاء نفسي مرعبة داخل عقل مجنون."
             }, {
                 id: 101,
                 name: "the last of us 1 remastered",
                 platform: "PS4",
                 size: "46 GB",
-                description: "النسخة المحسنة والمذهلة من التحفة الفنية التي تروي قصة رحلة جويل وإيلي العاطفية والمؤثرة عبر الولايات المتحدة الموبوءة بالزومبي، والقتال المرير من أجل البقاء."
+                description: "النسخة المحسنة لرحلة جويل وإيلي."
             }, {
                 id: 102,
                 name: "2k 23",
                 platform: "PS4",
                 size: "64 GB",
-                description: "تجربة كرة سلة أمريكية متكاملة تحتفي بمسيرة الأسطورة مايكل جوردان، وتقدم تحسينات ممتازة لأسلوب اللعب والجرافيك وأطوار المهنة وإدارة الفرق الاحترافية."
+                description: "تجربة كرة سلة تحتفي بمايكل جوردان."
             }, {
                 id: 103,
                 name: "xenon race",
                 platform: "PS4",
                 size: "6 GB",
-                description: "سباقات سيارات مستقبلية مذهلة تعتمد على الانجراف (الدريفت) بسرعات خارقة مدعومة بطاقة الزينون، في شوارع مدن عصرية ومتطورة تمنحك شعوراً بالسرعة الجنونية."
+                description: "سباقات سيارات مستقبلية بسرعات خارقة."
             }, {
                 id: 104,
                 name: "grendizer",
                 platform: "PS4",
                 size: "10 GB",
-                description: "تتبع أحداث المسلسل الكلاسيكي؛ حيث يتحكم اللاعب بشخصية دايسكي (الدوق فليد) وروبوت الأكوان العملاق جريندايزر للدفاع عن كوكب الأرض ضد قوات الشر التابعة لفيجا."
+                description: "تحكم بالدوق فليد وروبوت جريندايزر."
             }, {
                 id: 105,
                 name: "rise of the tomb raider",
                 platform: "PS4",
                 size: "15 GB",
-                description: "Rise of the Tomb Raider: احتفالاً بمرور 20 سنة هي لعبة محسّنة على PS4™ Pro وتقدم ثلاثة أوضاع لتخصيص تجربة اللعبة: دقة عرض 4K لوضوح هائل، معدل إطارات مرتفع"
+                description: "نسخة محسنة لمغامرة لارا كروفت."
             }, {
                 id: 106,
                 name: "call of duty cold war",
                 platform: "PS4",
                 size: "170 GB",
-                description: "مغامرة جاسوسية مثيرة تقع أحداثها في الثمانينات خلال ذروة الحرب الباردة، مليئة بالمؤامرات السياسية والمهمات السرية، بالإضافة لطور الزومبي واللعب الجماعي الحماسي."
+                description: "مغامرة جاسوسية في الثمانينات."
             }, {
                 id: 107,
                 name: "sniper ghost warrior 3",
                 platform: "PS4",
                 size: "40 GB",
-                description: "لعبة تصويب خيال علمي برسوميات خارقة، ارتدِ البذلة النانوية المتطورة واستخدم قواها الخاصة للتخفي، القوة، والسرعة لإنقاذ مدينة نيويورك المغطاة بغابة شجرية ضخمة."
+                description: "تصويب وخيال علمي برسوميات خارقة."
             }, {
                 id: 108,
                 name: "boomerang fu",
                 platform: "PS4",
                 size: "0.4 GB",
-                description: "لعبة حفلات جماعية مضحكة وسريعة الإيقاع، يتحكم فيها اللاعبون بقطع طعام ظريفة (كالبيتزا والحليب) تقاتل بعضها باستخدام ارتداد أسلحة البومرانج وقدرات التجميد والتخفي."
+                description: "لعبة حفلات بقطع طعام ظريفة."
             }, {
                 id: 109,
                 name: "dark light",
                 platform: "PS4",
                 size: "5 GB",
-                description: "لعبة أكشن ومنصات بطابع سايبربانك سوداوي خيالي، تقاتل فيها وحوشاً متحورة وغير مرئية باستخدام مهارات التخفي وأشعة الضوء وسلاحك الفتاك في عالم مدمر كئيب."
+                description: "أكشن ومنصات بطابع سايبربانك."
             }, {
                 id: 110,
                 name: "fuzz ball",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة حركية عائلية ومرحة، تتحكم فيها بكائنات قطيفة دائرية تتدحرج وتصطدم ببعضها بقوة في ساحات منوعة، والهدف هو دفع الخصوم خارج الحلبة للفوز بالمباراة."
+                description: "لعبة حركية بكائنات قطيفة دائرية."
             }, {
                 id: 111,
                 name: "rubber bandits",
                 platform: "PS4",
                 size: "1.5 GB",
-                description: "لعبة سرقة وقتال جماعية مضحكة للغاية، تنافس مع أصدقائك لجمع أكبر قدر من الأموال والمسروقات، واستخدم الأسلحة العشوائية لضرب المنافسين والهروب قبل وصول الشرطة."
+                description: "لعبة سرقة وقتال جماعية مضحكة."
             }, {
                 id: 112,
                 name: "scars above",
                 platform: "PS4",
                 size: "11 GB",
-                description: "لعبة تصويب وخيال علمي صعبة ومليئة بالتحديات، تتحكم بعالمة فضاء تحاول البقاء على كوكب فضائي غامض، وتستخدم أسلحة عناصر الطبيعة (النار، الثلج) لهزيمة المخلوقات المرعبة."
+                description: "تصويب وخيال علمي على كوكب غامض."
             }, {
                 id: 113,
                 name: "stikbold a dodgeball",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة رياضة كرة الهدف (Dodgeball) بطابع ريترو سبعيني مضحك وقصة مجنونة مليئة بالتحديات والمباريات الغريبة والممتعة جداً عند اللعب المشترك مع الأصدقاء."
+                description: "رياضة كرة الهدف بطابع سبعيني."
             }, {
                 id: 114,
                 name: "the forest",
                 platform: "PS4",
                 size: "4 GB",
-                description: "بعد تحطم طائرتك في غابة معزولة وغموض، يتوجب عليك بناء مأواك، صناعة الأسلحة، والبحث عن طفلك المخطوف مع الدفاع عن نفسك ضد قبائل آكلي لحوم البشر المرعبين."
+                description: "بناء ملجأ والدفاع ضد آكلي لحوم البشر."
             }, {
                 id: 115,
                 name: "tools up",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة تعاونية ممتعة ومضحكة جداً لإعادة تجديد وطلاء جدران الشقق والمنازل، يتوجب عليك العمل مع فريقك لتنظيف الشقة ووضع السجاد والطلاء بدقة قبل انتهاء الوقت المخصص."
+                description: "إعادة تجديد وطلاء جدران الشقق."
             }, {
                 id: 116,
                 name: "oddballers",
                 platform: "PS4",
                 size: "3 GB",
-                description: "لعبة حفلات جماعية مجنونة ومضحكة مبنية على رمي الكرات والأشياء الغريبة والعشوائية على المنافسين لتهزمهم في أطوار لعب منوعة ومبتكرة ومناسبة للجمعات المسلية."
+                description: "لعبة حفلات جماعية بترمى الكرات."
             }, {
                 id: 117,
                 name: "the smurfs village party",
                 platform: "PS4",
                 size: "3 GB",
-                description: "شارك السنافر الزرقاء في حفلتهم الكبرى عبر مجموعة ممتعة وضخمة من الألعاب المصغرة والمغامرات الكرتونية المسلية والملونة والمناسبة جداً للأطفال والعائلة."
+                description: "ألعاب مصغرة مع السنافر الزرقاء."
             }, {
                 id: 118,
                 name: "god of war 2018",
                 platform: "PS4",
                 size: "40 GB",
-                description: "انطلاقة كريتوس الجديدة في الميثولوجيا النوردية، حيث يعيش كرجل عادي ويعلم ابنه أترعيوس كيف يكون محارباً في رحلة عاطفية وملحمية مذهلة حازت على جائزة لعبة العام."
+                description: "انطلاقة كريتوس في الميثولوجيا النوردية."
             }, {
                 id: 119,
                 name: "sekiro",
                 platform: "PS4",
                 size: "14 GB",
-                description: "لعبة أكشن وساموراي بالغة الصعوبة من استوديو FromSoftware، واجه الأعداء والزعماء الأقوياء بمهارة السيف البالغة والصد الدقيق لاستعادة شرف سيدك الشاب المخطوف."
+                description: "أكشن وساموراي بالغة الصعوبة."
             }, {
                 id: 120,
                 name: "paradise remastered",
                 platform: "PS4",
                 size: "8 GB",
-                description: "لعبة سباقات سيارات عنيفة وكلاسيكية في عالم مفتوح، تمتع بالسرعات الجنونية، القفزات الاستعراضية، وتحطيم وتدمير سيارات الخصوم بالكامل في حلبات وشوارع المدينة المفتوحة."
+                description: "سباقات سيارات عنيفة في عالم مفتوح."
             }, {
                 id: 121,
                 name: "pepsi man",
                 platform: "PS4",
                 size: "0.3 GB",
-                description: "النسخة الكلاسيكية المحبوبة بطل البيبسي الشهير، اركض بأقصى سرعة وتفادَ الشاحنات والعقبات لجمع علب البيبسي وإيصالها للأشخاص العطشى في شوارع المدينة المضحكة."
+                description: "النسخة الكلاسيكية لبطل البيبسي."
             }, {
                 id: 122,
                 name: "the witcher 3 wild hunt",
                 platform: "PS4",
                 size: "40 GB",
-                description: "واحدة من أعظم ألعاب العالم المفتوح والآر بي جي في التاريخ، تقمص دور صائد الوحوش 'جيرالت' واستخدم سيوفك وقدرات السحر للبحث عن ابنتك المتبناة في عالم خيالي شاسع ومذهل."
+                description: "واحدة من أعظم ألعاب العالم المفتوح."
             }, {
                 id: 123,
                 name: "hogwarts legacy",
                 platform: "PS4",
                 size: "68 GB",
-                description: "تجربة سحرية مذهلة في عالم هاري بوتر، تتحكم بشخصية طالب في مدرسة هوغوارتس، وتتعلم السحر، تستكشف الغابات والجبال، وتخوض مغامرات مليئة بالوحوش والتحديات في عالم مفتوح ساحر."
+                description: "تجربة سحرية في عالم هاري بوتر."
             }, {
                 id: 124,
                 name: "child of light",
                 platform: "PS4",
                 size: "2.3 GB",
-                description: "مغامرة ساحرة ومميزة في عالم فني مرسوم باليد، تخوض فيها بطلة صغيرة رحلة عاطفية لإنقاذ الشمس والقمر والنجوم بأسلوب قتال تعاقبي مميز."
+                description: "مغامرة ساحرة في عالم مرسوم باليد."
             }, {
                 id: 125,
                 name: "ufc 2",
                 platform: "PS4",
                 size: "19 GB",
-                description: "لعبة محاكاة رياضية مثيرة لفنون القتال المختلطة (MMA)، تحكم بأشهر المقاتلين العالميين في حلبات القتال، وشارك في بطولات ومنافسات حماسية مليئة بالضربات واللكمات والركلات."
+                description: "محاكاة فنون القتال المختلطة MMA."
             }, {
                 id: 126,
                 name: "abzu",
                 platform: "PS4",
                 size: "3 GB",
-                description: "رحلة غوص استكشافية ساحرة وهادئة في أعماق المحيطات، تكتشف فيها أسراراً بحرية وتتفاعل مع مئات الأنواع من الأسئلة والكائنات الحية في بيئة خلابة."
+                description: "رحلة غوص هادئة في أعماق المحيطات."
             }, {
                 id: 127,
                 name: "need for speed pay back",
                 platform: "PS4",
                 size: "18 GB",
-                description: "سباقات ومطاردات حماسية في عالم مفتوح، تشكل طاقماً محترفاً لتنفيذ عمليات انتقامية كبرى ضد منظمة الفورتشر التي تسيطر على كازينوهات المدينة."
+                description: "سباقات ومطاردات في عالم مفتوح."
             }, {
                 id: 128,
                 name: "يابانية",
                 platform: "PS4",
                 size: "0.2 GB",
-                description: "هي لعبة كرة قدم ممتعة حيث هدفك هو تسجيل الأهداف! استخدم المصدات والعقبات لتوجيه الكرة نحو المرمى. هل يمكنك تسجيل هدف الفوز؟ هيا العب الآن!"
+                description: "لعبة كرة قدم ممتعة لتسجيل الأهداف."
             }, {
                 id: 129,
                 name: "jump force",
                 platform: "PS4",
                 size: "15 GB",
-                description: "لعبة قتال أنمي حماسية تجمع أشهر أبطال مجلة شونين جامب اليابانية (مثل غوكو، لوفي، ناروتو، وإيتشيجو) في ساحات قتال ثلاثية الأبعاد مدمرة لتحديد البطل الأقوى."
+                description: "لعبة قتال أنمي تجمع أبطال شونين جامب."
             }, {
                 id: 130,
                 name: "megaton rainfall",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة أكشن وفضاء ثلاثية الأبعاد، تتحكم فيها بكائن فضائي عملاق يحمي الأرض من غزو كائنات فضائية شريرة، وتتيح لك الطيران بسرعة فائقة وتدمير المدن والمركبات الفضائية."
+                description: "حماية الأرض من غزو كائنات فضائية."
             }, {
                 id: 131,
                 name: "road redempion",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة سباقات دراجات نارية حماسية ومليئة بالعنف، حيث تتنافس مع خصومك في سباقات شوارع غير قانونية، وتستخدم الأسلحة والمهارات الخاصة لتدمير منافسيك والفوز بالسباق."
+                description: "سباقات دراجات نارية مليئة بالعنف."
             }, {
                 id: 132,
                 name: "heavy fire",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة تصويب من منظور الشخص الأول، تتحكم فيها بجندي في ساحة معركة مليئة بالأعداء، وتستخدم مجموعة متنوعة من الأسلحة الثقيلة لتدمير الأعداء وحماية زملائك في الفريق."
+                description: "تصويب من منظور الشخص الأول."
             }, {
                 id: 133,
                 name: "max the curse of brotherhood",
                 platform: "PS4",
                 size: "3 GB",
-                description: "لعبة منصات وألغاز ممتعة، تتحكم فيها بشاب يُدعى ماكس الذي يسافر عبر عالم سحري لإنقاذ شقيقه، مستخدماً قلم سحري لرسم الجسور والأدوات وحل الألغاز في بيئات مليئة بالتحديات."
+                description: "منصات وألغاز بقلم سحري."
             }, {
                 id: 134,
                 name: "resident evil 2 remake",
                 platform: "PS4",
                 size: "24 GB",
-                description: "إعادة صنع مذهلة للعبة الرعب الكلاسيكية، تتحكم بالشرطي ليون كينيدي والممرضة كلير ريدفيلد في مدينة راكون المدمرة، مع مواجهة الزومبي والمخلوقات المرعبة في بيئة مليئة بالإثارة والتشويق."
+                description: "إعادة صنع رائعة لرعب الكلاسيكية."
             }, {
                 id: 135,
                 name: "resident evil 4 remake",
                 platform: "PS4",
                 size: "27 GB",
-                description: "إعادة صنع رائعة للعبة الرعب الكلاسيكية، تتحكم بجيل فالنتاين في مدينة راكون المدمرة، مع مواجهة الوحش نيميسيس والهروب من الزومبي في بيئة مليئة بالإثارة."
+                description: "إعادة صنع للعبة الرعب الشهيرة."
             }, {
                 id: 136,
                 name: "resident evil 5 ",
                 platform: "PS4",
                 size: "18 GB",
-                description: "الجزء الثامن من سلسلة ريزدنت إيفل، تتحكم بإيثان وينترز في قرية غامضة مليئة بالمخلوقات المرعبة والأسرار المظلمة، مع أسلوب لعب يجمع بين الرعب والبقاء."
+                description: "الرعب والبقاء في قرية غامضة."
             }, {
                 id: 137,
                 name: "resident evil 7",
                 platform: "PS4",
                 size: "34 GB",
-                description: "الجزء التاسع من سلسلة ريزدنت إيفل، تتحكم بإيثان وينترز في منزل مرعب مليء بالأسرار والمخلوقات المرعبة، مع أسلوب لعب يجمع بين الرعب والبقاء."
+                description: "منزل مرعب مليء بالأسرار والمخلوقات."
             }, {
                 id: 138,
                 name: "minecraft dungeons",
                 platform: "PS4",
                 size: "2 GB",
-                description: "لعبة أكشن ومغامرات مستوحاة من عالم ماينكرافت الشهير، تتحكم بشخصية في عالم مكعبات ثلاثي الأبعاد، وتستكشف الأبراج المحصنة، تحارب الوحوش، وتجمع الغنائم والأسلحة."
+                description: "أكشن ومغامرات في عالم ماينكرافت."
             }, {
                 id: 139,
                 name: "hollow knight silksong",
                 platform: "PS4",
                 size: "0.2 GB",
-                description: "لعبة منصات ومغامرات مذهلة، تتحكم بشخصية حشرية صغيرة في عالم غامض وجميل، تستكشف الكهوف والغابات، تحارب الأعداء، وتكتشف الأسرار والكنوز في بيئة مليئة بالتحديات."
+                description: "منصات ومغامرات بحشرة صغيرة."
             }, {
                 id: 140,
                 name: "sonic x shadow",
                 platform: "PS4",
                 size: "25 GB",
-                description: "لعبة سباقات ومغامرات سريعة، تتحكم بشخصية سونيك القنفذ أو شادو في سباقات مثيرة عبر مستويات متنوعة، مع جمع الحلقات الذهبية وتجنب العقبات والفوز بالسباق ضد المنافسين."
+                description: "سباقات ومغامرات سريعة لسونيك وشادو."
             }, {
                 id: 141,
                 name: "lego brawls",
                 platform: "PS4",
                 size: "4 GB",
-                description: "لعبة قتال جماعية ممتعة ومليئة بالفوضى، تتحكم بشخصيات LEGO في معارك سريعة ومسلية، حيث تتعاون مع فريقك لهزيمة الخصوم باستخدام الأسلحة والقدرات الخاصة في ساحات متنوعة."
+                description: "قتال جماعي بشخصيات LEGO."
             }, {
                 id: 142,
                 name: "ninja mutants in manhattan",
                 platform: "PS4",
                 size: "10 GB",
-                description: "لعبة أكشن ومغامرات مستوحاة من شخصيات النينجا، تتحكم بشخصية نينجا في مدينة مانهاتن، تقاتل الأعداء وتستخدم مهارات النينجا الخاصة للتنقل بين المباني وحل الألغاز."
+                description: "أكشن ومغامرات نينجا في مانهاتن."
             }, {
                 id: 143,
                 name: "power rangers",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة قتال ومغامرات مستوحاة من سلسلة باور رينجرز الشهيرة، تتحكم بشخصيات الباور رينجرز في معارك ضد الأشرار، وتستخدم قدراتهم الخاصة وأسلحتهم لهزيمة الأعداء وحماية المدينة."
+                description: "قتال ومغامرات باور رينجرز."
             }, {
                 id: 144,
                 name: "assassin's creed black flag",
                 platform: "PS4",
                 size: "22 GB",
-                description: "مغامرة بحرية ملحمية في عصر القراصنة، تتحكم بالقرصان إدوارد كينواي في رحلات بحرية واسعة، مع قتال بالسفن، استكشاف الجزر، والبحث عن الكنوز في عالم مفتوح مذهل."
+                description: "مغامرة بحرية ملحمية للقرصان إدوارد."
             }, {
                 id: 145,
                 name: "bastion",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة أكشن ومغامرات مذهلة برسوميات فنية رائعة، تتحكم بشخصية البطل في عالم ما بعد الكارثة، تحارب الأعداء، تجمع الموارد، وتستكشف البيئات المدمرة لإنقاذ العالم."
+                description: "أكشن ومغامرات برسوميات فنية رائعة."
             }, {
                 id: 146,
                 name: "trazan",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة مغامرات وحركة مستوحاة من قصة طرزان الشهيرة، تتحكم بشخصية طرزان في الغابة، تتسلق الأشجار، تتأرجح على الحبال، وتحارب الأعداء للحفاظ على سلامة الغابة وسكانها."
+                description: "مغامرات طرزان في الغابة."
             }, {
                 id: 147,
                 name: "hitman 2",
                 platform: "PS4",
                 size: "32 GB",
-                description: "لعبة تصويب وتسلل مذهلة، تتحكم بالعميل 47 في مهمات اغتيال معقدة حول العالم، تستخدم التخفي، التخطيط، والأسلحة المتنوعة لإتمام المهمات بأكثر من طريقة ممكنة."
+                description: "مهمات اغتيال معقدة للعميل 47."
             }, {
                 id: 148,
                 name: "red dead redemption",
                 platform: "PS4",
                 size: "11 GB",
-                description: "الجزء الأول من ملحمة الغرب الأمريكي المتوحش، تتحكم بالمجرم السابق جون مارستون في رحلة مليئة بالمغامرات، القتال، واستكشاف الأراضي الواسعة والمفتوحة في أمريكا الشمالية."
+                description: "الجزء الأول من ملحمة الغرب الأمريكي."
             }, {
                 id: 149,
                 name: "crazy taxi 2",
                 platform: "PS4",
                 size: "0.3 GB",
-                description: "لعبة سباقات ممتعة ومجنونة، تتحكم بسائق تاكسي في مدينة مزدحمة، تنقل الركاب بسرعة، تتجنب العقبات، وتجمع النقاط من خلال القيادة المتهورة والمغامرات المثيرة في شوارع المدينة."
+                description: "سباقات تاكسي مجنونة وممتعة."
             }, {
                 id: 150,
                 name: "ghost runner",
                 platform: "PS4",
                 size: "10 GB",
-                description: "لعبة أكشن وسرعة مذهلة، تتحكم بشخصية سايبربانك خارقة، تجري على الجدران، تتجنب العقبات، وتقاتل الأعداء باستخدام مهارات القتال السريعة والسيوف الحادة في بيئة مستقبلية مليئة بالتحديات."
+                description: "أكشن وسرعة بسايبربانك خارق."
             }, {
                 id: 151,
                 name: "journey to the savage planet",
                 platform: "PS4",
                 size: "5 GB",
-                description: "مغامرة استكشافية كوميدية في كوكب غريب مليء بالمخلوقات الغريبة والبيئات الملونة، تتحكم بشخصية رائد فضاء يحاول استكشاف الكوكب، جمع الموارد، وحل الألغاز في رحلة مليئة بالمفاجآت."
+                description: "مغامرة استكشافية كوميدية بكوكب غريب."
             }, {
                 id: 152,
                 name: "uncharted the lost legacy",
                 platform: "PS4",
                 size: "40 GB",
-                description: "مغامرة مثيرة في عالم Uncharted، تتحكم بشخصية ناتالي روس في رحلة لاستكشاف كنوز مفقودة في الهند، تواجه الأعداء، تحل الألغاز، وتستمتع بالمناظر الطبيعية الخلابة في بيئة مليئة بالإثارة والتشويق."
+                description: "مغامرة لاستكشاف كنوز في الهند."
             }, {
                 id: 153,
                 name: "toy story 3",
                 platform: "PS4",
                 size: "1 GB",
-                description: "لعبة مغامرات ممتعة مستوحاة من فيلم الرسوم المتحركة الشهير، تتحكم بشخصيات الألعاب المحبوبة في رحلة مليئة بالمغامرات، حل الألغاز، والتفاعل مع البيئة لاستعادة الألعاب المفقودة."
+                description: "مغامرات مستوحاة من فيلم توي ستوري."
             }, {
                 id: 154,
                 name: "outlast trinity",
                 platform: "PS4",
                 size: "8 GB",
-                description: "مجموعة ألعاب رعب نفسية مذهلة، تتضمن Outlast وOutlast 2 وOutlast: Whistleblower، حيث تتحكم بشخصيات تحاول البقاء على قيد الحياة في بيئات مرعبة مليئة بالمخلوقات المرعبة والأحداث المروعة."
+                description: "ثلاثية ألعاب رعب نفسية مذهلة."
             },
             // --- ألعاب PS3 ---
             {
@@ -1676,691 +1886,796 @@
                 name: "Air Conflicts Secret Wars",
                 platform: "PS3",
                 size: "5 GB",
-                description: "لعبة محاكاة طيران حربية تدور أحداثها خلال الحربين العالميتين الأولى والثانية، تقدم معارك جوية مثيرة ومهمات قصف وهجوم بالطائرات الكلاسيكية القديمة."
+                description: "محاكاة طيران حربية للحربين العالميتين."
             }, {
                 id: 998,
                 name: "Watch Dogs",
                 platform: "PS3",
                 size: "14 GB",
-                description: "تحكم بالهاكر المحترف 'آيدن بيرس' واستخدم مهارات القرصنة المتطورة للتحكم بمدينة شيكاغو بالكامل واختراق الكاميرات والهواتف للانتقام لعائلتك في عالم مفتوح."
+                description: "تحكم بشيكاغو بالقرصنة مع آيدن بيرس."
             }, {
                 id: 997,
                 name: "Iron Sky",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة معارك فضائية حماسية مبنية على الفيلم الشهير، تقود فيها مركبات حربية فضائية متطورة لحماية كوكب الأرض من غزو نازي غامض وقادم من القواعد السرية على القمر."
+                description: "معارك فضائية ضد غزو نازي من القمر."
             }, {
                 id: 996,
                 name: "007 Legends",
                 platform: "PS3",
                 size: "6 GB",
-                description: "عش أشهر وأخطر مهمات العميل السري الأسطوري جيمس بوند المستوحاة من أفلامه الكلاسيكية والحديثة في لعبة تصويب حماسية من منظور الشخص الأول مليئة بأدوات الجاسوسية."
+                description: "أخطر مهمات جيمس بوند."
             }, {
                 id: 995,
                 name: "RDR1",
                 platform: "PS3",
                 size: "10 GB",
-                description: "ملحمة الغرب الأمريكي المتوحش الأولى، تتبع قصة المحارب السابق 'جون مارستون' الذي يجبره عملاء الحكومة على ملاحقة وتصفية أفراد عصابته القدامى لحماية عائلته."
+                description: "ملحمة الغرب الأمريكي الأولى لجون مارستون."
             }, {
                 id: 994,
                 name: "Adventure Time",
                 platform: "PS3",
                 size: "3 GB",
-                description: "انضم لفين وجيك في رحلة استكشاف وحل ألغاز ممتعة في أرض أوو بأسلوب ألعاب المغامرات الكلاسيكية، ومناسبة جداً لجميع محبي كرتون وقت المغامرة الشهير."
+                description: "استكشاف وحل ألغاز في أرض أوو."
             }, {
                 id: 992,
                 name: "Army of Two",
                 platform: "PS3",
                 size: "7 GB",
-                description: "لعبة تصويب حماسية تركز بالكامل على التعاون والتنسيق التام بين مرتزقين مسلحين لتنفيذ مهمات عسكرية سرية ومعقدة حول العالم، وتمتاز بتعديل وتطوير الأسلحة والدروع."
+                description: "تصويب تعاوني وتنسيق بين مرتزقين."
             }, {
                 id: 991,
                 name: "Assassin's Creed Revelations",
                 platform: "PS3",
                 size: "12 GB",
-                description: "الفصل الختامي والأخير لقصة المغتال الإيطالي الأسطوري 'إيزيو أوديتوري' في مدينة القسطنطينية (إسطنبول)، متبعاً خطوات معلمه الأقدم الطائر لكشف أسرار المكتبة القديمة."
+                description: "ختام قصة إيزيو أوديتوري."
             }, {
                 id: 990,
                 name: "Assassin's Creed 2",
                 platform: "PS3",
                 size: "7 GB",
-                description: "بداية مسيرة إيزيو أوديتوري التاريخية في إيطاليا عصر النهضة، خض رحلة انتقام طويلة وممتعة وتعلم مهارات التخفي، والقفز بين أسطح المنازل، والاغتيال بالشفرة الخفية."
+                description: "بداية مسيرة إيزيو في إيطاليا."
             }, {
                 id: 989,
                 name: "Assassin's Creed 3",
                 platform: "PS3",
                 size: "13 GB",
-                description: "خض أحداث الثورة الأمريكية الشرسة بشخصية المحارب 'كونور' من السكان الأصليين، مستخدماً مهارات التخفي والقتال بالفأس والسهام في الغابات الكثيفة والمدن الأمريكية الناشئة."
+                description: "الثورة الأمريكية مع المحارب كونور."
             }, {
                 id: 988,
                 name: "Batman Arkham Origins",
                 platform: "PS3",
                 size: "15 GB",
-                description: "تروي قصة بداية مسيرة باتمان الشاب في مدينة غوثام، حيث يجد نفسه مستهدفاً من قبل ثمانية من أخطر القتلة المأجورين في العالم في ليلة عيد الميلاد الباردة."
+                description: "بداية مسيرة باتمان الشاب في غوثام."
             }, {
                 id: 987,
                 name: "Battlefield 4",
                 platform: "PS3",
                 size: "18 GB",
-                description: "معارك حربية حديثة مذهلة تمتاز بأطوار لعب جماعي واسعة النطاق وبيئات قابلة للتدمير بالكامل بفعل القصف والدبابات، مع طور قصة عسكري حماسي ومؤثر."
+                description: "معارك حربية حديثة وتدمير بيئي."
             }, {
                 id: 986,
                 name: "Little Big Planet",
                 platform: "PS3",
                 size: "6 GB",
-                description: "لعبة منصات إبداعية مميزة جداً، تمنحك التحكم الكامل بالدمية الظريفة 'ساكبوي' وتتيح لك بناء وتصميم عوالم ومستويات كاملة ومشاركتها مع اللاعبين الآخرين بذكاء."
+                description: "لعبة منصات إبداعية مع ساكبوي."
             }, {
                 id: 985,
                 name: "Ben 10",
                 platform: "PS3",
                 size: "4 GB",
-                description: "حارب الفضائيين الأشرار وأنقذ كوكب الأرض مستخدماً قدرات وأشكال الفضائيين الخارقين المختلفة التي تمنحها لك ساعة الأومنيتريكس السحرية لـ بن تنيسون."
+                description: "حارب الفضائيين بأشكال أومنيتريكس."
             }, {
                 id: 984,
                 name: "Brothers in Arms Hells Highway",
                 platform: "PS3",
                 size: "8 GB",
-                description: "لعبة تصويب وتكتيك عسكري واقعية جداً، تقود فيها فصيلة من الجنود المظليين خلال الحرب العالمية الثانية في عملية ماركت جاردن الشهيرة، مع التركيز على التخطيط وإعطاء الأوامر."
+                description: "تصويب وتكتيك عسكري واقعي."
             }, {
                 id: 983,
                 name: "Need for Speed Undercover",
                 platform: "PS3",
                 size: "6 GB",
-                description: "خض سباقات شوارع عنيفة وسريعة، واعمل كعميل سري متخفٍ لصالح الشرطة لاختراق وتفكيك شبكة إجرامية دولية لتهريب السيارات في قصة مليئة بالإثارة والمطاردات."
+                description: "سباقات واختراق شبكة إجرامية."
             }, {
                 id: 982,
                 name: "Far Cry 3",
                 platform: "PS3",
                 size: "9 GB",
-                description: "حارب من أجل النجاة على جزيرة استوائية مجنونة يسيطر عليها قراصنة قساة بقيادة الشخصية الأيقونية المضطربة 'فاس'، وطور مهاراتك وصيدك للبقاء والهروب."
+                description: "النجاة على جزيرة مع فاس المجنون."
             }, {
                 id: 981,
                 name: "Rango",
                 platform: "PS3",
                 size: "5 GB",
-                description: "لعبة مغامرات وأكشن فكاهية وممتعة مبنية على فيلم الأنيميشن الشهير، تتبع مغامرات الحرباء الطريف رانجو في بلدة الغرب الأمريكي المعزولة ومليئة بالتحديات المسلية."
+                description: "مغامرات فكاهية للحرباء رانجو."
             }, {
                 id: 980,
                 name: "Sniper Ghost Warrior",
                 platform: "PS3",
                 size: "6 GB",
-                description: "تجربة قنص وتسلل واقعية تتطلب حساب مسافة الهدف، سرعة الرياح، ونبضات القلب للتسلل خلف خطوط الأعداء وتنفيذ الاغتيالات الصامتة بالبنادق القناصة المتطورة."
+                description: "تجربة قنص وتسلل واقعية."
             }, {
                 id: 979,
                 name: "Hitman Absolution",
                 platform: "PS3",
                 size: "14 GB",
-                description: "العميل الأسطوري 47 يعود في مهمة شخصية للغاية، تمنحك اللعبة خيارات متعددة وأساليب ذكية للتخفي، التنكر، والتخلص من الأهداف والاغتيال دون ترك أي أثر ملموس."
+                description: "مهمة شخصية للعميل 47 وتخفٍ ذكي."
             }, {
                 id: 978,
                 name: "Naruto Shippuden Ultimate Ninja",
                 platform: "PS3",
                 size: "5 GB",
-                description: "معارك نينجا ملحمية وثنائية تعيد سرد أحداث أنمي ناروتو شيبودن الأيقوني بحركات نينجوتسو قاضية ورسوميات كرتونية مذهلة وأسلوب قتال سريع وممتع لعشاق الأنمي."
+                description: "معارك نينجا ملحمية لناروتو شيبودن."
             }, {
                 id: 977,
                 name: "Sonic All Stars Racing",
                 platform: "PS3",
                 size: "5 GB",
-                description: "سباقات كارت جنونية وممتعة تجمع أشهر شخصيات شركة سيجا، حيث المركبات لديها القدرة على التحول التلقائي لتناسب القيادة على الأرض، في الجو، أو فوق الماء."
+                description: "سباقات كارت بشخصيات سيجا."
             }, {
                 id: 976,
                 name: "Bioshock Infinite",
                 platform: "PS3",
                 size: "12 GB",
-                description: "رحلة خيالية مذهلة إلى مدينة كولومبيا الطائرة في السماء لإنقاذ الفتاة 'إليزابيث' التي تمتلك قوى خارقة لفتح الفجوات الزمنية، في قصة عميقة وتصويب حماسي ممتاز."
+                description: "رحلة إلى مدينة كولومبيا الطائرة."
             }, {
                 id: 975,
                 name: "PES 13",
                 platform: "PS3",
                 size: "7 GB",
-                description: "تعتبر من أفضل وأقوى أجزاء سلسلة بيس الكلاسيكية المحبوبة، وتمتاز بالتحكم الكامل والدقيق في الكرة والواقعية التكتيكية الممتازة التي يعشقها جميع اللاعبين."
+                description: "من أفضل أجزاء بيس الكلاسيكية."
             }, {
                 id: 974,
                 name: "Call of Duty Ops 2",
                 platform: "PS3",
                 size: "16 GB",
-                description: "مغامرة تصويب أيقونية تجمع بين أحداث الحرب الباردة في الستينيات وحرب مستقبلية متطورة تكنولوجياً، مع طور الزومبي الشهير واللعب الجماعي الأقوى على البلايستيشن 3."
+                description: "الحرب الباردة والمستقبل وزومبي."
             }, {
                 id: 973,
                 name: "Middle Earth Shadow of Mordor",
                 platform: "PS3",
                 size: "12 GB",
-                description: "خض معركة انتقام ملحمية في أرض موردور ضد جيوش ساورون، مستخدماً نظام النيمسيس المبتكر الذي يجعل الأعداء يتذكرون معاركهم السابقة معك ويطورون حصانات ضدك."
+                description: "معركة انتقام في أرض موردور."
             }, {
                 id: 972,
                 name: "GTA V",
                 platform: "PS3",
                 size: "18 GB",
-                description: "النسخة الأصلية والكلاسيكية الأسطورية للعبة قراند 5 على جهاز البلايستيشن 3، تتبع قصة مايكل، فرانكلين، وتريفور في مدينة لوس سانتوس وعمليات السطو الكبرى."
+                description: "النسخة الأصلية لقراند 5."
             }, {
                 id: 971,
                 name: "Assassin's Creed lV Black Flag",
                 platform: "PS3",
                 size: "11 GB",
-                description: "أبحر في بحر الكاريبي كقرصان شجاع وأساسن متخفٍ، قد سفينتك الخاصة في معارك بحرية ملحمية، وابحث عن الكنوز المفقودة واستكشف جزر القراصنة المفتوحة."
+                description: "القرصنة والمعارك البحرية."
             }, {
                 id: 970,
                 name: "Rambo",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة تصويب على مسار ثابت (On-rail) تعيد عيش اللحظات والأكشن القتالي الملحمي من أفلام رامبو الكلاسيكية الأيقونية باستخدام القوس المتفجر والرشاشات الثقيلة."
+                description: "تصويب وأكشن ملحمي لرامبو."
             }, {
                 id: 969,
                 name: "Injustice",
                 platform: "PS3",
                 size: "10 GB",
-                description: "لعبة قتال ممتازة ومثيرة تجمع أبطال دي سي كومكس (باتمان، سوبرمان، فلاش) في عالم موازٍ ومظلم تحول فيه سوبرمان إلى حاكم مستبد وظالم بعد كارثة كبرى."
+                description: "أبطال دي سي كومكس في عالم مظلم."
             }, {
                 id: 968,
                 name: "Minecraft PS3 Edition",
                 platform: "PS3",
                 size: "1 GB",
-                description: "النسخة الكلاسيكية المحبوبة من لعبة البناء والاستكشاف اللامتناهية، ابنِ بيتك الخاص واجمع الموارد وحارب الكائنات الليلية المزعجة مع أصدقائك بشاشة منقسمة."
+                description: "النسخة الكلاسيكية لبناء العوالم."
             }, {
                 id: 967,
                 name: "The Amazing Spider Man 2",
                 platform: "PS3",
                 size: "8 GB",
-                description: "تابع مغامرة الرجل العنكبوت في مواجهة أشرار نيويورك بفضل نظام قتال وتأرجح محسن وممتع، وقصة موسعة تمنحك تجربة بطولية ممتازة في شوارع المدينة المفتوحة."
+                description: "مغامرة سبايدرمان بشوارع نيويورك."
             }, {
                 id: 966,
                 name: "Battlefield Hardline",
                 platform: "PS3",
                 size: "14 GB",
-                description: "تغيير ثوري ومثير في السلسلة يركز على معارك الشوارع والمطاردات الحماسية والسرقات المسلحة بين رجال الشرطة واللصوص في أطوار لعب جماعية سريعة ومبتكرة."
+                description: "معارك الشوارع بين الشرطة واللصوص."
             }, {
                 id: 965,
                 name: "Minecraft Story Mode",
                 platform: "PS3",
                 size: "4 GB",
-                description: "مغامرة قصصية وتفاعلية مسلية في عالم ماينكرافت من استوديو Telltale، تعتمد بالكامل على قراراتك واختياراتك السريعة لتوجيه الأحداث ومصير الأصدقاء."
+                description: "مغامرة قصصية وتفاعلية."
             }, {
                 id: 964,
                 name: "PES 18",
                 platform: "PS3",
                 size: "8 GB",
-                description: "تطوير متميز وممتع لسلسلة كرة القدم الكلاسيكية على البلايستيشن 3، بأسلوب لعب واقعي ومستقر وتحديثات ممتازة للملاعب والخطط التكتيكية والمباريات الودية."
+                description: "تطوير متميز لسلسلة كرة القدم."
             }, {
                 id: 963,
                 name: "Ninja Gaiden 3",
                 platform: "PS3",
                 size: "6 GB",
-                description: "لعبة تقطيع وأكشن نينجا بالغة الصعوبة والإثارة، تتحكم فيها بالنينجا الأسطوري 'ريو هايابوسا' لمواجهة منظمة إرهابية عالمية باستخدام السيف والمهارات السحرية."
+                description: "أكشن نينجا بالغة الصعوبة."
             }, {
                 id: 962,
                 name: "Tekken Tag Tournament 2",
                 platform: "PS3",
                 size: "15 GB",
-                description: "قتال ثنائي حماسي يجمع أضخم تشكيلة من مقاتلي سلسلة تيكين الأسطوريين، يتيح لك اختيار مقاتلين والتبديل بينهما أثناء المعركة لتنفيذ حركات كومبو مشتركة ومدمرة."
+                description: "قتال ثنائي حماسي لتيكين."
             }, {
                 id: 961,
                 name: "Blood Drive",
                 platform: "PS3",
                 size: "5 GB",
-                description: "لعبة قتال سيارات دموية وعنيفة، تجمع بين مطاردات السيارات المسلحة بالرشاشات ومحاربة ودهس حشود الزومبي في ساحات مغلقة ومليئة بالفوضى والإثارة."
+                description: "قتال سيارات دموية ودهس الزومبي."
             }, {
                 id: 960,
                 name: "Blur",
                 platform: "PS3",
                 size: "6 GB",
-                description: "لعبة سباقات السيارات الأسطورية والمحبوبة، تمزج بشكل عبقري بين السيارات الحقيقية المرخصة وقدرات الأسلحة الخارقة (كالصدمات الكهربائية والألغام) لتعطيل المنافسين."
+                description: "سباقات سيارات مع أسلحة خارقة."
             }, {
                 id: 959,
                 name: "Lord of Rings War in the North",
                 platform: "PS3",
                 size: "7 GB",
-                description: "لعبة أكشن وتقييم أدوار (RPG) تعاونية ممتازة تدور في المناطق الشمالية لعالم سيد الخواتم الأسطوري، حيث تقاتل مع أصدقائك جيوش الظلام لحماية الأرض."
+                description: "أكشن وتقمص أدوار لعالم سيد الخواتم."
             }, {
                 id: 958,
                 name: "Batman Arkham City",
                 platform: "PS3",
                 size: "16 GB",
-                description: "تجول في سجن أرخام سيتي المفتوح والضخم لمواجهة الجوكر وجميع أشرار غوثام، في قصة تعتبر من أروع قصص باتمان بفضل نظام القتال الحر السلس والأدوات الذكية."
+                description: "تجول في سجن أرخام سيتي الضخم."
             }, {
                 id: 957,
                 name: "Sonic Generations",
                 platform: "PS3",
                 size: "9 GB",
-                description: "احتفالية رائعة بمرور 20 عاماً على سونيك، تجمع بين أسلوب اللعب الكلاسيكي ثنائي الأبعاد (سونيك القديم) والحديث ثلاثي الأبعاد (سونيك الجديد) في مراحل أيقونية محسنة."
+                description: "احتفالية بمرور 20 عاماً على سونيك."
             }, {
                 id: 956,
                 name: "Cars 2",
                 platform: "PS3",
                 size: "4 GB",
-                description: "انضم إلى أكاديمية التجسس الدولية مع برق بنزين وأصدقائه في سباقات مسلحة بالصواريخ والأسلحة وممتعة جداً ومستوحاة بالكامل من أحداث فيلم ديزني الشهير."
+                description: "أكاديمية التجسس مع برق بنزين."
             }, {
                 id: 955,
                 name: "Need for Speed Most Wanted",
                 platform: "PS3",
                 size: "5 GB",
-                description: "مطاردات شوارع جنونية ومفتوحة ضد الشرطة في مدينة كيرهيفن، عليك التسابق وهزيمة قائمة أخطر 10 سائقين في المدينة لتستولي على سياراتهم وتصبح الرقم واحد."
+                description: "مطاردات شوارع ضد الشرطة."
             }, {
                 id: 954,
                 name: "Dead Space 3",
                 platform: "PS3",
                 size: "10 GB",
-                description: "رعب وخيال علمي في كوكب متجمد وموحش، قاتل كائنات النيكرومورف المرعبة برفقة آيزك كلارك بالتعاون المشترك مع صديقك لإنهاء تهديد العلامات الفضائية نهائياً."
+                description: "رعب وخيال علمي في كوكب متجمد."
             }, {
                 id: 953,
                 name: "Need for Speed Rivals",
                 platform: "PS3",
                 size: "7 GB",
-                description: "اختر جانبك المفضّل في مدينة ريدفيو؛ إما أن تكون شرطياً تستخدم التقنيات المتطورة لمطاردة واعتقال المخالفين، أو سائقاً متهوراً يهرب بسرعات جنونية لكسب الشهرة."
+                description: "اختر بين الشرطة أو السائق المتهور."
             }, {
                 id: 952,
                 name: "Call of Duty Ghosts",
                 platform: "PS3",
                 size: "15 GB",
-                description: "تروي قصة فرقة 'الأشباح' النخبوية والسرية التي تقاتل في حرب عصابات لحماية ما تبقى من الولايات المتحدة المدمرة ضد قوة عظمى غازية في قصة تصويب مشوقة."
+                description: "فرقة الأشباح وحرب العصابات."
             }, {
                 id: 951,
                 name: "Lego Batman 3",
                 platform: "PS3",
                 size: "6 GB",
-                description: "سافر إلى الفضاء الخارجي برفقة باتمان وأبطال فرقة العدالة لإحباط مخطط برينياك الشرير لتصغير وتدمير كوكب الأرض، بأسلوب ألعاب ليغو الفكاهي والمليء بالألغاز."
+                description: "سافر إلى الفضاء مع فرقة العدالة."
             }, {
                 id: 950,
                 name: "Ninja Turtles Danger of the Ooze",
                 platform: "PS3",
                 size: "3 GB",
-                description: "لعبة منصات وأكشن جانبية مسلية تجمع سلاحف النينجا الأربعة في شوارع وأنفاق نيويورك لإنقاذ المدينة وإحباط مخططات شريدر وجيش الكرانغ الفضائي."
+                description: "منصات وأكشن لتنقية نيويورك."
             }, {
                 id: 949,
                 name: "2K 15",
                 platform: "PS3",
                 size: "8 GB",
-                description: "نسخة متميزة ومستقرة من سلسلة محاكاة دوري كرة السلة الأمريكي الاحترافية، تقدم أسلوب لعب ممتعاً وأطوار لعب منوعة لجميع عشاق هذه الرياضة."
+                description: "محاكاة كرة السلة الأمريكية."
             }, {
                 id: 948,
                 name: "Assassin's Creed Rogue",
                 platform: "PS3",
                 size: "8 GB",
-                description: "قصة فريدة ومثيرة تتحكم فيها بشخصية 'شاي كورماك' الذي ينقلب على طائفة الأساسنز بعد مأساة، ويتحول إلى صائد أساسنز شرس لصالح فرسان الهيكل (التمبلرز)."
+                description: "شاي كورماك ينقلب على الأساسنز."
             }, {
                 id: 947,
                 name: "Call of Duty Advanced Warfare",
                 platform: "PS3",
                 size: "15 GB",
-                description: "خض معارك المستقبل المتطور بالاستعانة بالدروع والبدلات الخارقة (Exoskeleton) التي تمنح الجندي قدرات قفز، تخفٍ، وحركة فائقة السرعة في قصة وتصويب حماسي."
+                description: "بدلات خارقة ومعارك مستقبلية."
             }, {
                 id: 946,
                 name: "Call of Duty Ops 1",
                 platform: "PS3",
                 size: "12 GB",
-                description: "عد إلى حقبة الحرب الباردة في الستينيات وعيش قصة مليئة بالغموض والمهمات السرية، التحقيقات، والاغتيالات التاريخية مع فرقة العمليات السوداء الشهيرة."
+                description: "الحرب الباردة ومهمات سرية."
             }, {
                 id: 945,
                 name: "Call of Duty Modern Warfare 2",
                 platform: "PS3",
                 size: "11 GB",
-                description: "واحدة من أشهر وأنجح ألعاب التصويب في التاريخ، معارك عسكرية ملحمية ضد الإرهاب، وطور عمليات خاصة (Spec Ops) لا يُنسى عند اللعب الثنائي مع صديقك."
+                description: "معارك عسكرية ملحمية وعمليات خاصة."
             }, {
                 id: 944,
                 name: "Call of Duty Modern Warfare 3",
                 platform: "PS3",
                 size: "13 GB",
-                description: "الفصل الختامي والملحمى لقصة الحرب العالمية الثالثة المدمرة، تتبع الكابتن برايس وفرقة العمليات في ملاحقة الإرهابي الروسي ماكاروف في عواصم العالم."
+                description: "ختام قصة الحرب العالمية الثالثة."
             }, {
                 id: 943,
                 name: "Cars Race o Rama",
                 platform: "PS3",
                 size: "5 GB",
-                description: "صمم وعدل سيارتك السباقية الخاصة ونافس في بطولات ومضامير متعددة لهزيمة خصمك اللدود ومساعديه في عالم ديزني سيارات الكرتوني الممتع والمناسب للأطفال."
+                description: "صمم سيارتك ونافس ببطولات متعددة."
             }, {
                 id: 942,
                 name: "Lords of Shadow",
                 platform: "PS3",
                 size: "10 GB",
-                description: "إعادة تخيل ممتازة وأسطورية لسلسلة كاسلفينيا الشهيرة، تتبع البطل غابرييل في رحلة أكشن وتقطيع ملحمية ومظلمة باستخدام سوط خارق لهزيمة أسياد الظلام والوحوش."
+                description: "إعادة تخيل لسلسلة كاسلفينيا."
             }, {
                 id: 941,
                 name: "Dirt 3",
                 platform: "PS3",
                 size: "7 GB",
-                description: "لعبة سباقات رالي ممتازة جداً، توفر مسارات طينية وثلجية رائعة في مختلف دول العالم، وطور تحديات الجيمكانا الاستعراضي الشهير المليء بالحركات البهلوانية بالسيارات."
+                description: "سباقات رالي طينية وثلجية."
             }, {
                 id: 940,
                 name: "Dragon Ball Z Burstlimit",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة قتال سريعة وحماسية تعيد إحياء أشهر معارك أنمي دراغون بول زد الأيقونية (مثل قتال فريزا وسيل) برسوميات سل-شاديد سينمائية جميلة وأسلوب قتال مبسط."
+                description: "قتال سريع لدراغون بول زد."
             }, {
                 id: 939,
                 name: "Driver San Francisco",
                 platform: "PS3",
                 size: "8 GB",
-                description: "ميزة ابتكارية فريدة تسمى (Shift) تتيح لك الانتقال الفوري وعبر الروح بين جميع السيارات والشاحنات في شوارع سان فرانسيسكو المفتوحة أثناء خوض المطاردات والسباقات."
+                description: "الانتقال الفوري بين السيارات."
             }, {
                 id: 938,
                 name: "The Evil Within",
                 platform: "PS3",
                 size: "12 GB",
-                description: "لعبة رعر بقاء نفسي شديدة الرعب من تصميم المطور شينجي ميكامي، حارب للنجاة وحل الألغاز داخل عوالم كابوسية متغيرة ومشوهة مليئة بالوحوش ومرعبة العقل."
+                description: "رعب بقاء نفسي شديد."
             }, {
                 id: 937,
                 name: "F1 Race Stars",
                 platform: "PS3",
                 size: "5 GB",
-                description: "سباقات فورمولا 1 ممتعة وفكاهية بطابع كرتوني وسيارات كارت صغيرة، تحتوي على أسلحة وقدرات خارقة ومسارات خيالية جنونية تناسب اللعب الجماعي العائلي المسلي."
+                description: "فورمولا 1 كرتونية ومسلية."
             }, {
                 id: 936,
                 name: "FIFA 19",
                 platform: "PS3",
                 size: "8 GB",
-                description: "خض غمار متعة كرة القدم العالمية على البلايستيشن 3، تقدم اللعبة تحديثات ممتازة لأسلوب اللعب التكتيكي والفرق والبطولات الكلاسيكية المفضلة لدى الجميع."
+                description: "متعة كرة القدم العالمية."
             }, {
                 id: 935,
                 name: "FIFA Street 3",
                 platform: "PS3",
                 size: "4 GB",
-                description: "كرة قدم الشوارع الشهيرة بطابع رسومي كرتوني مميز جداً وطويل القامة، نفذ حركات مهارية خارقة واستعراضات جنونية في ملاعب وحواري حول العالم بهدف إهانة الخصم."
+                description: "كرة قدم الشوارع الاستعراضية."
             }, {
                 id: 934,
                 name: "Sega Sonic",
                 platform: "PS3",
                 size: "4 GB",
-                description: "مجموعة سباقات ومغامرات كلاسيكية ممتعة تجمع القنفذ الأزرق السريع سونيك وأصدقائه المحبوبين في مراحل أيقونية وسريعة الإيقاع تضمن لك متعة أركيدية خالصة."
+                description: "سباقات ومغامرات كلاسيكية لسونيك."
             }, {
                 id: 933,
                 name: "God of War 3",
                 platform: "PS3",
                 size: "35 GB",
-                description: "الفصل الختامي والملحمي لقصة اليونان على البلايستيشن 3، يقود كريتوس هجوماً تدميرياً عنيفاً على جبل أوليمبوس للانتقام من والده زيوس وجميع الآلهة الإغريقية القديمة."
+                description: "الانتقام من زيوس وجبل أوليمبوس."
             }, {
                 id: 932,
                 name: "GTA lV",
                 platform: "PS3",
                 size: "12 GB",
-                description: "قصة المهاجر الشرقي نيكو بيليك في مدينة ليبرتي سيتي الشبيهة بنيويورك، وعيشه للجانب المظلم من الحلم الأمريكي في عالم مفتوح واقعي للغاية وفيزياء سيارات ثقيلة."
+                description: "نيكو بيليك في ليبرتي سيتي."
             }, {
                 id: 931,
                 name: "Green Lantern",
                 platform: "PS3",
                 size: "6 GB",
-                description: "تحكم بالبطل الخارق الفانوس الأخضر (هال جوردان) واستخدم قوى الخاتم السحري لصنع أسلحة ودروع من الطاقة الخضراء ومحاربة جيوش الفضاء الأشرار لإنقاذ المجرة."
+                description: "استخدم قوى الخاتم السحري."
             }, {
                 id: 930,
                 name: "Hitman HD",
                 platform: "PS3",
                 size: "10 GB",
-                description: "حزمة أسطورية مجمعة تضم الأجزاء الكلاسيكية المحسنة بدقة عالية للعميل 47، لتنفيذ عمليات الاغتيال المعقدة بالتخفي، التسلل، والتنكر بذكاء شديد حول العالم."
+                description: "حزمة أجزاء الكلاسيكية للعميل 47."
             }, {
                 id: 929,
                 name: "Ice Age 4",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة مغامرات ومنصات فكاهية مقتبسة بالكامل من فيلم العصر الجليدي الأيقوني الرابع، مليئة بالتحديات والألعاب المصغرة الطريفة والمسلية والمناسبة جداً للأطفال."
+                description: "مغامرات العصر الجليدي."
             }, {
                 id: 928,
                 name: "Infamous 2",
                 platform: "PS3",
                 size: "13 GB",
-                description: "تابع قصة كول ماكغراث في مدينة نيو ماريه، طور قواك الكهربائية المدمرة بالكامل اختر عبر قراراتك أن تكون بطلاً محبوباً ومخلصاً للمدينة أو مدمراً شريراً لها."
+                description: "طور قواك الكهربائية في نيو ماريه."
             }, {
                 id: 927,
                 name: "Iron Man 2",
                 platform: "PS3",
                 size: "5 GB",
-                description: "ارتدِ بدلة توني ستارك الحديدية الطائرة واستخدم ترسانة أسلحتك الليزرية والصاروخية المتطورة لحماية العالم وتدمير جيوش الروبوتات الطائرة في معارك أكشن سريعة."
+                description: "ارتدِ بدلة توني ستارك الطائرة."
             }, {
                 id: 926,
                 name: "Avatar",
                 platform: "PS3",
                 size: "6 GB",
-                description: "استكشف كوكب باندورا الساحر المأخوذ من الفيلم الشهير، واختر بين القتال بجانب جيش البشر المستعمر أو الدفاع عن الطبيعة والقبيلة برفقة سكان النافي الزرق."
+                description: "استكشف كوكب باندورا الساحر."
             }, {
                 id: 925,
                 name: "Kung Panda 2",
                 platform: "PS3",
                 size: "5 GB",
-                description: "لعبة أكشن ومغامرات كرتونية فكاهية ومسلية جداً، تتحكم فيها بالباندا المحبوب 'بو' وأصدقائه الخمسة الغاضبين لحماية وادي السلام باستخدام مهارات الكونغ فو."
+                description: "حماية وادي السلام مع الباندا بو."
             }, {
                 id: 924,
                 name: "Lego Marvel Super Heroes",
                 platform: "PS3",
                 size: "7 GB",
-                description: "اجمع وحرك أشهر أبطال مارفل (أيرون مان، ثور، سبايدرمان) لإنقاذ مدينة نيويورك من تحالف لوكي والأشرار بأسلوب ألعاب ليغو الفكاهي والمليء بالألغاز الممتعة."
+                description: "أبطال مارفل لإنقاذ نيويورك."
             }, {
                 id: 923,
                 name: "Little Big Planet Karting",
                 platform: "PS3",
                 size: "5 GB",
-                description: "سباقات كارت ممتعة في عوالم الدمية ساكبوي، تتيح لك التسابق السريع وتمنحك أدوات ضخمة لتصميم وتعديل مساراتك وسياراتك الخاصة ومشاركتها مع اللاعبين أونلاين."
+                description: "سباقات كارت لعوالم ساكبوي."
             }, {
                 id: 922,
                 name: "Madagascar Kartz",
                 platform: "PS3",
                 size: "4 GB",
-                description: "سباقات سيارات كارت مرحة وسريعة تضم جميع شخصيات الحيوانات المحبوبة من سلسلة أفلام مدغشقر الكرتونية في مسارات جنونية مليئة بالقفزات والخدع المسلية."
+                description: "سباقات حيوانات مدغشقر."
             }, {
                 id: 921,
                 name: "Mafia 2",
                 platform: "PS3",
                 size: "8 GB",
-                description: "عيش الحياة الكاملة للعصابات الإيطالية الكلاسيكية في الأربعينيات بمدينة إمباير باي، من خلال قصة درامية سينمائية متقنة تتبع مسيرة الشاب فيتو سكاليتّا في عالم الجريمة."
+                description: "حياة العصابات الإيطالية في إمباير باي."
             }, {
                 id: 920,
                 name: "Max Payne 3",
                 platform: "PS3",
                 size: "25 GB",
-                description: "قصة سوداوية وإطلاق نار منمنم ومميز للغاية يعتمد على ميزة تباطؤ الوقت والغطس (Bullet Time) الأيقونية، بطلها المحقق السابق المكتئب ماكس بين في البرازيل."
+                description: "إطلاق نار بتباطؤ الوقت مع ماكس بين."
             }, {
                 id: 919,
                 name: "Metal Gear The Phantom Pain",
                 platform: "PS3",
                 size: "12 GB",
-                description: "التحفة الأسطورية للتسلل والاختراق في عالم مفتوح، قد فرقة المرتزقة الخاصة بك (Mother Base) ونفذ مهماتك العسكرية بحرية تامة وبأعلى مستويات الذكاء الاصطناعي."
+                description: "التسلل في عالم مفتوح وقاعدة الأم."
             }, {
                 id: 918,
                 name: "Metal Slug 2",
                 platform: "PS3",
                 size: "500 MB",
-                description: "نسخة البلايستيشن 3 من لعبة الأركيد وإطلاق النار الكلاسيكية الشهيرة في الوطن العربي بـ (حرب الخليج)، دمر الأعداء والمركبات بأسلوب ثنائي الأبعاد حماسي ومضحك."
+                description: "حرب الخليج الكلاسيكية الشهيرة."
             }, {
                 id: 917,
                 name: "Metro Last Light",
                 platform: "PS3",
                 size: "9 GB",
-                description: "رعب وتصويب من منظور الشخص الأول في أنفاق المترو المظلمة بروسيا بعد الكارثة النووية، حارب الوحوش المتحورة والشرسة والفصائل البشرية المعادية من أجل النجاة."
+                description: "رعب وتصويب بأنفاق المترو المظلمة."
             }, {
                 id: 916,
                 name: "Midnight Club",
                 platform: "PS3",
                 size: "7 GB",
-                description: "واحدة من أروع سباقات الشوارع الليلية والمفتوحة بمدينة لوس أنجلوس، تمتاز بتعديل وتخصيص خارق وواسع للسيارات ومطاردات شرطة شرسة وسريعة للغاية."
+                description: "سباقات شوارع ليلية ومفتوحة."
             }, {
                 id: 915,
                 name: "Mini Ninja",
                 platform: "PS3",
                 size: "5 GB",
-                description: "مغامرة نينجا صغيرة ولطيفة جداً بطابع كرتوني ساحر، استخدم السحر القديم ومهارات السيف والتبديل بين الأصدقاء لإعادة السلام للقرية وهزيمة جيش الساموراي الشريرة."
+                description: "مغامرة نينجا صغيرة ولطيفة."
             }, {
                 id: 914,
                 name: "Mortal Kombat komplete Edition",
                 platform: "PS3",
                 size: "10 GB",
-                description: "النسخة الكاملة والشاملة من لعبة القتال العنيفة والدموية الأسطورية التي تعيد سرد قصة الأجزاء الثلاثة الأولى بحركات قاضية (Fatality) دموية ومثيرة للغاية."
+                description: "النسخة الكاملة للعبة القتال الدموية."
             }, {
                 id: 913,
                 name: "MX vs ATV Alive",
                 platform: "PS3",
                 size: "5 GB",
-                description: "سباقات دراجات نارية وسيارات دفع رباعي وعرة في مضامير ترابية وطينية حماسية، تعتمد بقوة على فيزياء الحركة الواقعية والتحكم المتقن في توازن السائق."
+                description: "سباقات دراجات ورباعي وعرة."
             }, {
                 id: 912,
                 name: "Need for Speed the Run",
                 platform: "PS3",
                 size: "8 GB",
-                description: "سباق ملحمي ومثير يمتد من مدينة سان فرانسيسكو إلى نيويورك، تخوضه تحت وطأة ملاحقة الشرطة الفيدرالية وعصابات المافيا الخطيرة في قصة أكشن فريدة."
+                description: "سباق من سان فرانسيسكو إلى نيويورك."
             }, {
                 id: 911,
                 name: "Ninja Gaiden Sigma 2",
                 platform: "PS3",
                 size: "10 GB",
-                description: "تجربة أكشن وتقطيع نينجا فائقة السرعة والصعوبة بالسيوف والأسلحة الفتاكة، تقاتل فيها عشائر النينجا المعادية والشياطين الضخمة في مستويات حماسية ومتقنة."
+                description: "أكشن وتقطيع نينجا فائقة السرعة."
             }, {
                 id: 910,
                 name: "Painkiller Hell Damnation",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة تصويب منظور شخص أول كلاسيكية، عنيفة وسريعة جداً، تقاتل فيها حشوداً هائلة وضخمة من وحوش وشياطين الجحيم في ساحات منوعة باستخدام أسلحة مدمرة."
+                description: "تصويب وكلاسيكية ضد شياطين الجحيم."
             }, {
                 id: 909,
                 name: "Prototype",
                 platform: "PS3",
                 size: "7 GB",
-                description: "تحكم بـ أليكس ميرسر الذي يمتلك قدرات تحول بايولوجية خارقة ومرعبة، دمر جيوش الأعداء، التهم البشر لكسب ذاكرتهم، وتجول واقفز بحرية فوق ناطحات سحاب نيويورك."
+                description: "قدرات تحول بايولوجية خارقة."
             }, {
                 id: 908,
                 name: "PES 19",
                 platform: "PS3",
                 size: "8 GB",
-                description: "من آخر إصدارات سلسلة بيس الرائعة والمستقرة على هذا الجيل، تقدم محاكاة كرة قدم كلاسيكية ممتازة وأسلوب لعب سريع وممتع يعشقه ملاك البلايستيشن 3."
+                description: "محاكاة كرة قدم كلاسيكية."
             }, {
                 id: 907,
                 name: "Ratch Clank Future",
                 platform: "PS3",
                 size: "11 GB",
-                description: "مغامرة خيال علمي ممتازة تأخذ السنور الذكي راتشيت وروبوته كلانك في رحلة فضائية لحل لغز ماضيه المفقود، باستخدام ترسانة ضخمة من الأسلحة الغريبة والمبتكرة."
+                description: "مغامرة خيال علمي لراتشيت وكلانك."
             }, {
                 id: 906,
                 name: "Rayman Origins",
                 platform: "PS3",
                 size: "3 GB",
-                description: "مغامرة منصات ثنائية الأبعاد ساحرة ومبهجة الألوان، تدعم اللعب الجماعي حتى 4 لاعبين على نفس الشاشة، ومملوءة بالضحك والمستويات الذكية والموسيقى الرائعة."
+                description: "منصات ساحرة ومبهجة الألوان."
             }, {
                 id: 905,
                 name: "Red Faction",
                 platform: "PS3",
                 size: "6 GB",
-                description: "لعبة أكشن وتصويب تتميز فيزياء تدمير بيئية غير مسبوقة وقابلة للهدم بالكامل، استخدم المطارق الثقيلة والمتفجرات لهدم المباني والجسور بالكامل فوق رؤوس الأعداء."
+                description: "تدمير بيئي وهدم المباني بالمتفجرات."
             }, {
                 id: 904,
                 name: "Resident Evil 6",
                 platform: "PS3",
                 size: "14 GB",
-                description: "ملحمة رعب وأكشن تقدم أربع قصص متقاطعة ومختلفة لشخصيات السلسلة الشهيرة (مثل ليون وكريس) لمواجهة وباء فايروس سي الذي يهدد العالم بالتحول لزومبي."
+                description: "قصص متقاطعة لمواجهة فايروس سي."
             }, {
                 id: 903,
                 name: "Rio",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة حفلات ترفيهية تضم ألعاباً مصغرة ممتعة ومبهجة ومملوءة بالألوان مقتبسة من فيلم الأنيميشن ريو الأيقوني، مناسبة جداً ومسلية للعب الجماعي مع العائلة والأطفال."
+                description: "ألعاب مصغرة مبهجة مقتبسة من ريو."
             }, {
                 id: 902,
                 name: "Sniper Elite 3",
                 platform: "PS3",
                 size: "10 GB",
-                description: "خض حرب القناص السري في قارة إفريقيا خلال الحرب العالمية الثانية، مع فيزياء قنصر واقعية تتأثر بالجاذبية والرياح، وكاميرا الأشعة السينية الشهيرة لتوثيق اللقطات."
+                description: "حرب القناص السري في إفريقيا."
             }, {
                 id: 901,
                 name: "Spider Man 3",
                 platform: "PS3",
                 size: "7 GB",
-                description: "دافع عن مدينة نيويورك المفتوحة كسبايدرمان، وارتدِ البدلة السوداء الفضائية التي تمنحك قوى عيفة ومدمرة في لعبة عالم مفتوح مستوحاة بالكامل من الفيلم السينمائي الثالث."
+                description: "البدلة السوداء وقوى سبايدرمان المدمرة."
             }, {
                 id: 900,
                 name: "Spongebob Plankton Robotic",
                 platform: "PS3",
                 size: "3 GB",
-                description: "انطلق مع سبونج بوب وبسيط وسلطع لإحباط مخطط بلانكتون الشرير الجديد الذي يقود جيشاً من الروبوتات لتدمير قاع الهامور وسرقة الوصفة السرية في لعبة منصات مسلية."
+                description: "إحباط مخطط بلانكتون بجيش الروبوتات."
             }, {
                 id: 899,
                 name: "The Incredible Hulk",
                 platform: "PS3",
                 size: "6 GB",
-                description: "تحكم بالعملاق الأخضر الغاضب هولك ودمر مدينة نيويورك المفتوحة بالكامل، استخدم السيارات كقواذف والمباني كمطارق لتدمير جيوش الأعداء والروبوتات الضخمة."
+                description: "تحكم بالعملاق الأخضر ودمر نيويورك."
             }, {
                 id: 898,
                 name: "The Smurfs 2",
                 platform: "PS3",
                 size: "4 GB",
-                description: "لعبة منصات ومغامرات كرتونية لطيفة وملونة مقتبسة من فيلم السنافر الثاني، سافر عبر عواصم العالم (مثل باريس) لإنقاذ سنفورة المخطوفة من شر غارغاميل."
+                description: "إنقاذ سنفورة في باريس."
             }, {
                 id: 897,
                 name: "The House of the Dead 3",
                 platform: "PS3",
                 size: "3 GB",
-                description: "لعبة التصويب الكلاسيكية الأركيدية الأيقونية من شركة سيجا، استخدم بندقيتك للقضاء السريع على جحافل الزومبي والمسوخ المرعبة المتدفقة نحوك قبل أن يقضوا عليك."
+                description: "تصويب أركيدي للقضاء على الزومبي."
             }, {
                 id: 896,
                 name: "Tomb Raider",
                 platform: "PS3",
                 size: "11 GB",
-                description: "إعادة إحياء أسطورية تروي بداية مسيرة لارا كروفت الشابة، وكيف تحولت من فتاة رقيقة إلى ناجية ومقاتلة قوية ومكتشفة مقابر في جزيرة يابانية غامضة وموحشة."
+                description: "بداية مسيرة لارا كروفت الشابة."
             }, {
                 id: 895,
                 name: "Top Spin 4",
                 platform: "PS3",
                 size: "6 GB",
-                description: "تعتبر اللعبة الأفضل في محاكاة رياضة التنس الأرضي، بفضل أسلوب التحكم العميق والواقعي ومجموعة كبيرة من الملاعب والبطولات واللاعبين الأسطوريين المحترفين."
+                description: "محاكاة تنس أرضي عميقة وواقعية."
             }, {
                 id: 894,
                 name: "Transformers Fall of Cybertron",
                 platform: "PS3",
                 size: "7 GB",
-                description: "خض الحرب الأهلية الختامية والأخيرة بين الأوتوبوتس والديسبتيكونز على كوكبهم الآلي السايلبرترون في معارك آليين ملحمية وقصة خيال علمي ممتازة ومشوقة."
+                description: "الحرب الأهلية الأخيرة للأوتوبوتس."
             }, {
                 id: 893,
                 name: "Up",
                 platform: "PS3",
                 size: "4 GB",
-                description: "عش مغامرة الجد العجوز كارل والطفل الكشاف وكلبهم الناطق في البراري الشاسعة المستوحاة من فيلم ديزني الشهير، عبر حل الألغاز والتعاون الثنائي لتخطي العقبات."
+                description: "مغامرة الجد كارل في البراري."
             }, {
                 id: 892,
                 name: "Virtua Tennis 4",
                 platform: "PS3",
                 size: "5 GB",
-                description: "لعبة تنس ممتعة وسريعة الإيقاع من شركة سيجا، توفر طور مهنة مسلٍ جداً على شكل خريطة عالم، وألعاباً مصغرة مبتكرة ومضحكة لتدريب وتطوير مهارات لاعبك."
+                description: "تنس ممتع وسريع الإيقاع من سيجا."
             }, {
                 id: 891,
                 name: "Legends of Troy",
                 platform: "PS3",
                 size: "8 GB",
-                description: "خض معارك تاريخية دموية وملحمية في حرب طروادة الأسطورية مستوحاة من الميثولوجيا الإغريقية، بأسلوب قتال حماسي (هيروز) يجعلك تقاتل مئات الجنود بسيفك."
+                description: "معارك تاريخية في حرب طروادة."
             }, {
                 id: 890,
                 name: "2K 17",
                 platform: "PS3",
                 size: "9 GB",
-                description: "نسخة متميزة من سلسلة كرة السلة الأمريكية الرسمية تقدم طور قصة متكامل وتحسينات ممتازة للرسوميات والتحكم الكلاسيكي المستقر على جهاز البلايستيشن 3."
+                description: "كرة السلة الأمريكية الرسمية."
             }, {
                 id: 889,
                 name: "The Last of Us",
                 platform: "PS3",
                 size: "25 GB",
-                description: "بداية الرحلة الأسطورية والمؤثرة لجويل وإيلي على جهاز البلايستيشن 3، قاتل من أجل النجاة ضد البشر والموبوئين بالفطر القاتل في عالم مدمر وجميل الكآبة."
+                description: "بداية الرحلة الأسطورية لجويل وإيلي."
             }, {
                 id: 888,
                 name: "The Amazing Spider Man",
                 platform: "PS3",
                 size: "8 GB",
-                description: "تأرجح بحرية كاملة في شوارع مدينة نيويورك كسبايدرمان، وحارب الجريمة والعصابات في قصة حماسية مكملة وموسعة لأحداث الفيلم السينمائي الشهير."
+                description: "تأرجح بحرية وحارب الجريمة."
             }, {
                 id: 887,
                 name: "2K 14",
                 platform: "PS3",
                 size: "8 GB",
-                description: "محاكاة كرة السلة الأسطورية والمحبوبة التي قدمت أحد أفضل أطوار اللعب والتحكم المستقر والسلس لجميع محبي الرياضة والبطولات الاحترافية الاحتفالية."
+                description: "محاكاة كرة السلة السلسة والمحبوبة."
             }
         ];
 
+        // توليد الأسعار الديناميكية لكافة الألعاب بناءً على الحجم والجهاز
+        const gamesList = rawGamesList.map(game => ({
+            ...game,
+            price: calculateGamePrice(game.platform, game.size)
+        }));
+
         let cart = [];
+
+        // دالة التنبيهات العصرية Toast
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `✨ ${message}`;
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 2500);
+        }
+
+        // دالة المفضلة المحسنة السريعة
+        function toggleFavorite(id, event) {
+            if (event) event.stopPropagation();
+            const index = favorites.indexOf(id);
+            const btn = event.currentTarget;
+
+            if (index > -1) {
+                favorites.splice(index, 1);
+                btn.classList.remove('active');
+                showToast("تم إزالة العنصر من المفضلة");
+            } else {
+                favorites.push(id);
+                btn.classList.add('active');
+                showToast("تم إضافة العنصر إلى المفضلة ⭐");
+            }
+            localStorage.setItem('ps_favorites', JSON.stringify(favorites));
+
+            if (currentPlatform === 'Favorites') {
+                renderGames();
+            }
+        }
 
         function renderGames() {
             const grid = document.getElementById('games-grid');
+            const searchBoxWrapper = document.getElementById('search-box-wrapper');
+            const sortSelect = document.getElementById('sort-select');
+            const sectionMainTitle = document.getElementById('section-main-title');
+
             if (!grid) return;
             grid.innerHTML = '';
 
+            if (currentPlatform === 'Offers') {
+                if (searchBoxWrapper) searchBoxWrapper.style.display = 'block';
+                if (sortSelect) sortSelect.style.display = 'block';
+                if (sectionMainTitle) sectionMainTitle.innerHTML = '🎁 عروض المتجر الخاصة';
+
+                const searchInput = document.getElementById('search-input');
+                const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+                let filteredOffers = offersList.filter(offer => offer.name.toLowerCase().includes(searchQuery));
+
+                if (filteredOffers.length === 0) {
+                    grid.innerHTML = '<p style="color: var(--text-muted); padding: 30px; text-align: center; grid-column: 1/-1;">لا توجد عروض تطابق بحثك حالياً.</p>';
+                    return;
+                }
+
+                filteredOffers.forEach(offer => {
+                    const localOfferImagePath = `images/offer_${offer.id}.jpg`;
+                    const isFav = favorites.includes(offer.id);
+
+                    const card = `
+                        <div class="card">
+                            <span class="game-size-badge">🏷️ ${offer.size}</span>
+                            <button class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${offer.id}, event)" title="إضافة للمفضلة">♥</button>
+                            <div class="card-img-wrapper" onclick="showDetailsModal(true, ${offer.id})" style="cursor: pointer;">
+                                <img src="${localOfferImagePath}" alt="${offer.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x250/2d121b/ffffff?text=${encodeURIComponent(offer.name)}'">
+                            </div>
+                            <h3 class="card-title">${offer.name}</h3>
+                            <span class="tag offer">عروض خاصة</span>
+                            <div class="game-price-badge">💵 ${offer.price} ج.م</div>
+                            <div class="btn-container">
+                                <button class="add-btn" onclick="addToCartOffer(${offer.id})">أضف للسلة</button>
+                                <button class="details-btn" onclick="showDetailsModal(true, ${offer.id})">تفاصيل</button>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += card;
+                });
+                return;
+            } else {
+                if (searchBoxWrapper) searchBoxWrapper.style.display = 'block';
+                if (sortSelect) sortSelect.style.display = 'block';
+                if (sectionMainTitle) sectionMainTitle.innerHTML = '🕹️ قائمة الألعاب';
+            }
+
             const searchInput = document.getElementById('search-input');
             const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const sortValue = sortSelect.value;
 
-            const filteredGames = gamesList.filter(game => {
-                const matchesPlatform = (currentPlatform === 'All' || game.platform === currentPlatform);
+            let filteredGames = gamesList.filter(game => {
+                let matchesPlatform = true;
+                if (currentPlatform === 'Favorites') {
+                    matchesPlatform = favorites.includes(game.id);
+                } else if (currentPlatform !== 'All') {
+                    matchesPlatform = (game.platform === currentPlatform);
+                }
                 const matchesSearch = game.name.toLowerCase().includes(searchQuery);
                 return matchesPlatform && matchesSearch;
             });
+
+            // تطبيق الترتيب (Sorting)
+            if (sortValue === 'name-asc') {
+                filteredGames.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (sortValue === 'name-desc') {
+                filteredGames.sort((a, b) => b.name.localeCompare(a.name));
+            } else if (sortValue === 'price-asc') {
+                filteredGames.sort((a, b) => a.price - b.price);
+            } else if (sortValue === 'price-desc') {
+                filteredGames.sort((a, b) => b.price - a.price);
+            }
 
             if (filteredGames.length === 0) {
                 grid.innerHTML = '<p style="color: var(--text-muted); padding: 30px; text-align: center; grid-column: 1/-1;">لا توجد ألعاب تطابق بحثك حالياً.</p>';
@@ -2371,18 +2686,22 @@
                 const tagClass = game.platform.toLowerCase();
                 const localImagePath = `images/${game.id}.jpg`;
                 const gameSize = game.size || "غير محدد";
+                const gamePrice = game.price ? `${game.price} ج.م` : "غير محدد";
+                const isFav = favorites.includes(game.id);
 
                 const card = `
                     <div class="card">
                         <span class="game-size-badge">💾 ${gameSize}</span>
-                        <div class="card-img-wrapper">
+                        <button class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleFavorite(${game.id}, event)" title="إضافة للمفضلة">♥</button>
+                        <div class="card-img-wrapper" onclick="showDetailsModal(false, ${game.id})" style="cursor: pointer;">
                             <img src="${localImagePath}" alt="${game.name}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/200x250/1e232d/ffffff?text=${encodeURIComponent(game.name)}'">
                         </div>
                         <h3 class="card-title">${game.name}</h3>
                         <span class="tag ${tagClass}">${game.platform}</span>
+                        <div class="game-price-badge">💵 ${gamePrice}</div>
                         <div class="btn-container">
                             <button class="add-btn" onclick="addToCart(${game.id})">أضف للسلة</button>
-                            <button class="details-btn" onclick="showDetails(${game.id})">تفاصيل</button>
+                            <button class="details-btn" onclick="showDetailsModal(false, ${game.id})">تفاصيل</button>
                         </div>
                     </div>
                 `;
@@ -2390,34 +2709,70 @@
             });
         }
 
-        function showDetails(id) {
-            const game = gamesList.find(g => g.id === id);
-            if (game) {
+        function showDetailsModal(isOffer, id) {
+            let item = isOffer ? offersList.find(o => o.id === id) : gamesList.find(g => g.id === id);
+            if (item) {
                 const modal = document.getElementById('details-modal');
                 const modalImg = document.getElementById('modal-img');
                 const modalTitle = document.getElementById('modal-title');
                 const modalTag = document.getElementById('modal-tag');
                 const modalSize = document.getElementById('modal-size');
+                const modalPrice = document.getElementById('modal-price');
                 const modalDesc = document.getElementById('modal-desc');
                 const modalAddBtn = document.getElementById('modal-add-btn');
+                const modalShareBtn = document.getElementById('modal-share-btn');
 
                 if (modalImg) {
-                    modalImg.src = `images/${game.id}.jpg`;
+                    let imgPath = isOffer ? `images/offer_${item.id}.jpg` : `images/${item.id}.jpg`;
+                    modalImg.src = imgPath;
                     modalImg.onerror = function() {
                         this.onerror = null;
-                        this.src = `https://placehold.co/200x250/1e232d/ffffff?text=${encodeURIComponent(game.name)}`;
+                        this.src = `https://placehold.co/200x250/1e232d/ffffff?text=${encodeURIComponent(item.name)}`;
                     };
                 }
 
-                if (modalTitle) modalTitle.innerText = game.name;
+                if (modalTitle) modalTitle.innerText = item.name;
                 if (modalTag) {
-                    modalTag.innerText = game.platform;
-                    modalTag.className = `tag ${game.platform.toLowerCase()}`;
+                    modalTag.innerText = isOffer ? "عرض خاص" : item.platform;
+                    modalTag.className = isOffer ? "tag offer" : `tag ${item.platform.toLowerCase()}`;
                 }
-                if (modalSize) modalSize.innerText = `💾 ${game.size || 'غير محدد'}`;
-                if (modalDesc) modalDesc.innerText = game.description || "لا تتوفر تفاصيل إضافية عن هذه اللعبة حالياً.";
+                if (modalSize) modalSize.innerText = isOffer ? `🏷️ ${item.size}` : `💾 ${item.size || 'غير محدد'}`;
+                if (modalPrice) modalPrice.innerText = `💵 ${item.price ? item.price + ' ج.م' : 'غير محدد'}`;
+                if (modalDesc) modalDesc.innerText = item.description || "لا تتوفر تفاصيل إضافية.";
 
-                if (modalAddBtn) modalAddBtn.setAttribute('onclick', `addToCart(${game.id}); closeDetails();`);
+                if (modalAddBtn) {
+                    if (isOffer) {
+                        modalAddBtn.setAttribute('onclick', `addToCartOffer(${item.id}); closeDetails();`);
+                    } else {
+                        modalAddBtn.setAttribute('onclick', `addToCart(${item.id}); closeDetails();`);
+                    }
+                }
+
+                if (modalShareBtn) {
+                    modalShareBtn.onclick = function() {
+                        const baseUrl = window.location.href.split('#')[0];
+                        const shareLink = `${baseUrl}#${isOffer ? 'offer' : 'game'}=${item.id}`;
+
+                        if (navigator.clipboard) {
+                            navigator.clipboard.writeText(shareLink).then(() => {
+                                showToast("تم نسخ الرابط المباشر بنجاح! 🔗");
+                            });
+                        } else {
+                            const textArea = document.createElement("textarea");
+                            textArea.value = shareLink;
+                            document.body.appendChild(textArea);
+                            textArea.select();
+                            try {
+                                document.execCommand('copy');
+                                showToast("تم نسخ الرابط المباشر بنجاح! 🔗");
+                            } catch (err) {
+                                showToast("عذراً، فشل نسخ الرابط");
+                            }
+                            document.body.removeChild(textArea);
+                        }
+                    };
+                }
+
                 if (modal) modal.style.display = 'flex';
             }
         }
@@ -2425,12 +2780,15 @@
         function closeDetails() {
             const modal = document.getElementById('details-modal');
             if (modal) modal.style.display = 'none';
+            if (window.location.hash) {
+                history.pushState("", document.title, window.location.pathname + window.location.search);
+            }
         }
 
         window.onclick = function(event) {
             const modal = document.getElementById('details-modal');
             if (event.target === modal) {
-                modal.style.display = 'none';
+                closeDetails();
             }
         }
 
@@ -2450,33 +2808,65 @@
             if (!cart.find(item => item.id === id)) {
                 cart.push(game);
                 updateCartUI();
+                showToast(`تمت إضافة "${game.name}" إلى السلة 🛒`);
             } else {
-                alert("هذه اللعبة موجودة بالفعل في السلة!");
+                showToast("هذه اللعبة موجودة بالفعل في السلة!");
+            }
+        }
+
+        function addToCartOffer(id) {
+            const offer = offersList.find(o => o.id === id);
+            if (!cart.find(item => item.id === id)) {
+                cart.push(offer);
+                updateCartUI();
+                showToast(`تمت إضافة العرض "${offer.name}" إلى السلة 🛒`);
+            } else {
+                showToast("هذا العرض موجود بالفعل في السلة!");
             }
         }
 
         function removeFromCart(id) {
             cart = cart.filter(item => item.id !== id);
             updateCartUI();
+            showToast("تم إزالة العنصر من السلة");
         }
 
         function updateCartUI() {
             const cartContainer = document.getElementById('cart-items');
+            const totalContainer = document.getElementById('cart-total-container');
             if (!cartContainer) return;
+
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 14px;">السلة فارغة حالياً.</p>';
+                if (totalContainer) totalContainer.innerHTML = '';
                 return;
             }
 
             cartContainer.innerHTML = '';
+            let totalPrice = 0;
+
             cart.forEach(item => {
+                totalPrice += item.price || 0;
+                let detailsText = item.platform === 'عروض' ? `🏷️ ${item.size}` : `💾 ${item.size}`;
                 cartContainer.innerHTML += `
                     <div class="cart-item">
-                        <span style="font-size: 14px; font-weight: 600;">${item.name} <small style="color: var(--text-muted);">(${item.platform})</small></span>
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <span style="color: var(--accent-gold); font-size: 12px;">${detailsText} | 💵 ${item.price} ج.م</span>
+                        </div>
                         <span class="remove-icon" onclick="removeFromCart(${item.id})">✕</span>
                     </div>
                 `;
             });
+
+            if (totalContainer) {
+                totalContainer.innerHTML = `
+                    <div class="cart-total">
+                        <span>الإجمالي الكلي:</span>
+                        <span>${totalPrice} ج.م</span>
+                    </div>
+                `;
+            }
         }
 
         function toggleAddress() {
@@ -2491,18 +2881,24 @@
 
         function sendToWhatsApp() {
             if (cart.length === 0) {
-                alert("برجاء اختيار لعبة واحدة على الأقل لإتمام الطلب!");
+                showToast("برجاء اختيار عنصر واحد على الأقل لإتمام الطلب!");
                 return;
             }
 
-            let message = "*مرحباً، أود طلب الألعاب التالية:*\n\n";
+            let message = "*مرحباً، أود طلب العناصر التالية:*\n\n";
+            let totalPrice = 0;
+
             cart.forEach((item, index) => {
-                message += `${index + 1}- ${item.name} [${item.platform}]\n`;
+                totalPrice += item.price || 0;
+                let detailsText = item.platform === 'عروض' ? `العرض: ${item.name}` : `${item.name} [${item.platform}] - الحجم: ${item.size}`;
+                message += `${index + 1}- ${detailsText}\n   ▫️ السعر: ${item.price} ج.م\n\n`;
             });
+
+            message += `*💵 إجمالي السعر:* ${totalPrice} ج.م\n`;
 
             const selectedDelivery = document.querySelector('input[name="delivery"]:checked');
             if (!selectedDelivery) {
-                alert("برجاء اختيار طريقة الاستلام!");
+                showToast("برجاء اختيار طريقة الاستلام!");
                 return;
             }
             const deliveryOption = selectedDelivery.value;
@@ -2513,7 +2909,7 @@
                 const addressElement = document.getElementById('address');
                 const addressText = addressElement ? addressElement.value.trim() : "";
                 if (addressText === "") {
-                    alert("برجاء كتابة العنوان بالتفصيل!");
+                    showToast("برجاء كتابة العنوان بالتفصيل!");
                     return;
                 }
                 message += `\n*طريقة الاستلام:* توصيل 🚚\n*العنوان:* ${addressText}`;
@@ -2528,6 +2924,24 @@
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`, '_blank');
         }
+
+        // فحص الرابط عند تحميل الصفحة إذا كان يحتوي على رابط مباشر للعبة أو عرض لتفتحه تلقائياً
+        window.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                if (hash.startsWith('#game=')) {
+                    const gameId = parseInt(hash.replace('#game=', ''));
+                    setTimeout(() => {
+                        showDetailsModal(false, gameId);
+                    }, 400);
+                } else if (hash.startsWith('#offer=')) {
+                    const offerId = parseInt(hash.replace('#offer=', ''));
+                    setTimeout(() => {
+                        showDetailsModal(true, offerId);
+                    }, 400);
+                }
+            }
+        });
 
         renderGames();
     </script>
